@@ -8,16 +8,13 @@ namespace AlgorytmDobieraniaZasobowProdukcyjnych.Models
 {
     public partial class MfgResourcesContext : DbContext
     {
-        public MfgResourcesContext()
-        {
-        }
 
         public MfgResourcesContext(DbContextOptions<MfgResourcesContext> options)
             : base(options)
         {
         }
 
-        public virtual DbSet<Lathe> Lathes { get; set; }
+        public DbSet<Lathe> Lathes { get; set; }
         public virtual DbSet<Opskl> Opskls { get; set; }
         public virtual DbSet<Opsklo> Opsklos { get; set; }
         public virtual DbSet<Resource> Resources { get; set; }
@@ -26,7 +23,7 @@ namespace AlgorytmDobieraniaZasobowProdukcyjnych.Models
         public virtual DbSet<TreeOfMachineTool> TreeOfMachineTools { get; set; }
         public virtual DbSet<WiertlaDat> WiertlaDats { get; set; }
         public virtual DbSet<WiertlaTab> WiertlaTabs { get; set; }
-
+        
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             if (!optionsBuilder.IsConfigured)

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 #nullable disable
 
@@ -7,7 +8,9 @@ namespace AlgorytmDobieraniaZasobowProdukcyjnych.Models
 {
     public class Lathe
     {
+        [Key]
         public string Oznaczenie { get; set; }
+
         public string Rodzaj { get; set; }
         public string Typ { get; set; }
         public string Kod { get; set; }

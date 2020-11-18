@@ -30,7 +30,7 @@ namespace AlgorytmDobieraniaZasobowProdukcyjnych
             {
                 options.UseSqlServer(Configuration.GetConnectionString("DefaultConnectionString"));
             });
-            services.AddScoped<IMfgResources>();
+            services.AddScoped<IMfgResources, LatheData>();
             services.AddRazorPages();
         }
 
