@@ -1,0 +1,36 @@
+﻿@page
+@model AlgorytmDobieraniaZasobowProdukcyjnych.Pages.ListModel
+@{
+    ViewData["Title"] = "List";
+}
+
+<h1>Lathes</h1>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th scope="col">Oznaczenie</th>
+            <th scope="col">Typ</th>
+            <th scope="col">Kod</th>
+            <th scope="col">Producent</th>
+        </tr>
+    </thead>
+    @foreach (var lathe in Model.Lathes)
+    {
+        <tbody>
+            <tr>
+                <td>@lathe.Oznaczenie</td>
+            </tr>
+            <tr>
+                <td>@lathe.Typ</td>
+            </tr>
+            <tr>
+                <td>@lathe.Kod</td>
+            </tr>
+            <tr>
+                <td>@lathe.Producent</td>
+            </tr>
+        </tbody>
+    }
+</table>
+
