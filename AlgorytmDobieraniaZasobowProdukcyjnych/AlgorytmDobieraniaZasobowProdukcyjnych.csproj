@@ -18,4 +18,8 @@
     <PackageReference Include="System.Data.SqlClient" Version="4.8.2" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="wwwroot\lib\jstree\dist\themes\default\" />
+  </ItemGroup>
+
 </Project>

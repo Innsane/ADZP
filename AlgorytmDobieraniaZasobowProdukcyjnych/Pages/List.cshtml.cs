@@ -27,11 +27,24 @@ namespace AlgorytmDobieraniaZasobowProdukcyjnych.Pages
 
         public void OnGet()
         {
-            Lathes = resources.GetAll();
+            Lathes = resources.GetAllLathes();
 
             List<Lathe> lathesList = Lathes.ToList();
             Type type = lathesList[0].GetType();
             Infos = type.GetProperties();
+
+            CreateGenecicList(lathesList);
+        }
+
+        public void CreateGenecicList<T>(List<T> list)
+        {
+            Type d1 = typeof(List<>);
+            Type[] typeArgs = { typeof(T) };
+            Type makeme = d1.MakeGenericType(typeArgs);
+            object o = Activator.CreateInstance(makeme);
+            List<T> itsMe = o as List<T>;
+            itsMe.Add(list[1]);
+            
         }
     }
 }

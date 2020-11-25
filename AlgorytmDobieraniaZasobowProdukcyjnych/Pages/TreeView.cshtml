@@ -1,0 +1,27 @@
+﻿@page
+@model AlgorytmDobieraniaZasobowProdukcyjnych.Pages.TreeViewModel
+@{
+    ViewData["Title"] = "TreeView";
+}
+@section Scripts
+{
+    <script type="text/javascript">
+$(document).ready(function () {
+  $('#html1').jstree({
+    "core" : {
+          "data": @Html.Raw(ViewData["json"])
+    }
+  });
+});
+    </script>
+}
+
+
+<div id="html1">
+    
+</div>
+
+
+
+
+

@@ -6,6 +6,8 @@ namespace AlgorytmDobieraniaZasobowProdukcyjnych.Models
 {
     public interface IMfgResources
     {
-        IEnumerable<Lathe> GetAll();
+        IEnumerable<Lathe> GetAllLathes();
+        IEnumerable<WiertlaDat> GetAllWiertla();
+        IEnumerable<TreeOfCuttingTool> GetAllCuttingTools();
     }
 }
