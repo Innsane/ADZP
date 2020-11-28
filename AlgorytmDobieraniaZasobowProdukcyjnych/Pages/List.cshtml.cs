@@ -21,19 +21,18 @@ namespace AlgorytmDobieraniaZasobowProdukcyjnych.Pages
             this.resources = resources;
         }
 
-        public IEnumerable<Lathe> Lathes { get; set; }
+        public IEnumerable<Resource> Resources { get; set; }
         public PropertyInfo[] Infos { get; set; }
 
 
         public void OnGet()
         {
-            Lathes = resources.GetAllLathes();
+            Resources = resources.GetAllResources();
+        }
 
-            List<Lathe> lathesList = Lathes.ToList();
-            Type type = lathesList[0].GetType();
-            Infos = type.GetProperties();
+        public void OnPost(string klasa)
+        {
 
-            CreateGenecicList(lathesList);
         }
 
         public void CreateGenecicList<T>(List<T> list)

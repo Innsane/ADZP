@@ -4,29 +4,14 @@
     ViewData["Title"] = "List";
 }
 
-<h1>Tokarki</h1>
+<h1>Wybierz narzedzia do wyswietlenia w tabeli</h1>
 
-<table class="table table-bordered table-sm">
-    <thead class="thead-light">
-        <tr>
-            @foreach (var info in Model.Infos)
-            {
-                <th scope="col">@info.Name</th>
-            }
-        </tr>
-    </thead>
-    @foreach (var lathe in Model.Lathes)
+<ul>
+    @foreach (var resource in Model.Resources)
     {
-        <tbody>
-            <tr>
-                @foreach (var info in Model.Infos)
-                {
-                    <td>@info.GetValue(lathe)</td>
-                }
-            </tr>
-        </tbody>
+        <li>@resource.Nazwa</li>
     }
-</table>
+</ul>    
 
 
 

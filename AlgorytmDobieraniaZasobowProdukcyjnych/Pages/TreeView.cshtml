@@ -3,22 +3,23 @@
 @{
     ViewData["Title"] = "TreeView";
 }
+
 @section Scripts
 {
-    <script type="text/javascript">
+<script type="text/javascript">
 $(document).ready(function () {
-  $('#html1').jstree({
-    "core" : {
-          "data": @Html.Raw(ViewData["json"])
-    }
-  });
+    $('#treeView').jstree({
+        "core": {
+            "data": @Html.Raw(ViewData["json"]),
+        }
+    });
 });
-    </script>
+</script>
 }
 
 
-<div id="html1">
-    
+<div id="treeView">
+
 </div>
 
 

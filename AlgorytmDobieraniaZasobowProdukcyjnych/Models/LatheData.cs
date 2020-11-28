@@ -36,5 +36,11 @@ namespace AlgorytmDobieraniaZasobowProdukcyjnych.Models
             return query;
         }
 
+        public IEnumerable<Resource> GetAllResources()
+        {
+            var query = from r in db.Resources
+                        select r;
+            return query;
+        }
     }
 }

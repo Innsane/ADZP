@@ -1,0 +1,44 @@
+﻿@page
+@model AlgorytmDobieraniaZasobowProdukcyjnych.Pages.DataTableModel
+@{
+    ViewData["Title"] = "DataTable";
+}
+
+@section Scripts
+{
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('#dataTable').DataTable({
+                processing: true,
+            });
+        });
+    </script>
+}
+
+
+<h1>DataTable</h1>
+
+
+<table id="dataTable" class="table table-striped table-bordered dt-responsive nowrap"
+       width="100%" cellspacing="0">
+    <thead>
+        <tr>
+            @foreach (var info in Model.Infos)
+            {
+                <th scope="col">@info.Name</th>
+            }
+        </tr>
+    </thead>
+    @foreach (var lathe in Model.Lathes)
+    {
+        <tbody>
+            <tr>
+                @foreach (var info in Model.Infos)
+                {
+                    <td>@info.GetValue(lathe)</td>
+                }
+            </tr>
+        </tbody>
+    }
+</table>
+
