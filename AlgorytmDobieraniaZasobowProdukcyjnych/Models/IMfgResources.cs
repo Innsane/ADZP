@@ -9,6 +9,8 @@ namespace AlgorytmDobieraniaZasobowProdukcyjnych.Models
         IEnumerable<Lathe> GetAllLathes();
         IEnumerable<WiertlaDat> GetAllWiertla();
         IEnumerable<TreeOfCuttingTool> GetAllCuttingTools();
+        IEnumerable<TreeOfEquipment> GetAllEquipment();
+        IEnumerable<TreeOfMachineTool> GetAllMachineTools();
         IEnumerable<Resource> GetAllResources();
     }
 }

@@ -9,12 +9,19 @@ namespace AlgorytmDobieraniaZasobowProdukcyjnych.Models
     {
         private TreeOfCuttingTool item;
 
+        public JsTreeModel()
+        {
+
+        }
+
         public JsTreeModel(TreeOfCuttingTool item)
         {
             id = item.NodeId.ToString();
             if (item.ParentId == "0") parent = "#";
             else parent = item.ParentId.ToString();
             text = item.Name;
+            tableId = item.TableId;
+            keyId = item.KeyId;
         }
 
         public string id { get; set; }
@@ -27,5 +34,11 @@ namespace AlgorytmDobieraniaZasobowProdukcyjnych.Models
         public bool selected { get; set; }
         public string li_attr { get; set; }
         public string a_attr { get; set; }
+
+        public string tableId { get; set; }
+        public string keyId { get; set; }
+
+
+
     }
 }

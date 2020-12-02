@@ -6,21 +6,45 @@
 
 @section Scripts
 {
-<script type="text/javascript">
+    <script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
+    <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
+    
+    <script type="text/javascript">
 $(document).ready(function () {
     $('#treeView').jstree({
-        "core": {
+        plugins: [ "changed" ],
+        core: {
             "data": @Html.Raw(ViewData["json"]),
         }
     });
 });
-</script>
+
+    $("#treeView").on("changed.jstree", function (e, data) {
+        console.log("Clicked " + data.node.text);
+        console.log("ID: " + data.node.id);
+        console.log("type: " + typeof (data.node.id));
+        $.ajax({
+            url: "TreeView",
+            contentType: "text/plain",
+            dataType: "html",
+            data: { node: data.node.id }
+        }).done(function () {
+            $("#lb").text("Symbol wybranego zasobu: " + data.node.id);
+        });
+    });
+    </script>
 }
 
+<label id="lb" class="label">Symbol wybranego zasobu: </label>
 
-<div id="treeView">
+<div id="treeView" class="col-4">
 
 </div>
+
+
+
+
+
 
 
 

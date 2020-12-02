@@ -159,3 +159,4 @@ C:\Users\Kuba\source\CSharp\AlgorytmDobieraniaZasobowProdukcyjnych\AlgorytmDobie
 C:\Users\Kuba\source\CSharp\AlgorytmDobieraniaZasobowProdukcyjnych\AlgorytmDobieraniaZasobowProdukcyjnych\obj\Debug\netcoreapp3.1\Razor\Pages\List.cshtml.g.cs
 C:\Users\Kuba\source\CSharp\AlgorytmDobieraniaZasobowProdukcyjnych\AlgorytmDobieraniaZasobowProdukcyjnych\obj\Debug\netcoreapp3.1\Razor\Pages\TreeView.cshtml.g.cs
 C:\Users\Kuba\source\CSharp\AlgorytmDobieraniaZasobowProdukcyjnych\AlgorytmDobieraniaZasobowProdukcyjnych\obj\Debug\netcoreapp3.1\Razor\Pages\DataTable.cshtml.g.cs
+C:\Users\Kuba\source\CSharp\AlgorytmDobieraniaZasobowProdukcyjnych\AlgorytmDobieraniaZasobowProdukcyjnych\obj\Debug\netcoreapp3.1\Razor\Pages\Shared\_NodeDetails.cshtml.g.cs

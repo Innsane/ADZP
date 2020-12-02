@@ -6,7 +6,9 @@ using System.Text.Json;
 using System.Threading.Tasks;
 using AlgorytmDobieraniaZasobowProdukcyjnych.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.AspNetCore.Mvc.ViewFeatures;
 using Microsoft.Extensions.Configuration;
 
 namespace AlgorytmDobieraniaZasobowProdukcyjnych.Pages
@@ -38,7 +40,17 @@ namespace AlgorytmDobieraniaZasobowProdukcyjnych.Pages
             {
                 TreeModelList.Add(new JsTreeModel(item));
             }
+
             ViewData["json"] = JsonSerializer.Serialize(TreeModelList);
+        }
+
+        public IActionResult OnGetNodeDetails()
+        {
+            return new PartialViewResult()
+            {
+                ViewName = "_NodeDetails",
+                
+            };
         }
     }
 }

@@ -42,5 +42,19 @@ namespace AlgorytmDobieraniaZasobowProdukcyjnych.Models
                         select r;
             return query;
         }
+
+        public IEnumerable<TreeOfEquipment> GetAllEquipment()
+        {
+            var query = from r in db.TreeOfEquipments
+                        select r;
+            return query;
+        }
+
+        public IEnumerable<TreeOfMachineTool> GetAllMachineTools()
+        {
+            var query = from r in db.TreeOfMachineTools
+                        select r;
+            return query;
+        }
     }
 }
