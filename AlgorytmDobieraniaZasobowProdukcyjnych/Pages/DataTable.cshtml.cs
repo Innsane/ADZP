@@ -14,12 +14,13 @@ namespace AlgorytmDobieraniaZasobowProdukcyjnych.Pages
     public class DataTableModel : PageModel
     {
         private readonly IConfiguration config;
-        private readonly IMfgResources resources;
 
-        public DataTableModel(IConfiguration config, IMfgResources resources)
+        private readonly DataTableViewModel viewModel;
+
+        public DataTableModel(IConfiguration config, DataTableViewModel viewModel)
         {
             this.config = config;
-            this.resources = resources;
+            this.viewModel = viewModel;
         }
 
         public IEnumerable<Lathe> Lathes { get; set; }
@@ -28,7 +29,7 @@ namespace AlgorytmDobieraniaZasobowProdukcyjnych.Pages
 
         public void OnGet()
         {
-            Lathes = resources.GetAllLathes();
+            Lathes = viewModel.Lathes;
 
             List<Lathe> lathesList = Lathes.ToList();
             Type type = lathesList[0].GetType();

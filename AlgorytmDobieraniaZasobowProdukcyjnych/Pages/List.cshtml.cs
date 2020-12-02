@@ -43,7 +43,6 @@ namespace AlgorytmDobieraniaZasobowProdukcyjnych.Pages
             object o = Activator.CreateInstance(makeme);
             List<T> itsMe = o as List<T>;
             itsMe.Add(list[1]);
-            
         }
     }
 }

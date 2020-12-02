@@ -8,7 +8,7 @@
 {
     <script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
     <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
-    
+
     <script type="text/javascript">
 $(document).ready(function () {
     $('#treeView').jstree({
@@ -37,7 +37,22 @@ $(document).ready(function () {
 
 <label id="lb" class="label">Symbol wybranego zasobu: </label>
 
+
+<form method="post">
+    <select name="picked" asp-for="Picked">
+        @foreach (var resource in Model.Resources)
+        {
+            <option id="item" value="@resource.KeyId">@resource.Name</option>
+        }
+    </select>
+    <input type="submit" id="submitbutton" value="Display"/>
+</form>
+<br />
 <div id="treeView" class="col-4">
+
+</div>
+
+<div >
 
 </div>
 

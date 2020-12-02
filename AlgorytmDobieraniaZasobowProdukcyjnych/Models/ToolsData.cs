@@ -5,13 +5,17 @@ using System.Threading.Tasks;
 
 namespace AlgorytmDobieraniaZasobowProdukcyjnych.Models
 {
-    public class LatheData : IMfgResources
+    public class ToolsData : IMfgResources
     {
         private readonly MfgResourcesContext db;
 
-        public LatheData(MfgResourcesContext db)
+        public ToolsData(MfgResourcesContext db)
         {
             this.db = db;
+        }
+
+        public ToolsData()
+        {
         }
 
         public IEnumerable<Lathe> GetAllLathes()

@@ -14,7 +14,7 @@ namespace AlgorytmDobieraniaZasobowProdukcyjnych.Models
 
         }
 
-        public JsTreeModel(TreeOfCuttingTool item)
+        public JsTreeModel(TreeOf item)
         {
             id = item.NodeId.ToString();
             if (item.ParentId == "0") parent = "#";

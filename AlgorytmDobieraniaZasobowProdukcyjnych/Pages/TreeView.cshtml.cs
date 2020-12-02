@@ -13,44 +13,55 @@ using Microsoft.Extensions.Configuration;
 
 namespace AlgorytmDobieraniaZasobowProdukcyjnych.Pages
 {
+    [IgnoreAntiforgeryToken(Order = 1001)]
     public class TreeViewModel : PageModel
     {
         private readonly IConfiguration config;
         private readonly IMfgResources resources;
 
-        public TreeViewModel(IConfiguration config, IMfgResources resources)
+        public TreeViewModel(IConfiguration config, IMfgResources resources, TreeViewViewModel viewModel)
         {
             this.config = config;
             this.resources = resources;
+            ViewModel = viewModel;
         }
 
-        public IEnumerable<TreeOfCuttingTool> CuttingTools { get; set; }
+        [BindProperty]
+        public string Picked { get; set; }
+        public TreeViewViewModel ViewModel { get; set; }
+        public IEnumerable<Resource> Resources { get; set; }
         public PropertyInfo[] Infos { get; set; }
 
         public void OnGet()
         {
-            CuttingTools = resources.GetAllCuttingTools();
+            DataToJson(ViewModel.TreeOfCuttingTools);
+            Resources = resources.GetAllResources();
+        }
 
-            List<TreeOfCuttingTool> cuttingToolsList = CuttingTools.ToList();
-            Type type = cuttingToolsList[0].GetType();
+        public IActionResult OnPost()
+        {
+            Picked = Picked.Trim();
+            if(Picked == "CT") DataToJson(ViewModel.TreeOfCuttingTools);
+            if (Picked == "EQ") DataToJson(ViewModel.TreeOfEquipments);
+            if (Picked == "MT") DataToJson(ViewModel.TreeOfMachineTools);
+            Resources = resources.GetAllResources();
+            return Page();
+        }
+
+        private void DataToJson<T>(IEnumerable<T> tree) where T: TreeOf 
+        {
+            List<T> list = tree.ToList();
+
+            Type type = list[0].GetType();
             Infos = type.GetProperties();
 
             var TreeModelList = new List<JsTreeModel>();
-            foreach (var item in cuttingToolsList)
+            foreach (var item in list)
             {
                 TreeModelList.Add(new JsTreeModel(item));
             }
 
             ViewData["json"] = JsonSerializer.Serialize(TreeModelList);
-        }
-
-        public IActionResult OnGetNodeDetails()
-        {
-            return new PartialViewResult()
-            {
-                ViewName = "_NodeDetails",
-                
-            };
         }
     }
 }
