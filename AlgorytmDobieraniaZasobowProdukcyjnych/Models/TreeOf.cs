@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace AlgorytmDobieraniaZasobowProdukcyjnych.Models
 {
-    public class TreeOf
+    public abstract class TreeOf
     {
         public string NodeId { get; set; }
         public string KeyId { get; set; }

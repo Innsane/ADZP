@@ -10,8 +10,11 @@
         $(document).ready(function () {
             $('#dataTable').DataTable({
                 processing: true,
-            });
+                order: [[3, "asc"]],
+                
+            }).search("100").draw();
         });
+
     </script>
 }
 
@@ -30,16 +33,17 @@
             }
         </tr>
     </thead>
-    @foreach (var lathe in Model.Lathes)
-    {
-        <tbody>
+    <tbody>
+        @foreach (var lathe in Model.Lathes)
+        {
             <tr>
                 @foreach (var info in Model.Infos)
                 {
                     <td>@info.GetValue(lathe)</td>
                 }
             </tr>
-        </tbody>
-    }
+        }
+    </tbody>
+
 </table>
 

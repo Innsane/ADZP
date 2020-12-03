@@ -3,7 +3,7 @@
 @{
     ViewData["Title"] = "TreeView";
 }
-
+@using AlgorytmDobieraniaZasobowProdukcyjnych.Models;
 @section Scripts
 {
     <script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
@@ -18,43 +18,83 @@ $(document).ready(function () {
         }
     });
 });
+        $(document).ready(function () {
+            $('#dataTable').DataTable({
+                processing: true,
+                order: [[3, "asc"]],
+
+            }).search().draw();
+        });
 
     $("#treeView").on("changed.jstree", function (e, data) {
-        console.log("Clicked " + data.node.text);
+        $("#lb").text(data.node.id);
         console.log("ID: " + data.node.id);
-        console.log("type: " + typeof (data.node.id));
+        $('#dataTable').DataTable().column('#kod').search(data.node.id).draw();
         $.ajax({
-            url: "TreeView",
+            type: "GET",
             contentType: "text/plain",
-            dataType: "html",
-            data: { node: data.node.id }
-        }).done(function () {
-            $("#lb").text("Symbol wybranego zasobu: " + data.node.id);
-        });
+        })
     });
+
     </script>
 }
-
-<label id="lb" class="label">Symbol wybranego zasobu: </label>
+<label>Symbol wybranego zasobu: </label>
+<label id="lb"> </label>
 
 
 <form method="post">
     <select name="picked" asp-for="Picked">
         @foreach (var resource in Model.Resources)
         {
-            <option id="item" value="@resource.KeyId">@resource.Name</option>
+            <option id="item" value="@resource.KeyId">@resource.Nazwa</option>
         }
     </select>
-    <input type="submit" id="submitbutton" value="Display"/>
+    <input type="submit" id="submitbutton" value="Display" />
 </form>
 <br />
-<div id="treeView" class="col-4">
+<div class="row">
+    <div style="font-size: 12px"
+         id="treeView" class="col-3">
 
+    </div>
+
+    <div class="col-9">
+        <table style="font-size:0.9rem"
+               id="dataTable" class="table table-sm table-bordered table-hover table-responsive"
+               width="100%" cellspacing="0">
+            <thead class="thead-light">
+                <tr>
+                    @foreach (var info in Model.Infos)
+                    {
+                        if (info.Name == "Kod")
+                        {
+                            <th id="kod" scope="col">@info.Name</th>
+                        }
+                        else
+                        {
+                            <th scope="col">@info.Name</th>
+                        }
+                    }
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var data in Model.Datas)
+                {
+                    <tr>
+                        @foreach (var info in Model.Infos)
+                        {
+                            <td>@info.GetValue(data)</td>
+                        }
+                    </tr>
+                }
+            </tbody>
+
+        </table>
+    </div>
 </div>
 
-<div >
 
-</div>
+
 
 
 

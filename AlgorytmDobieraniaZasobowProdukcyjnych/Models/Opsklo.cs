@@ -5,7 +5,7 @@ using System.Collections.Generic;
 
 namespace AlgorytmDobieraniaZasobowProdukcyjnych.Models
 {
-    public partial class Opsklo
+    public partial class Opsklo:TableData
     {
         public double Idp { get; set; }
         public string Norma { get; set; }
@@ -25,10 +25,7 @@ namespace AlgorytmDobieraniaZasobowProdukcyjnych.Models
         public double? Bicie { get; set; }
         public double? Mwpo { get; set; }
         public double? Mn { get; set; }
-        public string Kod { get; set; }
-        public string Obraz { get; set; }
-        public string Rys2D { get; set; }
-        public string Mod3D { get; set; }
+
         public string Opis { get; set; }
     }
 }

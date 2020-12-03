@@ -54,5 +54,10 @@ namespace AlgorytmDobieraniaZasobowProdukcyjnych.Models
             WiertlaTabs = from l in db.WiertlaTabs
                           select l;
         }
+
+        public void GetAll()
+        {
+
+        }
     }
 }

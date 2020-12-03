@@ -34,6 +34,7 @@ namespace AlgorytmDobieraniaZasobowProdukcyjnych.Pages
             List<Lathe> lathesList = Lathes.ToList();
             Type type = lathesList[0].GetType();
             Infos = type.GetProperties();
+
         }
     }
 }

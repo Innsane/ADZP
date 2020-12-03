@@ -5,7 +5,7 @@ using System.Collections.Generic;
 
 namespace AlgorytmDobieraniaZasobowProdukcyjnych.Models
 {
-    public partial class WiertlaTab
+    public partial class WiertlaTab: TableData
     {
         public string Oznaczenie { get; set; }
         public string Producent { get; set; }
@@ -17,9 +17,6 @@ namespace AlgorytmDobieraniaZasobowProdukcyjnych.Models
         public string Material { get; set; }
         public double? KatR { get; set; }
         public string Opis { get; set; }
-        public string Kod { get; set; }
-        public string Obraz { get; set; }
-        public string Rys2D { get; set; }
-        public string Mod3D { get; set; }
+        
     }
 }

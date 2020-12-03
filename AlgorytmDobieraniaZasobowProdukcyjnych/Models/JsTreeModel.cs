@@ -22,6 +22,7 @@ namespace AlgorytmDobieraniaZasobowProdukcyjnych.Models
             text = item.Name;
             tableId = item.TableId;
             keyId = item.KeyId;
+            opened = true;
         }
 
         public string id { get; set; }
