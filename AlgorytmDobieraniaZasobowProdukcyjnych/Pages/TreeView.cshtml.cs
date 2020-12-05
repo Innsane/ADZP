@@ -31,6 +31,9 @@ namespace AlgorytmDobieraniaZasobowProdukcyjnych.Pages
 
         [BindProperty]
         public string Picked { get; set; }
+        [BindProperty]
+        public string TableName { get; set; }
+        public string TableNameNow { get; set; }
         public IEnumerable<Resource> Resources { get; set; }
         public PropertyInfo[] Infos { get; set; }
         public List<TableData> Datas { get; set; }
@@ -38,8 +41,9 @@ namespace AlgorytmDobieraniaZasobowProdukcyjnych.Pages
 
         public void OnGet()
         {
-            DataToJson(viewModel.TreeOfMachineTools);
-            DataToTable(dataTable.Lathes);
+            TableName = "WiertlaTabs";
+            DataToJson(viewModel.TreeOfCuttingTools);
+            DataToTable(FindDataToTable());
             Resources = resources.GetAllResources();
         }
 
@@ -63,8 +67,17 @@ namespace AlgorytmDobieraniaZasobowProdukcyjnych.Pages
                 DataToJson(viewModel.TreeOfMachineTools);
                 DataToTable(dataTable.Lathes);
             }
-            
             Resources = resources.GetAllResources();
+            return Page();
+        }
+
+        public IActionResult OnPostTableName()
+        {
+            if (TableNameNow != TableName || TableName != "")
+            {
+                TableNameNow = TableName;
+                DataToTable(FindDataToTable());
+            }
             return Page();
         }
 
@@ -77,6 +90,17 @@ namespace AlgorytmDobieraniaZasobowProdukcyjnych.Pages
             Infos = type.GetProperties();
         }
 
+        public IEnumerable<TableData> FindDataToTable()
+        {
+            if (TableName.Length > 0)
+            {
+                return DataTableViewModel.GetPropValue(dataTable, TableName);
+            }
+            else return DataTableViewModel.GetPropValue(dataTable, TableNameNow); ;
+            
+            
+        }
+
         private void DataToJson<T>(IEnumerable<T> tree) where T: TreeOf 
         {
             var TreeModelList = new List<JsTreeModel>();
@@ -84,6 +108,7 @@ namespace AlgorytmDobieraniaZasobowProdukcyjnych.Pages
             {
                 TreeModelList.Add(new JsTreeModel(item));
             }
+
 
             ViewData["json"] = JsonSerializer.Serialize(TreeModelList);
         }

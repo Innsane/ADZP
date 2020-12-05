@@ -20,9 +20,12 @@ namespace AlgorytmDobieraniaZasobowProdukcyjnych.Models
             if (item.ParentId == "0") parent = "#";
             else parent = item.ParentId.ToString();
             text = item.Name;
-            tableId = item.TableId;
             keyId = item.KeyId;
             opened = true;
+            data = new List<object>
+            {
+                item.TableId
+            };
         }
 
         public string id { get; set; }
@@ -36,8 +39,8 @@ namespace AlgorytmDobieraniaZasobowProdukcyjnych.Models
         public string li_attr { get; set; }
         public string a_attr { get; set; }
 
-        public string tableId { get; set; }
         public string keyId { get; set; }
+        public List<object> data { get; set; }
 
 
 

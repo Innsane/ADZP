@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Threading.Tasks;
 
 namespace AlgorytmDobieraniaZasobowProdukcyjnych.Models
@@ -58,6 +59,11 @@ namespace AlgorytmDobieraniaZasobowProdukcyjnych.Models
         public void GetAll()
         {
 
+        }
+
+        public static IEnumerable<TableData> GetPropValue(DataTableViewModel src, string propName)
+        {
+            return (IEnumerable<TableData>)src.GetType().GetProperty(propName).GetValue(src, null);
         }
     }
 }
