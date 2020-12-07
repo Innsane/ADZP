@@ -35,20 +35,21 @@ namespace AlgorytmDobieraniaZasobowProdukcyjnych.Pages
         public string TableName { get; set; }
         public string TableNameNow { get; set; }
         public IEnumerable<Resource> Resources { get; set; }
-        public PropertyInfo[] Infos { get; set; }
-        public List<TableData> Datas { get; set; }
+        public DataTablePartialModel DataTablePartial { get; set; }
+        public ImagePath ImagePath { get; set; }
 
 
         public void OnGet()
         {
+            DataTablePartial = new DataTablePartialModel();
             TableName = "WiertlaTabs";
+            Picked = "CT";
             DataToJson(viewModel.TreeOfCuttingTools);
             DataToTable(FindDataToTable());
             Resources = resources.GetAllResources();
         }
 
         
-
         public IActionResult OnPost()
         {
             Picked = Picked.Trim();
@@ -71,23 +72,54 @@ namespace AlgorytmDobieraniaZasobowProdukcyjnych.Pages
             return Page();
         }
 
-        public IActionResult OnPostTableName()
+        public PartialViewResult OnGetDataTablePartial(string tableName)
         {
-            if (TableNameNow != TableName || TableName != "")
+            TableName = "WiertlaTabs";
+            DataToTable(FindDataToTable());
+            return new PartialViewResult
             {
-                TableNameNow = TableName;
-                DataToTable(FindDataToTable());
+                ViewName = "_DataTable",
+                ViewData = new ViewDataDictionary<DataTablePartialModel>(ViewData, DataTablePartial)
+            };
+        }
+
+        public PartialViewResult OnGetModalImage(string path)
+        {
+            string pathToImage = "";
+            if (Picked == "CT")
+            {
+                pathToImage = "/images/Equipment" + path;
             }
-            return Page();
+            if (Picked == "EQ")
+            {
+                pathToImage = "/images/Narzedzia" + path;
+            }
+            if (Picked == "MT")
+            {
+                pathToImage = "/images/Obrabiarki/Tokarki" + path;
+            }
+            
+            ImagePath = new ImagePath
+            {
+                Path = pathToImage
+            };
+            return Partial("_ModalImage", ImagePath);
+        }
+
+        public JsonResult OnGetWriteToConsole(string text)
+        {
+            var data = text;
+            return new JsonResult(data);
         }
 
         public void DataToTable(IEnumerable<TableData> tools)
         {
+            DataTablePartial = new DataTablePartialModel();
             var list = tools.ToList();
-            Datas = new List<TableData>();
-            Datas = list;
+            DataTablePartial.Datas = new List<TableData>();
+            DataTablePartial.Datas = list;
             Type type = list[0].GetType();
-            Infos = type.GetProperties();
+            DataTablePartial.Infos = type.GetProperties();
         }
 
         public IEnumerable<TableData> FindDataToTable()
@@ -96,9 +128,7 @@ namespace AlgorytmDobieraniaZasobowProdukcyjnych.Pages
             {
                 return DataTableViewModel.GetPropValue(dataTable, TableName);
             }
-            else return DataTableViewModel.GetPropValue(dataTable, TableNameNow); ;
-            
-            
+            else return DataTableViewModel.GetPropValue(dataTable, TableNameNow);
         }
 
         private void DataToJson<T>(IEnumerable<T> tree) where T: TreeOf 
@@ -108,7 +138,6 @@ namespace AlgorytmDobieraniaZasobowProdukcyjnych.Pages
             {
                 TreeModelList.Add(new JsTreeModel(item));
             }
-
 
             ViewData["json"] = JsonSerializer.Serialize(TreeModelList);
         }
