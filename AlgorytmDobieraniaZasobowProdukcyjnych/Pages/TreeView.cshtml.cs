@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Reflection;
-using System.Text.Json;
+
 using System.Threading.Tasks;
 using AlgorytmDobieraniaZasobowProdukcyjnych.Models;
 using Microsoft.AspNetCore.Mvc;
@@ -11,6 +11,7 @@ using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.ViewFeatures;
 using Microsoft.Extensions.Configuration;
+using Newtonsoft.Json;
 
 namespace AlgorytmDobieraniaZasobowProdukcyjnych.Pages
 {
@@ -44,6 +45,7 @@ namespace AlgorytmDobieraniaZasobowProdukcyjnych.Pages
         {
             DataTablePartial = new DataTablePartialModel();
             TableName = "WiertlaTabs";
+            TableName = TableName.ToLower();
             Picked = "CT";
             DataToJson(viewModel.TreeOfCuttingTools);
             DataToTable(FindDataToTable());
@@ -57,25 +59,26 @@ namespace AlgorytmDobieraniaZasobowProdukcyjnych.Pages
             if (Picked == "CT")
             {
                 DataToJson(viewModel.TreeOfCuttingTools);
-                DataToTable(dataTable.WiertlaTabs);
+                DataToTable(dataTable.wiertlatabs);
             }
             if (Picked == "EQ")
             {
                 DataToJson(viewModel.TreeOfEquipments);
-                DataToTable(dataTable.Opsklos);
+                DataToTable(dataTable.opsklos);
             }
             if (Picked == "MT")
             {
                 DataToJson(viewModel.TreeOfMachineTools);
-                DataToTable(dataTable.Lathes);
+                DataToTable(dataTable.lathes);
             }
             Resources = resources.GetAllResources();
             return Page();
         }
 
-        public PartialViewResult OnGetDataTablePartial(string tableName)
+        public PartialViewResult OnGetDataTable(string tableName)
         {
-            TableName = "WiertlaTabs";
+            TableName = tableName + "s";
+            TableName = TableName.ToLower();
             DataToTable(FindDataToTable());
             return new PartialViewResult
             {
@@ -86,13 +89,23 @@ namespace AlgorytmDobieraniaZasobowProdukcyjnych.Pages
 
         public PartialViewResult OnGetModalImage(string path)
         {
+            if (path == "" || path == null)
+            {
+                ImagePath = new ImagePath
+                {
+                    Path = "",
+                    Path2D = ""
+                };
+                return Partial("_ModalImage", ImagePath);
+            }
+
             var pathList = new List<string>();
             var listOfFiles = Directory.GetFiles("C:/Users/Kuba/source/CSharp/AlgorytmDobieraniaZasobowProdukcyjnych/AlgorytmDobieraniaZasobowProdukcyjnych/wwwroot/images",
                                                                 "*", SearchOption.AllDirectories).ToList();
             path = path.Remove(path.Length - 4, 4);
             foreach (string file in listOfFiles)
             {
-                if(file.Contains(path))
+                if (file.Contains(path))
                 {
                     pathList.Add(file);
                 }
@@ -102,9 +115,9 @@ namespace AlgorytmDobieraniaZasobowProdukcyjnych.Pages
             {
                 pathList.Reverse();
             }
-            var pathToImage = "/images/" + path + ".jpg";
+            var pathToImage = "/images/" + Path.GetFileName(pathList[0]);
             var pathToImage2D = "/images/" + Path.GetFileName(pathList[1]);
-            
+
             ImagePath = new ImagePath
             {
                 Path = pathToImage,
@@ -117,6 +130,19 @@ namespace AlgorytmDobieraniaZasobowProdukcyjnych.Pages
         {
             var data = text;
             return new JsonResult(data);
+        }
+
+        public JsonResult OnGetDataToTable(string name)
+        {
+            //name = "wiertlatab";
+            //TableName = name + "s";
+            //TableName = name.ToLower();
+            //DataToTable(FindDataToTable());
+
+            dataTable.GetAllWiertlaDat();
+            var list = dataTable.wiertlatabs.ToList();
+            var jsonResult = new JsonResult(list);
+            return jsonResult;
         }
 
         public void DataToTable(IEnumerable<TableData> tools)
@@ -147,7 +173,7 @@ namespace AlgorytmDobieraniaZasobowProdukcyjnych.Pages
                 TreeModelList.Add(new JsTreeModel(item));
             }
 
-            ViewData["json"] = JsonSerializer.Serialize(TreeModelList);
+            ViewData["json"] = System.Text.Json.JsonSerializer.Serialize(TreeModelList);
         }
     }
 }

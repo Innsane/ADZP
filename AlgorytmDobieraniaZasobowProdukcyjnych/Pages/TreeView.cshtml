@@ -9,7 +9,8 @@
     <script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
     <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
 
-    <script type="text/javascript">
+<script type="text/javascript">
+        var tableNameOld = "WiertlaDAT";
 $(document).ready(function () {
     $('#treeView').jstree({
         plugins: [ "changed" ],
@@ -17,55 +18,76 @@ $(document).ready(function () {
             "data": @Html.Raw(ViewData["json"]),
         }
     });
-});
-        $(document).ready(function () {
-            var table = $('#dataTable').DataTable({
-                processing: true,
-            })
 
-            //write name of Image to Input
-            $('#dataTable tbody').on('click', 'tr', function () {
-                var celltext = $(this).data('obraz');
-                $("#cellName").val(celltext);
-                //alert('You clicked on ' + $(this).data('obraz') + '\'s row');
-            });
+    var table = $('#dataTable').DataTable({
+        processing: true,
+    });  
 
-            //display Modal with Image
-            $('#myModal').on('click', function () {
-                var cellname = document.getElementById("cellName").value;
-                $('.modal-body').load(`/treeview/modalimage?path=${cellname}`);
-            });
-
-            //filter table based on node data in TreeView
-            $("#treeView").on("changed.jstree", function (e, data) {
-                $("#lb").text(data.node.id);
-                $("#tableName").val(data.node.data[0]);
-                $('#dataTable').DataTable().column('#kod').search(data.node.id).draw();
-                console.log("ID: " + data.node.id);
-            });
+    $.getJSON(`TreeView/DataToTable`, function (data) {
+        alert(JSON.stringify(data));
+        var table1 = $('#dataTable1').DataTable({
+            processing: true,
+            data: data,
+            columns: [
+                { title: "Oznaczenie", data: "oznaczenie" },
+                { title: "Producent", data: "producent" },
+                { title: "OznPn", data: "oznPn" },
+                { title: "Typ", data: "typ" },
+                { title: "Technologia", data: "technologia" },
+                { title: "NormaPn", data: "normaPn" },
+                { title: "NormaEn", data: "normaEn" },
+                { title: "Material", data: "material" },
+                { title: "KatR", data: "katR" },
+                { title: "Opis", data: "opis" },
+                { title: "Kod", data: "kod" },
+                { title: "Obraz", data: "obraz" },
+                { title: "Rys2D", data: "rys2D" },
+                { title: "Mod3D", data: "mod3D" }
+            ],
+            autoWidth: true
         });
+    });
+
+    //write name of Image to Input
+    $('#dataTable tbody').on('click', 'tr', function () {
+        var celltext = $(this).data('obraz');
+        $("#cellName").val(celltext);
+        //alert('You clicked on ' + $(this).data('obraz') + '\'s row');
+    });
+
+    //display Modal with Image
+    $('#myModal').on('click', function () {
+        var cellname = document.getElementById("cellName").value;
+        $('.modal-body').load(`/treeview/modalimage?path=${cellname}`);
+    });
 
 
+    //filter table based on node data in TreeView
+    $("#treeView").on("changed.jstree", function (e, data) {
+        $("#lb").text(data.node.id);
+        $("#tableName").val(data.node.data[0]);
+        var tableName = document.getElementById("tableName").value;
 
+        if (tableName == "" || tableName == tableNameOld) {
+            $('#dataTable').DataTable().column('#kod').search(data.node.id).draw();
+            console.log("ID: " + data.node.id);
+        }
+        else {
+            //table.clear().draw();
+            $('#dt').load(`/treeview/datatable?tablename=${tableName}`);
+            //table.columns.adjust().draw();
+            $('#dataTable').DataTable().column('#kod').search(data.node.id).draw();
+            //$('#dataTable').DataTable().ajax.reload();
+            console.log("ID: " + data.node.id);
+        }
+        tableNameOld = tableName;
+    });
+});
 
+    
 
-        //$("#dataTable td").click(function () {
-        //    var celltext = $(this).text();
-        //    $("#cellName").val(celltext);
-        //});
-
-
-        //$("#dataTable").on('click', 'tbody td', function () {
-        //    var celltext = $(this).text();
-        //    $("#cellName").val(celltext);
-        //})
-
-
-
-
-
-
-    </script>
+    
+</script>
 }
 <label>Symbol wybranego zasobu: </label>
 <label id="lb"> </label>

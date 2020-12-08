@@ -1,9 +1,8 @@
 ﻿@model AlgorytmDobieraniaZasobowProdukcyjnych.Models.DataTablePartialModel
 
 <label>@Model.TableName</label>
-<table style="font-size:0.9rem" ; text-align="justify" ,
-       data-name="@Model.TableName" id="dataTable" class="table table-sm table-bordered table-hover table-responsive"
-       width="100%" cellspacing="0">
+<table style="font-size:0.9rem" ; text-align="justify", width="100%" cellspacing="0"
+       id="dataTable" class="table table-sm table-bordered table-hover table-responsive">
     <thead class="thead-light">
         <tr>
             @foreach (var info in Model.Infos)
@@ -22,7 +21,7 @@
     <tbody>
         @foreach (var data in Model.Datas)
         {
-        <tr data-obraz="@data.Obraz" data-obraz2d="@data.Rys2D">
+        <tr data-obraz="@data.Obraz">
             @foreach (var info in Model.Infos)
             {
                     <td>@info.GetValue(data)</td> 
@@ -31,4 +30,13 @@
         }
     </tbody>
 
+</table>
+
+<table style="font-size:0.9rem" ; text-align="justify" ,
+       data-name="@Model.TableName" id="dataTable1" class="table table-sm table-bordered table-hover table-responsive"
+       width="100%" cellspacing="0">
+    <thead class="thead-light">
+    </thead>
+    <tbody>
+    </tbody>
 </table>
