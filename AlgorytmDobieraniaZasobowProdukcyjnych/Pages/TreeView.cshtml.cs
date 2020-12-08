@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Text.Json;
@@ -85,23 +86,29 @@ namespace AlgorytmDobieraniaZasobowProdukcyjnych.Pages
 
         public PartialViewResult OnGetModalImage(string path)
         {
-            string pathToImage = "";
-            if (Picked == "CT")
+            var pathList = new List<string>();
+            var listOfFiles = Directory.GetFiles("C:/Users/Kuba/source/CSharp/AlgorytmDobieraniaZasobowProdukcyjnych/AlgorytmDobieraniaZasobowProdukcyjnych/wwwroot/images",
+                                                                "*", SearchOption.AllDirectories).ToList();
+            path = path.Remove(path.Length - 4, 4);
+            foreach (string file in listOfFiles)
             {
-                pathToImage = "/images/Equipment" + path;
+                if(file.Contains(path))
+                {
+                    pathList.Add(file);
+                }
             }
-            if (Picked == "EQ")
+
+            if(pathList[0].Length > pathList[1].Length)
             {
-                pathToImage = "/images/Narzedzia" + path;
+                pathList.Reverse();
             }
-            if (Picked == "MT")
-            {
-                pathToImage = "/images/Obrabiarki/Tokarki" + path;
-            }
+            var pathToImage = "/images/" + path + ".jpg";
+            var pathToImage2D = "/images/" + Path.GetFileName(pathList[1]);
             
             ImagePath = new ImagePath
             {
-                Path = pathToImage
+                Path = pathToImage,
+                Path2D = pathToImage2D
             };
             return Partial("_ModalImage", ImagePath);
         }
@@ -124,6 +131,7 @@ namespace AlgorytmDobieraniaZasobowProdukcyjnych.Pages
 
         public IEnumerable<TableData> FindDataToTable()
         {
+            
             if (TableName.Length > 0)
             {
                 return DataTableViewModel.GetPropValue(dataTable, TableName);

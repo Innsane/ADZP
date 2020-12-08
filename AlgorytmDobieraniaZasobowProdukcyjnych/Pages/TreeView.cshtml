@@ -19,30 +19,50 @@ $(document).ready(function () {
     });
 });
         $(document).ready(function () {
-            $('#dataTable').DataTable({
+            var table = $('#dataTable').DataTable({
                 processing: true,
             })
 
+            //write name of Image to Input
+            $('#dataTable tbody').on('click', 'tr', function () {
+                var celltext = $(this).data('obraz');
+                $("#cellName").val(celltext);
+                //alert('You clicked on ' + $(this).data('obraz') + '\'s row');
+            });
+
+            //display Modal with Image
+            $('#myModal').on('click', function () {
+                var cellname = document.getElementById("cellName").value;
+                $('.modal-body').load(`/treeview/modalimage?path=${cellname}`);
+            });
+
+            //filter table based on node data in TreeView
             $("#treeView").on("changed.jstree", function (e, data) {
                 $("#lb").text(data.node.id);
                 $("#tableName").val(data.node.data[0]);
                 $('#dataTable').DataTable().column('#kod').search(data.node.id).draw();
-
                 console.log("ID: " + data.node.id);
             });
         });
 
-        $("#dataTable td").click(function () {
-            var celltext = $(this).text();
-            $("#cellName").val(celltext);
-        });
 
-        $(function () {
-            $('#myInput').on('click', function () {
-                var cellname = document.getElementById("cellName").value;
-                $('.modal-body').load(`/treeview/modalimage?path=${'/'+cellname}`);
-            });
-        })
+
+
+
+        //$("#dataTable td").click(function () {
+        //    var celltext = $(this).text();
+        //    $("#cellName").val(celltext);
+        //});
+
+
+        //$("#dataTable").on('click', 'tbody td', function () {
+        //    var celltext = $(this).text();
+        //    $("#cellName").val(celltext);
+        //})
+
+
+
+
 
 
     </script>
@@ -65,8 +85,12 @@ $(document).ready(function () {
 <input type="text" id="tableName" disabled />
 <button id="tbButton">Load table</button>
 <br />
-<label>Nazwa wybranej komorki: </label>
-<input id="cellName" type="text" />
+<label>Obraz wybranej komorki: </label>
+<input id="cellName" type="text" disabled />
+
+<button id="myModal" type="button" class="btn btn-primary" data-toggle="modal" data-target="#imgModal">
+    Obrazek
+</button>
 
 
 <div class="row">
@@ -79,12 +103,6 @@ $(document).ready(function () {
     </div>
 </div>
 
-
-<button id="myInput" type="button" class="btn btn-primary" data-toggle="modal" data-target="#imgModal">
-    Launch image
-</button>
-<img src="~/images/Equipment/8711-rys.jpg" alt="Alternate Text" />
-
 <div id="imgModal" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
@@ -95,7 +113,7 @@ $(document).ready(function () {
                 </button>
             </div>
             <div class="modal-body">
-                
+
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>

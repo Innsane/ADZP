@@ -10,5 +10,6 @@ namespace AlgorytmDobieraniaZasobowProdukcyjnych.Models
     {
         public PropertyInfo[] Infos { get; set; }
         public List<TableData> Datas { get; set; }
+        public string TableName { get; set; }
     }
 }
