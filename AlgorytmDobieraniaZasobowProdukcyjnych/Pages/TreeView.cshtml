@@ -23,35 +23,6 @@ $(document).ready(function () {
     table = $('#dataTable').DataTable({
         processing: true,
     });
-    //table.DataTable().draw();
-
-
-    $.getJSON(`TreeView/DataToTable`, function (data) {
-        alert(JSON.stringify(data));
-        var table1 = $('#dataTable1').DataTable({
-            processing: true,
-            data: data.data,
-            columns: data.columns,
-
-            //    [
-            //    { title: "Oznaczenie", data: "oznaczenie" },
-            //    { title: "Producent", data: "producent" },
-            //    { title: "OznPn", data: "oznPn" },
-            //    { title: "Typ", data: "typ" },
-            //    { title: "Technologia", data: "technologia" },
-            //    { title: "NormaPn", data: "normaPn" },
-            //    { title: "NormaEn", data: "normaEn" },
-            //    { title: "Material", data: "material" },
-            //    { title: "KatR", data: "katR" },
-            //    { title: "Opis", data: "opis" },
-            //    { title: "Kod", data: "kod" },
-            //    { title: "Obraz", data: "obraz" },
-            //    { title: "Rys2D", data: "rys2D" },
-            //    { title: "Mod3D", data: "mod3D" }
-            //],
-            autoWidth: true
-        });
-    });
 
     //write name of Image to Input
     $('#dataTable tbody').on('click', 'tr', function () {
