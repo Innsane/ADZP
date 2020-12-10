@@ -20,39 +20,39 @@ namespace AlgorytmDobieraniaZasobowProdukcyjnych.Models
             GetAllWiertlaTab();
         }
 
-        public IEnumerable<Lathe> Lathes { get; set; }
-        public IEnumerable<Opskl> Opskls { get; set; }
-        public IEnumerable<Opsklo> Opsklos { get; set; }
-        public IEnumerable<WiertlaDat> WiertlaDats { get; set; }
-        public IEnumerable<WiertlaTab> WiertlaTabs { get; set; }
+        public IEnumerable<Lathe> lathes { get; set; }
+        public IEnumerable<Opskl> opsklss { get; set; }
+        public IEnumerable<Opsklo> opsklos { get; set; }
+        public IEnumerable<WiertlaDat> wiertladats { get; set; }
+        public IEnumerable<WiertlaTab> wiertlatabs { get; set; }
 
         public void GetAllLathes()
         {
-            Lathes = from l in db.Lathes
+            lathes = from l in db.Lathes
                      select l;
         }
 
         public void GetAllOpskl()
         {
-            Opskls = from l in db.Opskls
+            opsklss = from l in db.Opskls
                      select l;
         }
 
         public void GetAllOpsklo()
         {
-            Opsklos = from l in db.Opsklos
+            opsklos = from l in db.Opsklos
                       select l;
         }
 
         public void GetAllWiertlaDat()
         {
-            WiertlaDats = from l in db.WiertlaDats
+            wiertladats = from l in db.WiertlaDats
                           select l;
         }
 
         public void GetAllWiertlaTab()
         {
-            WiertlaTabs = from l in db.WiertlaTabs
+            wiertlatabs = from l in db.WiertlaTabs
                           select l;
         }
 
@@ -61,9 +61,32 @@ namespace AlgorytmDobieraniaZasobowProdukcyjnych.Models
 
         }
 
+        //getting IEnumerable<TableData> by name
         public static IEnumerable<TableData> GetPropValue(DataTableViewModel src, string propName)
         {
-            return (IEnumerable<TableData>)src.GetType().GetProperty(propName).GetValue(src, null);
+            return (IEnumerable<TableData>)src.GetType().GetProperty(propName.ToLower()).GetValue(src, null);
         }
+
+        //internal List<TableData> GetDataByName(string name)
+        //{
+        //    switch (name)
+        //    {
+        //        case "wiertlatab":
+        //            return wiertlatabs.ToList();
+        //            break;
+        //        case "lathes":
+        //            jsonResult = new JsonResult(dataTable.lathes.ToList());
+        //            break;
+        //        case "wiertladat":
+        //            jsonResult = new JsonResult(dataTable.wiertladats.ToList());
+        //            break;
+        //        case "opskl":
+        //            jsonResult = new JsonResult(dataTable.opsklos.ToList());
+        //            break;
+        //        case "opsklo":
+        //            jsonResult = new JsonResult(dataTable.opsklss.ToList());
+        //            break;
+        //    }
+        //}
     }
 }

@@ -1,4 +1,4 @@
-﻿@page
+﻿@page "{handler?}"
 @model AlgorytmDobieraniaZasobowProdukcyjnych.Pages.TreeViewModel
 @{
     ViewData["Title"] = "TreeView";
@@ -10,6 +10,9 @@
     <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
 
     <script type="text/javascript">
+    var tableNameOld = "WiertlaDAT";
+    var table = $("#dataTable");
+
 $(document).ready(function () {
     $('#treeView').jstree({
         plugins: [ "changed" ],
@@ -17,29 +20,63 @@ $(document).ready(function () {
             "data": @Html.Raw(ViewData["json"]),
         }
     });
-});
-        $(document).ready(function () {
-            $('#dataTable').DataTable({
-                processing: true,
-            })
-        });
+    table = $('#dataTable').DataTable({
+        processing: true,
+    });
 
-        
-        $("#treeView").on("changed.jstree", function (e, data) {
-            var oldName = "";
+    //write name of Image to Input
+    $('#dataTable tbody').on('click', 'tr', function () {
+        var celltext = $(this).data('obraz');
+        $("#cellName").val(celltext);
+        //alert('You clicked on ' + $(this).data('obraz') + '\'s row');
+    });
+
+    //display Modal with Image
+    $('#myModal').on('click', function () {
+        var cellname = document.getElementById("cellName").value;
+        $('.modal-body').load(`/treeview/modalimage?path=${cellname}`);
+    });
+
+
+    //filter table based on node data in TreeView
+    $("#treeView").on("changed.jstree", function (e, data) {
         $("#lb").text(data.node.id);
         $("#tableName").val(data.node.data[0]);
+        var tableName = document.getElementById("tableName").value;
 
-        
-        
+        if (tableName == "" || tableName == tableNameOld) {
+            $('#dataTable').DataTable().column('#kod').search(data.node.id).draw();
+            console.log("ID: " + data.node.id);
+        }
+        else {
+            //table.destroy();
+            //$("#dataTable").empty();
+            $('#dt').load(`/treeview/datatable?tablename=${tableName}`, function (response, status, xhr) {
+                if (status == "success") {
+                    $('#dataTable').DataTable().column('#kod').search(data.node.id).draw();
+                    //write name of Image to Input
+                    $('#dataTable tbody').on('click', 'tr', function () {
+                        var celltext = $(this).data('obraz');
+                        $("#cellName").val(celltext);
+                        //alert('You clicked on ' + $(this).data('obraz') + '\'s row');
+                    });
 
-        console.log("ID: " + data.node.id);
-        $('#dataTable').DataTable().column('#kod').search(data.node.id).draw();
-        $.ajax({
-            type: "GET",
-            contentType: "text/plain",
-        })
+                    //display Modal with Image
+                    $('#myModal').on('click', function () {
+                        var cellname = document.getElementById("cellName").value;
+                        $('.modal-body').load(`/treeview/modalimage?path=${cellname}`);
+                    });
+                }
+            }
+            );
+            console.log("ID: " + data.node.id);
+        }
+        tableNameOld = tableName;
     });
+});
+
+
+
 
     </script>
 }
@@ -54,51 +91,47 @@ $(document).ready(function () {
             <option id="item" value="@resource.KeyId">@resource.Nazwa</option>
         }
     </select>
-    <br />  
-    <label>Nazwa wybranej tablicy: </label>
-    <input asp-for="TableName" type="text" id="tableName" name="tableName" value="" disabled />
     <input type="submit" id="submitName" value="Display" />
 </form>
+<br />
+<label>Nazwa wybranej tablicy: </label>
+<input type="text" id="tableName" disabled />
+<button id="tbButton">Load table</button>
+<br />
+<label>Obraz wybranej komorki: </label>
+<input id="cellName" type="text" disabled />
+
+<button id="myModal" type="button" class="btn btn-primary" data-toggle="modal" data-target="#imgModal">
+    Obrazek
+</button>
 
 
 <div class="row">
     <div style="font-size: 12px"
          id="treeView" class="col-3">
-
     </div>
 
-    <div class="col-9">
-        <table style="font-size:0.9rem"; text-align="justify",
-               id="dataTable" class="table table-sm table-bordered table-hover table-responsive"
-               width="100%" cellspacing="0">
-            <thead class="thead-light">
-                <tr>
-                    @foreach (var info in Model.Infos)
-                    {
-                        if (info.Name == "Kod")
-                        {
-                            <th id="kod" scope="col">@info.Name</th>
-                        }
-                        else
-                        {
-                            <th scope="col">@info.Name</th>
-                        }
-                    }
-                </tr>
-            </thead>
-            <tbody>
-                @foreach (var data in Model.Datas)
-                {
-                    <tr>
-                        @foreach (var info in Model.Infos)
-                        {
-                            <td>@info.GetValue(data)</td>
-                        }
-                    </tr>
-                }
-            </tbody>
+    <div id="dt" class="col-9">
+        <partial name="_DataTable" model="Model.DataTablePartial" />
+    </div>
+</div>
 
-        </table>
+<div id="imgModal" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Nazwa narzedzia</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+        </div>
     </div>
 </div>
 

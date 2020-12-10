@@ -1,0 +1,23 @@
+﻿@model AlgorytmDobieraniaZasobowProdukcyjnych.Models.ImagePath
+
+
+@if (Model.Path == "" && Model.Path2D == "")
+{
+    <h3 class="alert-danger">Najpierw wybierz narzędzie z tabeli</h3>
+}
+
+else
+{
+    <label>Rysunek</label>
+    <br />
+    <img class="img-fluid" src="@Model.Path" alt="Alternate Text" />
+
+    <br />
+    <br />
+    <br />
+
+    <label>Rysunek 2D</label>
+    <br />
+    <img class="img-fluid" src="@Model.Path2D" alt="Alternate Text" />
+}
+
