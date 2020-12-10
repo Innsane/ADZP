@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -134,15 +135,155 @@ namespace AlgorytmDobieraniaZasobowProdukcyjnych.Pages
 
         public JsonResult OnGetDataToTable(string name)
         {
-            //name = "wiertlatab";
-            //TableName = name + "s";
-            //TableName = name.ToLower();
-            //DataToTable(FindDataToTable());
+            TableName = "lathes";
+            DataToTable(FindDataToTable());
 
-            dataTable.GetAllWiertlaDat();
-            var list = dataTable.wiertlatabs.ToList();
-            var jsonResult = new JsonResult(list);
-            return jsonResult;
+            var infosList = DataTablePartial.Infos;
+            var data = DataTablePartial.Datas;
+
+            var columns = new List<Column>();
+            foreach (var property in infosList)
+            {
+                string camelCaseName;
+                if (property.Name.Length > 1)
+                {
+                    camelCaseName = char.ToLower(property.Name[0]) + property.Name.Substring(1);
+                }
+                else
+                {
+                    camelCaseName = property.Name.ToLower();
+                }
+                columns.Add(new Column { title = property.Name, data = camelCaseName });
+            }
+
+            var jsonToTable = new JsonToDataTable<Lathe> { data = dataTable.lathes.ToList(), columns = columns };
+            return new JsonResult(jsonToTable);
+        }
+
+        //public JsonResult OnGetDataToTableGeneric(string name)
+        //{
+        //    TableName = (name + "s").ToLower();
+        //    DataToTable(FindDataToTable());
+
+        //    var infosList = DataTablePartial.Infos;
+        //    var data = DataTablePartial.Datas;
+
+        //    var columns = new List<Column>();
+        //    foreach (var property in infosList)
+        //    {
+        //        string camelCaseName;
+        //        if (property.Name.Length > 1)
+        //        {
+        //            camelCaseName = char.ToLower(property.Name[0]) + property.Name.Substring(1);
+        //        }
+        //        else
+        //        {
+        //            camelCaseName = property.Name.ToLower();
+        //        }
+        //        columns.Add(new Column { title = property.Name, data = camelCaseName });
+        //    }
+
+        //    dataTable.GetDataByName(name);
+
+        //    var jsonToTable = new JsonToDataTable<ITableData> { data = data.Add(dataTable.lathes), columns = columns };
+        //    return new JsonResult(jsonToTable);
+        //}
+            //switch (name)
+            //{
+            //    case "wiertlatab":
+            //        list1 = DataTablePartial.Datas;
+            //        break;
+            //    case "lathes":
+            //        jsonResult = new JsonResult(dataTable.lathes.ToList());
+            //        break;
+            //    case "wiertladat":
+            //        jsonResult = new JsonResult(dataTable.wiertladats.ToList());
+            //        break;
+            //    case "opskl":
+            //        jsonResult = new JsonResult(dataTable.opsklos.ToList());
+            //        break;
+            //    case "opsklo":
+            //        jsonResult = new JsonResult(dataTable.opsklss.ToList());
+            //        break;
+            //}
+
+            //var list = new List<TableData>();
+            //JsonResult jsonResult = new JsonResult(dataTable.wiertlatabs.ToList());
+            //switch (name)
+            //{
+            //    case "wiertlatab":
+            //        jsonResult = new JsonResult(dataTable.wiertlatabs.ToList());
+            //        break;
+            //    case "lathes":
+            //        jsonResult = new JsonResult(dataTable.lathes.ToList());
+            //        break;
+            //    case "wiertladat":
+            //        jsonResult = new JsonResult(dataTable.wiertladats.ToList());
+            //        break;
+            //    case "opskl":
+            //        jsonResult = new JsonResult(dataTable.opsklos.ToList());
+            //        break;
+            //    case "opsklo":
+            //        jsonResult = new JsonResult(dataTable.opsklss.ToList());
+            //        break;
+            //}
+
+            //making data for DataTable columns property
+            //Type type = dataTable.lathes.ToList()[0].GetType();
+            //var infosList = type.GetProperties();
+
+            //var list = new List<Column>();
+            //foreach (var property in infosList)
+            //{
+            //    string camelCaseName;
+            //    if (property.Name.Length > 1)
+            //    {
+            //        camelCaseName = char.ToLower(property.Name[0]) + property.Name.Substring(1);
+            //    }
+            //    else
+            //    {
+            //        camelCaseName = property.Name.ToLower();
+            //    }
+            //    list.Add(new Column { title = property.Name, data = camelCaseName });
+            //}
+
+            //switch (name)
+            //{
+            //    case "wiertladat":
+            //        jsonToTable = new JsonToDataTable<WiertlaDat> { data = dataTable.wiertladats.ToList(), columns = list };
+            //        break;
+            //    case "lathes":
+            //        jsonResult = new JsonResult(dataTable.lathes.ToList());
+            //        break;
+            //    case "wiertladat":
+            //        jsonResult = new JsonResult(dataTable.wiertladats.ToList());
+            //        break;
+            //    case "opskl":
+            //        jsonResult = new JsonResult(dataTable.opsklos.ToList());
+            //        break;
+            //    case "opsklo":
+            //        jsonResult = new JsonResult(dataTable.opsklss.ToList());
+            //        break;
+            //}
+
+
+            //w zakladkach firefox create list of variable type
+
+        //}
+
+        public JsonResult ColumnNames(string name)
+        {
+            Type type = dataTable.lathes.ToList()[0].GetType();
+            var infosList = type.GetProperties();
+
+            var list = new List<Column>();
+            foreach (var property in infosList)
+            {
+                list.Add(new Column { title = property.Name, data = property.Name });
+            }
+            
+
+            return new JsonResult(list);
         }
 
         public void DataToTable(IEnumerable<TableData> tools)

@@ -10,7 +10,8 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-
+using Newtonsoft.Json;
+using Newtonsoft.Json.Serialization;
 
 namespace AlgorytmDobieraniaZasobowProdukcyjnych
 {
@@ -34,6 +35,10 @@ namespace AlgorytmDobieraniaZasobowProdukcyjnych
             services.AddScoped<TreeViewViewModel>();
             services.AddScoped<DataTableViewModel>();
             services.AddRazorPages();
+            JsonConvert.DefaultSettings = () => new JsonSerializerSettings
+            {
+                ContractResolver = new CamelCasePropertyNamesContractResolver()
+            };
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

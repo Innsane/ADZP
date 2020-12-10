@@ -9,8 +9,10 @@
     <script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
     <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
 
-<script type="text/javascript">
-        var tableNameOld = "WiertlaDAT";
+    <script type="text/javascript">
+    var tableNameOld = "WiertlaDAT";
+    var table = $("#dataTable");
+
 $(document).ready(function () {
     $('#treeView').jstree({
         plugins: [ "changed" ],
@@ -18,32 +20,35 @@ $(document).ready(function () {
             "data": @Html.Raw(ViewData["json"]),
         }
     });
-
-    var table = $('#dataTable').DataTable({
+    table = $('#dataTable').DataTable({
         processing: true,
-    });  
+    });
+    //table.DataTable().draw();
+
 
     $.getJSON(`TreeView/DataToTable`, function (data) {
         alert(JSON.stringify(data));
         var table1 = $('#dataTable1').DataTable({
             processing: true,
-            data: data,
-            columns: [
-                { title: "Oznaczenie", data: "oznaczenie" },
-                { title: "Producent", data: "producent" },
-                { title: "OznPn", data: "oznPn" },
-                { title: "Typ", data: "typ" },
-                { title: "Technologia", data: "technologia" },
-                { title: "NormaPn", data: "normaPn" },
-                { title: "NormaEn", data: "normaEn" },
-                { title: "Material", data: "material" },
-                { title: "KatR", data: "katR" },
-                { title: "Opis", data: "opis" },
-                { title: "Kod", data: "kod" },
-                { title: "Obraz", data: "obraz" },
-                { title: "Rys2D", data: "rys2D" },
-                { title: "Mod3D", data: "mod3D" }
-            ],
+            data: data.data,
+            columns: data.columns,
+
+            //    [
+            //    { title: "Oznaczenie", data: "oznaczenie" },
+            //    { title: "Producent", data: "producent" },
+            //    { title: "OznPn", data: "oznPn" },
+            //    { title: "Typ", data: "typ" },
+            //    { title: "Technologia", data: "technologia" },
+            //    { title: "NormaPn", data: "normaPn" },
+            //    { title: "NormaEn", data: "normaEn" },
+            //    { title: "Material", data: "material" },
+            //    { title: "KatR", data: "katR" },
+            //    { title: "Opis", data: "opis" },
+            //    { title: "Kod", data: "kod" },
+            //    { title: "Obraz", data: "obraz" },
+            //    { title: "Rys2D", data: "rys2D" },
+            //    { title: "Mod3D", data: "mod3D" }
+            //],
             autoWidth: true
         });
     });
@@ -73,21 +78,36 @@ $(document).ready(function () {
             console.log("ID: " + data.node.id);
         }
         else {
-            //table.clear().draw();
-            $('#dt').load(`/treeview/datatable?tablename=${tableName}`);
-            //table.columns.adjust().draw();
-            $('#dataTable').DataTable().column('#kod').search(data.node.id).draw();
-            //$('#dataTable').DataTable().ajax.reload();
+            //table.destroy();
+            //$("#dataTable").empty();
+            $('#dt').load(`/treeview/datatable?tablename=${tableName}`, function (response, status, xhr) {
+                if (status == "success") {
+                    $('#dataTable').DataTable().column('#kod').search(data.node.id).draw();
+                    //write name of Image to Input
+                    $('#dataTable tbody').on('click', 'tr', function () {
+                        var celltext = $(this).data('obraz');
+                        $("#cellName").val(celltext);
+                        //alert('You clicked on ' + $(this).data('obraz') + '\'s row');
+                    });
+
+                    //display Modal with Image
+                    $('#myModal').on('click', function () {
+                        var cellname = document.getElementById("cellName").value;
+                        $('.modal-body').load(`/treeview/modalimage?path=${cellname}`);
+                    });
+                }
+            }
+            );
             console.log("ID: " + data.node.id);
         }
         tableNameOld = tableName;
     });
 });
 
-    
 
-    
-</script>
+
+
+    </script>
 }
 <label>Symbol wybranego zasobu: </label>
 <label id="lb"> </label>

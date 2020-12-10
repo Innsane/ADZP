@@ -66,5 +66,27 @@ namespace AlgorytmDobieraniaZasobowProdukcyjnych.Models
         {
             return (IEnumerable<TableData>)src.GetType().GetProperty(propName.ToLower()).GetValue(src, null);
         }
+
+        //internal List<TableData> GetDataByName(string name)
+        //{
+        //    switch (name)
+        //    {
+        //        case "wiertlatab":
+        //            return wiertlatabs.ToList();
+        //            break;
+        //        case "lathes":
+        //            jsonResult = new JsonResult(dataTable.lathes.ToList());
+        //            break;
+        //        case "wiertladat":
+        //            jsonResult = new JsonResult(dataTable.wiertladats.ToList());
+        //            break;
+        //        case "opskl":
+        //            jsonResult = new JsonResult(dataTable.opsklos.ToList());
+        //            break;
+        //        case "opsklo":
+        //            jsonResult = new JsonResult(dataTable.opsklss.ToList());
+        //            break;
+        //    }
+        //}
     }
 }

@@ -5,8 +5,9 @@ using System.Threading.Tasks;
 
 namespace AlgorytmDobieraniaZasobowProdukcyjnych.Models
 {
-    public class JsonData
+    public class Column
     {
-        public List<WiertlaTab> data { get; set; }
+        public string title { get; set; } 
+        public string data { get; set; } 
     }
 }
