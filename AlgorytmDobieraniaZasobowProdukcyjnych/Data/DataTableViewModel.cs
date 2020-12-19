@@ -15,15 +15,28 @@ namespace AlgorytmDobieraniaZasobowProdukcyjnych.Data
         {
             this.db = db;
             GetAllLathes();
+            GetAllNozeJednolite();
+            GetAllNozeLutowane();
             GetAllOpsklo();
             GetAllOpskl();
+            GetAllTurningTool();
             GetAllWiertlaDat();
             GetAllWiertlaTab();
         }
 
+        
+
         public IEnumerable<Lathe> lathes { get; set; }
+        public IEnumerable<NozeJednolite> nozejednolites { get; set; }
+        public IEnumerable<NozeLutowane> nozelutowanes { get; set; }
         public IEnumerable<Opskl> opsklss { get; set; }
         public IEnumerable<Opsklo> opsklos { get; set; }
+        public IEnumerable<QTurningTool> qturningtools { get; set; }
+        public IEnumerable<TurctCarbid> turctcarbids { get; set; }
+        public IEnumerable<TurctHolder> turctgolders { get; set; }
+        public IEnumerable<TurctInsert> turctinserts { get; set; }
+        public IEnumerable<TurctParVcVal> turctparvcvals { get; set; }
+        public IEnumerable<TurnToolTab> turntooltabs { get; set; }
         public IEnumerable<WiertlaDat> wiertladats { get; set; }
         public IEnumerable<WiertlaTab> wiertlatabs { get; set; }
 
@@ -56,6 +69,53 @@ namespace AlgorytmDobieraniaZasobowProdukcyjnych.Data
             wiertlatabs = from l in db.WiertlaTabs
                           select l;
         }
+
+        private void GetAllNozeLutowane()
+        {
+            nozelutowanes = from l in db.NozeLutowanes
+                          select l;
+        }
+
+        private void GetAllNozeJednolite()
+        {
+            nozejednolites = from l in db.NozeJednolites
+                            select l;
+        }
+
+        private void GetAllTurningTool()
+        {
+            qturningtools = from l in db.QTurningTools
+                             select l;
+        }
+
+        private void GetAllTurnToolTab()
+        {
+            throw new NotImplementedException();
+        }
+
+        private void GetAllTurctParVcVal()
+        {
+            throw new NotImplementedException();
+        }
+
+        private void GetAllTurctInsert()
+        {
+            throw new NotImplementedException();
+        }
+
+        private void GetAllTurctHolder()
+        {
+            throw new NotImplementedException();
+        }
+
+        private void GetAllTurctCarbid()
+        {
+            throw new NotImplementedException();
+        }
+
+        
+
+        
 
         public void GetAll()
         {

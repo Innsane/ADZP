@@ -1,11 +1,13 @@
-﻿using System;
+﻿using AlgorytmDobieraniaZasobowProdukcyjnych.Data;
+using System;
 using System.Collections.Generic;
+using System.Data;
 
 #nullable disable
 
 namespace AlgorytmDobieraniaZasobowProdukcyjnych.Models
 {
-    public partial class QTurningTool
+    public partial class QTurningTool: TableData
     {
         public string OpA { get; set; }
         public string OpB { get; set; }
@@ -32,9 +34,5 @@ namespace AlgorytmDobieraniaZasobowProdukcyjnych.Models
         public decimal? FnZ { get; set; }
         public int? VcZ { get; set; }
         public double? MaxAp { get; set; }
-        public string Kod { get; set; }
-        public string Obraz { get; set; }
-        public string Rys2D { get; set; }
-        public string Mod3D { get; set; }
     }
 }

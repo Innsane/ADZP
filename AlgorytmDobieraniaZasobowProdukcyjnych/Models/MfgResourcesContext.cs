@@ -8,9 +8,6 @@ namespace AlgorytmDobieraniaZasobowProdukcyjnych.Models
 {
     public partial class MfgResourcesContext : DbContext
     {
-        public MfgResourcesContext()
-        {
-        }
 
         public MfgResourcesContext(DbContextOptions<MfgResourcesContext> options)
             : base(options)
@@ -85,7 +82,7 @@ namespace AlgorytmDobieraniaZasobowProdukcyjnych.Models
             {
                 entity.HasNoKey();
 
-                entity.ToTable("Noze_Jednolite");
+                entity.ToTable("NozeJednolites");
 
                 entity.Property(e => e.B).HasColumnName("b");
 
@@ -134,7 +131,7 @@ namespace AlgorytmDobieraniaZasobowProdukcyjnych.Models
             {
                 entity.HasNoKey();
 
-                entity.ToTable("Noze_Lutowane");
+                entity.ToTable("NozeLutowanes");
 
                 entity.Property(e => e.B).HasColumnName("b");
 
