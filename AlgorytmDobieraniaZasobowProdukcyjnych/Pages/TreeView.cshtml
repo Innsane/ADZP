@@ -49,8 +49,6 @@ $(document).ready(function () {
             console.log("ID: " + data.node.id);
         }
         else {
-            //table.destroy();
-            //$("#dataTable").empty();
             $('#dt').load(`/treeview/datatable?tablename=${tableName}`, function (response, status, xhr) {
                 if (status == "success") {
                     $('#dataTable').DataTable().column('#kod').search(data.node.id).draw();
@@ -59,12 +57,6 @@ $(document).ready(function () {
                         var celltext = $(this).data('obraz');
                         $("#cellName").val(celltext);
                         //alert('You clicked on ' + $(this).data('obraz') + '\'s row');
-                    });
-
-                    //display Modal with Image
-                    $('#myModal').on('click', function () {
-                        var cellname = document.getElementById("cellName").value;
-                        $('.modal-body').load(`/treeview/modalimage?path=${cellname}`);
                     });
                 }
             }
