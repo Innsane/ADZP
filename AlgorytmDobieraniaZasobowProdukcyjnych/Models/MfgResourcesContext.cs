@@ -8,28 +8,39 @@ namespace AlgorytmDobieraniaZasobowProdukcyjnych.Models
 {
     public partial class MfgResourcesContext : DbContext
     {
+        public MfgResourcesContext()
+        {
+        }
 
         public MfgResourcesContext(DbContextOptions<MfgResourcesContext> options)
             : base(options)
         {
         }
 
-        public DbSet<Lathe> Lathes { get; set; }
+        public virtual DbSet<Lathe> Lathes { get; set; }
+        public virtual DbSet<NozeJednolite> NozeJednolites { get; set; }
+        public virtual DbSet<NozeLutowane> NozeLutowanes { get; set; }
         public virtual DbSet<Opskl> Opskls { get; set; }
         public virtual DbSet<Opsklo> Opsklos { get; set; }
+        public virtual DbSet<QTurningTool> QTurningTools { get; set; }
         public virtual DbSet<Resource> Resources { get; set; }
         public virtual DbSet<TreeOfCuttingTool> TreeOfCuttingTools { get; set; }
         public virtual DbSet<TreeOfEquipment> TreeOfEquipments { get; set; }
         public virtual DbSet<TreeOfMachineTool> TreeOfMachineTools { get; set; }
+        public virtual DbSet<TurctCarbid> TurctCarbids { get; set; }
+        public virtual DbSet<TurctHolder> TurctHolders { get; set; }
+        public virtual DbSet<TurctInsert> TurctInserts { get; set; }
+        public virtual DbSet<TurctParVcVal> TurctParVcVals { get; set; }
+        public virtual DbSet<TurnToolTab> TurnToolTabs { get; set; }
         public virtual DbSet<WiertlaDat> WiertlaDats { get; set; }
         public virtual DbSet<WiertlaTab> WiertlaTabs { get; set; }
-        
+
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             if (!optionsBuilder.IsConfigured)
             {
 #warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
-                optionsBuilder.UseSqlServer("Server=DESKTOP-PKL6JSJ\\SQLEXPRESS;Database=MfgResources;Trusted_Connection=True;");
+                optionsBuilder.UseSqlServer("Server=.\\SQLEXPRESS;Database=MfgResources;Trusted_Connection=True;");
             }
         }
 
@@ -68,6 +79,104 @@ namespace AlgorytmDobieraniaZasobowProdukcyjnych.Models
                 entity.Property(e => e.Typ).HasMaxLength(50);
 
                 entity.Property(e => e.Wrzeciono).HasMaxLength(30);
+            });
+
+            modelBuilder.Entity<NozeJednolite>(entity =>
+            {
+                entity.HasNoKey();
+
+                entity.ToTable("Noze_Jednolite");
+
+                entity.Property(e => e.B).HasColumnName("b");
+
+                entity.Property(e => e.Cena).HasColumnType("money");
+
+                entity.Property(e => e.Din).HasColumnName("DIN");
+
+                entity.Property(e => e.H).HasColumnName("h");
+
+                entity.Property(e => e.Hand).HasMaxLength(2);
+
+                entity.Property(e => e.Id)
+                    .HasMaxLength(20)
+                    .HasColumnName("ID");
+
+                entity.Property(e => e.Iso)
+                    .HasMaxLength(10)
+                    .HasColumnName("ISO");
+
+                entity.Property(e => e.Kod).HasMaxLength(40);
+
+                entity.Property(e => e.Material).HasMaxLength(10);
+
+                entity.Property(e => e.Mod3D)
+                    .HasMaxLength(50)
+                    .IsFixedLength(true);
+
+                entity.Property(e => e.Nazwa).HasMaxLength(50);
+
+                entity.Property(e => e.Obraz).HasMaxLength(150);
+
+                entity.Property(e => e.Oznaczanie).HasMaxLength(50);
+
+                entity.Property(e => e.Pn)
+                    .HasMaxLength(10)
+                    .HasColumnName("PN");
+
+                entity.Property(e => e.Rys2D)
+                    .HasMaxLength(50)
+                    .IsFixedLength(true);
+
+                entity.Property(e => e.Typ).HasMaxLength(20);
+            });
+
+            modelBuilder.Entity<NozeLutowane>(entity =>
+            {
+                entity.HasNoKey();
+
+                entity.ToTable("Noze_Lutowane");
+
+                entity.Property(e => e.B).HasColumnName("b");
+
+                entity.Property(e => e.Cena).HasColumnType("money");
+
+                entity.Property(e => e.Din).HasColumnName("DIN");
+
+                entity.Property(e => e.H).HasColumnName("h");
+
+                entity.Property(e => e.Hand).HasMaxLength(2);
+
+                entity.Property(e => e.Id)
+                    .HasMaxLength(20)
+                    .HasColumnName("ID");
+
+                entity.Property(e => e.Iso)
+                    .HasMaxLength(10)
+                    .HasColumnName("ISO");
+
+                entity.Property(e => e.Kod).HasMaxLength(40);
+
+                entity.Property(e => e.Material).HasMaxLength(10);
+
+                entity.Property(e => e.Mod3D)
+                    .HasMaxLength(50)
+                    .IsFixedLength(true);
+
+                entity.Property(e => e.Nazwa).HasMaxLength(50);
+
+                entity.Property(e => e.Obraz).HasMaxLength(150);
+
+                entity.Property(e => e.Oznaczenie).HasMaxLength(50);
+
+                entity.Property(e => e.Pn)
+                    .HasMaxLength(10)
+                    .HasColumnName("PN");
+
+                entity.Property(e => e.Rys2D)
+                    .HasMaxLength(50)
+                    .IsFixedLength(true);
+
+                entity.Property(e => e.Typ).HasMaxLength(20);
             });
 
             modelBuilder.Entity<Opskl>(entity =>
@@ -130,6 +239,87 @@ namespace AlgorytmDobieraniaZasobowProdukcyjnych.Models
                 entity.Property(e => e.Rys2D).HasMaxLength(255);
 
                 entity.Property(e => e.Typ).HasMaxLength(25);
+            });
+
+            modelBuilder.Entity<QTurningTool>(entity =>
+            {
+                entity.HasNoKey();
+
+                entity.ToView("qTurningTools");
+
+                entity.Property(e => e.ApMax)
+                    .HasColumnType("decimal(4, 1)")
+                    .HasColumnName("ap_max");
+
+                entity.Property(e => e.ApMin)
+                    .HasColumnType("decimal(4, 1)")
+                    .HasColumnName("ap_min");
+
+                entity.Property(e => e.ApZ)
+                    .HasColumnType("decimal(4, 2)")
+                    .HasColumnName("ap_z");
+
+                entity.Property(e => e.B).HasColumnName("b");
+
+                entity.Property(e => e.FnMax)
+                    .HasColumnType("decimal(4, 2)")
+                    .HasColumnName("fn_max");
+
+                entity.Property(e => e.FnMin)
+                    .HasColumnType("decimal(4, 2)")
+                    .HasColumnName("fn_min");
+
+                entity.Property(e => e.FnZ)
+                    .HasColumnType("decimal(4, 2)")
+                    .HasColumnName("fn_z");
+
+                entity.Property(e => e.Geometry)
+                    .IsRequired()
+                    .HasMaxLength(16);
+
+                entity.Property(e => e.H).HasColumnName("h");
+
+                entity.Property(e => e.His).HasColumnName("HIS");
+
+                entity.Property(e => e.Holder).HasMaxLength(255);
+
+                entity.Property(e => e.Ht)
+                    .HasMaxLength(255)
+                    .HasColumnName("HT");
+
+                entity.Property(e => e.InIs).HasColumnName("InIS");
+
+                entity.Property(e => e.Kod).HasMaxLength(255);
+
+                entity.Property(e => e.Kr).HasColumnName("kr");
+
+                entity.Property(e => e.La).HasColumnType("decimal(6, 2)");
+
+                entity.Property(e => e.Mod3D).HasMaxLength(255);
+
+                entity.Property(e => e.Obraz).HasMaxLength(255);
+
+                entity.Property(e => e.OpA)
+                    .HasMaxLength(255)
+                    .HasColumnName("OP_A");
+
+                entity.Property(e => e.OpB)
+                    .HasMaxLength(255)
+                    .HasColumnName("OP_B");
+
+                entity.Property(e => e.Re).HasColumnType("decimal(5, 1)");
+
+                entity.Property(e => e.Rys2D).HasMaxLength(255);
+
+                entity.Property(e => e.S)
+                    .HasColumnType("decimal(7, 4)")
+                    .HasColumnName("s");
+
+                entity.Property(e => e.VcMax).HasColumnName("Vc_max");
+
+                entity.Property(e => e.VcMin).HasColumnName("Vc_min");
+
+                entity.Property(e => e.VcZ).HasColumnName("Vc_z");
             });
 
             modelBuilder.Entity<Resource>(entity =>
@@ -261,6 +451,193 @@ namespace AlgorytmDobieraniaZasobowProdukcyjnych.Models
                 entity.Property(e => e.TableId)
                     .HasMaxLength(50)
                     .HasColumnName("TableID");
+            });
+
+            modelBuilder.Entity<TurctCarbid>(entity =>
+            {
+                entity.ToTable("turctCarbids");
+
+                entity.Property(e => e.Id)
+                    .HasMaxLength(5)
+                    .HasColumnName("ID");
+
+                entity.Property(e => e.ApMax)
+                    .HasColumnType("decimal(4, 1)")
+                    .HasColumnName("ap_max");
+
+                entity.Property(e => e.ApMin)
+                    .HasColumnType("decimal(4, 1)")
+                    .HasColumnName("ap_min");
+
+                entity.Property(e => e.ApZ)
+                    .HasColumnType("decimal(4, 2)")
+                    .HasColumnName("ap_z");
+
+                entity.Property(e => e.FnMax)
+                    .HasColumnType("decimal(4, 2)")
+                    .HasColumnName("fn_max");
+
+                entity.Property(e => e.FnMin)
+                    .HasColumnType("decimal(4, 2)")
+                    .HasColumnName("fn_min");
+
+                entity.Property(e => e.FnZ)
+                    .HasColumnType("decimal(4, 2)")
+                    .HasColumnName("fn_z");
+
+                entity.Property(e => e.Geometry)
+                    .IsRequired()
+                    .HasMaxLength(16);
+
+                entity.Property(e => e.VcMax).HasColumnName("Vc_max");
+
+                entity.Property(e => e.VcMin).HasColumnName("Vc_min");
+
+                entity.Property(e => e.VcZ).HasColumnName("Vc_z");
+            });
+
+            modelBuilder.Entity<TurctHolder>(entity =>
+            {
+                entity.HasNoKey();
+
+                entity.ToTable("turctHolders");
+
+                entity.Property(e => e.B).HasColumnName("b");
+
+                entity.Property(e => e.F1).HasColumnName("f1");
+
+                entity.Property(e => e.H).HasColumnName("h");
+
+                entity.Property(e => e.H1).HasColumnName("h1");
+
+                entity.Property(e => e.Holder).HasMaxLength(255);
+
+                entity.Property(e => e.Ht)
+                    .HasMaxLength(255)
+                    .HasColumnName("HT");
+
+                entity.Property(e => e.Idct)
+                    .HasMaxLength(255)
+                    .HasColumnName("IDCT");
+
+                entity.Property(e => e.Is).HasColumnName("IS");
+
+                entity.Property(e => e.Kod).HasMaxLength(255);
+
+                entity.Property(e => e.Kr).HasColumnName("kr");
+
+                entity.Property(e => e.L1).HasColumnName("l1");
+
+                entity.Property(e => e.L3).HasColumnName("l3");
+
+                entity.Property(e => e.Mod3D).HasMaxLength(255);
+
+                entity.Property(e => e.Obraz).HasMaxLength(255);
+
+                entity.Property(e => e.OpA)
+                    .HasMaxLength(255)
+                    .HasColumnName("OP_A");
+
+                entity.Property(e => e.OpB)
+                    .HasMaxLength(255)
+                    .HasColumnName("OP_B");
+
+                entity.Property(e => e.Price).HasColumnType("money");
+
+                entity.Property(e => e.Rys2D).HasMaxLength(255);
+
+                entity.Property(e => e.Shape).HasMaxLength(255);
+
+                entity.Property(e => e.System).HasMaxLength(255);
+            });
+
+            modelBuilder.Entity<TurctInsert>(entity =>
+            {
+                entity.ToTable("turctInserts");
+
+                entity.Property(e => e.Id)
+                    .HasMaxLength(5)
+                    .HasColumnName("ID");
+
+                entity.Property(e => e.Geometry)
+                    .IsRequired()
+                    .HasMaxLength(16);
+
+                entity.Property(e => e.IC)
+                    .HasColumnType("decimal(7, 3)")
+                    .HasColumnName("iC");
+
+                entity.Property(e => e.Is).HasColumnName("IS");
+
+                entity.Property(e => e.Kw)
+                    .HasColumnType("decimal(6, 3)")
+                    .HasColumnName("kw");
+
+                entity.Property(e => e.La).HasColumnType("decimal(6, 2)");
+
+                entity.Property(e => e.Re).HasColumnType("decimal(5, 1)");
+
+                entity.Property(e => e.S)
+                    .HasColumnType("decimal(7, 4)")
+                    .HasColumnName("s");
+
+                entity.Property(e => e.Shape)
+                    .IsRequired()
+                    .HasMaxLength(1);
+            });
+
+            modelBuilder.Entity<TurctParVcVal>(entity =>
+            {
+                entity.ToTable("turctPar_vc_Val");
+
+                entity.Property(e => e.Id)
+                    .HasMaxLength(5)
+                    .HasColumnName("ID");
+
+                entity.Property(e => e.Cmc)
+                    .HasMaxLength(5)
+                    .HasColumnName("CMC");
+
+                entity.Property(e => e.F1)
+                    .HasColumnType("decimal(4, 2)")
+                    .HasColumnName("f1");
+
+                entity.Property(e => e.F2)
+                    .HasColumnType("decimal(4, 2)")
+                    .HasColumnName("f2");
+
+                entity.Property(e => e.Mc)
+                    .HasMaxLength(12)
+                    .HasColumnName("MC");
+            });
+
+            modelBuilder.Entity<TurnToolTab>(entity =>
+            {
+                entity.HasNoKey();
+
+                entity.ToTable("TurnToolTAB");
+
+                entity.Property(e => e.Accuracy).HasMaxLength(255);
+
+                entity.Property(e => e.CatPage).HasMaxLength(255);
+
+                entity.Property(e => e.Idtt)
+                    .HasMaxLength(255)
+                    .HasColumnName("IDTT");
+
+                entity.Property(e => e.Kod).HasMaxLength(255);
+
+                entity.Property(e => e.Method).HasMaxLength(255);
+
+                entity.Property(e => e.Mod3D).HasMaxLength(255);
+
+                entity.Property(e => e.Obraz).HasMaxLength(255);
+
+                entity.Property(e => e.Rys2D).HasMaxLength(255);
+
+                entity.Property(e => e.ShankCode).HasMaxLength(255);
+
+                entity.Property(e => e.Tooling).HasMaxLength(255);
             });
 
             modelBuilder.Entity<WiertlaDat>(entity =>

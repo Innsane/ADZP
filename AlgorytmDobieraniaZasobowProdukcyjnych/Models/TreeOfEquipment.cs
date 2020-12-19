@@ -8,6 +8,6 @@ namespace AlgorytmDobieraniaZasobowProdukcyjnych.Models
 {
     public partial class TreeOfEquipment: TreeOf
     {
-        
+
     }
 }

@@ -18,6 +18,5 @@ namespace AlgorytmDobieraniaZasobowProdukcyjnych.Models
         public string Material { get; set; }
         public double? KatR { get; set; }
         public string Opis { get; set; }
-        
     }
 }

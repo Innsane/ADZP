@@ -1,17 +1,14 @@
 ﻿using AlgorytmDobieraniaZasobowProdukcyjnych.Data;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
 
 #nullable disable
 
 namespace AlgorytmDobieraniaZasobowProdukcyjnych.Models
 {
-    public class Lathe:TableData
+    public partial class Lathe: TableData
     {
-        [Key]
         public string Oznaczenie { get; set; }
-
         public string Rodzaj { get; set; }
         public string Typ { get; set; }
         public string Opis { get; set; }
@@ -25,9 +22,5 @@ namespace AlgorytmDobieraniaZasobowProdukcyjnych.Models
         public int? NMax { get; set; }
         public string Gniazdo { get; set; }
         public string Wrzeciono { get; set; }
-
-
     }
-
-    
 }

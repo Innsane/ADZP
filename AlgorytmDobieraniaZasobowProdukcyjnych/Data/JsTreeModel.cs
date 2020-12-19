@@ -8,7 +8,6 @@ namespace AlgorytmDobieraniaZasobowProdukcyjnych.Data
 {
     public class JsTreeModel
     {
-        private TreeOfCuttingTool item;
 
         public JsTreeModel()
         {
