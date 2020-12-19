@@ -22,6 +22,7 @@ $(document).ready(function () {
     });
     table = $('#dataTable').DataTable({
         processing: true,
+        deferRender: true,
     });
 
     //write name of Image to Input

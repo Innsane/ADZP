@@ -79,7 +79,14 @@ namespace AlgorytmDobieraniaZasobowProdukcyjnych.Pages
 
         public PartialViewResult OnGetDataTable(string tableName)
         {
-            TableName = tableName + "s";
+            if(tableName.EndsWith('s'))
+            {
+                TableName = tableName;
+            }
+            else
+            {
+                TableName = tableName + "s";
+            }
             TableName = TableName.ToLower();
             DataToTable(FindDataToTable());
             return new PartialViewResult
