@@ -1,10 +1,11 @@
-﻿using System;
+﻿using AlgorytmDobieraniaZasobowProdukcyjnych.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
 
-namespace AlgorytmDobieraniaZasobowProdukcyjnych.Models
+namespace AlgorytmDobieraniaZasobowProdukcyjnych.Data
 {
     public class DataTableViewModel
     {
@@ -35,7 +36,7 @@ namespace AlgorytmDobieraniaZasobowProdukcyjnych.Models
         public void GetAllOpskl()
         {
             opsklss = from l in db.Opskls
-                     select l;
+                      select l;
         }
 
         public void GetAllOpsklo()

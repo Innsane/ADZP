@@ -21,7 +21,7 @@ using AlgorytmDobieraniaZasobowProdukcyjnych;
 #nullable disable
     [global::Microsoft.AspNetCore.Razor.Hosting.RazorSourceChecksumAttribute(@"SHA1", @"3a0693b98fef8cedaadec56a0178917d8bf21ff1", @"/Pages/Shared/_DataTable.cshtml")]
     [global::Microsoft.AspNetCore.Razor.Hosting.RazorSourceChecksumAttribute(@"SHA1", @"4d2c64e08beefb6cdbe0f52063262474da639500", @"/Pages/_ViewImports.cshtml")]
-    public class Pages_Shared__DataTable : global::Microsoft.AspNetCore.Mvc.Razor.RazorPage<AlgorytmDobieraniaZasobowProdukcyjnych.Models.DataTablePartialModel>
+    public class Pages_Shared__DataTable : global::Microsoft.AspNetCore.Mvc.Razor.RazorPage<AlgorytmDobieraniaZasobowProdukcyjnych.Data.DataTablePartialModel>
     {
         #pragma warning disable 1998
         public async override global::System.Threading.Tasks.Task ExecuteAsync()
@@ -153,7 +153,7 @@ WriteAttributeValue("", 609, info.Name, 609, 10, false);
         [global::Microsoft.AspNetCore.Mvc.Razor.Internal.RazorInjectAttribute]
         public global::Microsoft.AspNetCore.Mvc.Rendering.IJsonHelper Json { get; private set; }
         [global::Microsoft.AspNetCore.Mvc.Razor.Internal.RazorInjectAttribute]
-        public global::Microsoft.AspNetCore.Mvc.Rendering.IHtmlHelper<AlgorytmDobieraniaZasobowProdukcyjnych.Models.DataTablePartialModel> Html { get; private set; }
+        public global::Microsoft.AspNetCore.Mvc.Rendering.IHtmlHelper<AlgorytmDobieraniaZasobowProdukcyjnych.Data.DataTablePartialModel> Html { get; private set; }
     }
 }
 #pragma warning restore 1591

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace AlgorytmDobieraniaZasobowProdukcyjnych.Models
+namespace AlgorytmDobieraniaZasobowProdukcyjnych.Data
 {
     public abstract class TreeOf
     {
@@ -14,6 +14,6 @@ namespace AlgorytmDobieraniaZasobowProdukcyjnych.Models
         public int? IconId { get; set; }
         public string TableId { get; set; }
         public string PictureId { get; set; }
-        
+
     }
 }

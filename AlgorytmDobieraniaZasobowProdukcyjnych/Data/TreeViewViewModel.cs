@@ -1,9 +1,10 @@
-﻿using System;
+﻿using AlgorytmDobieraniaZasobowProdukcyjnych.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace AlgorytmDobieraniaZasobowProdukcyjnych.Models
+namespace AlgorytmDobieraniaZasobowProdukcyjnych.Data
 {
     public class TreeViewViewModel
     {
@@ -30,7 +31,7 @@ namespace AlgorytmDobieraniaZasobowProdukcyjnych.Models
         private void GetAllTreeOfEquipment()
         {
             TreeOfEquipments = from r in db.TreeOfEquipments
-                                 select r;
+                               select r;
         }
 
         private void GetAllTreeOfMachineTools()

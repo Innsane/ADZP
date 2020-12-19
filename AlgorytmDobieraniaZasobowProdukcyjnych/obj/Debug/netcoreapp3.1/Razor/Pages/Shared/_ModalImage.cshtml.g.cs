@@ -21,7 +21,7 @@ using AlgorytmDobieraniaZasobowProdukcyjnych;
 #nullable disable
     [global::Microsoft.AspNetCore.Razor.Hosting.RazorSourceChecksumAttribute(@"SHA1", @"ef94c1a427c959f2c6f10388d2658ed2bc058462", @"/Pages/Shared/_ModalImage.cshtml")]
     [global::Microsoft.AspNetCore.Razor.Hosting.RazorSourceChecksumAttribute(@"SHA1", @"4d2c64e08beefb6cdbe0f52063262474da639500", @"/Pages/_ViewImports.cshtml")]
-    public class Pages_Shared__ModalImage : global::Microsoft.AspNetCore.Mvc.Razor.RazorPage<AlgorytmDobieraniaZasobowProdukcyjnych.Models.ImagePath>
+    public class Pages_Shared__ModalImage : global::Microsoft.AspNetCore.Mvc.Razor.RazorPage<AlgorytmDobieraniaZasobowProdukcyjnych.Data.ImagePath>
     {
         #pragma warning disable 1998
         public async override global::System.Threading.Tasks.Task ExecuteAsync()
@@ -88,7 +88,7 @@ WriteAttributeValue("", 427, Model.Path2D, 427, 13, false);
         [global::Microsoft.AspNetCore.Mvc.Razor.Internal.RazorInjectAttribute]
         public global::Microsoft.AspNetCore.Mvc.Rendering.IJsonHelper Json { get; private set; }
         [global::Microsoft.AspNetCore.Mvc.Razor.Internal.RazorInjectAttribute]
-        public global::Microsoft.AspNetCore.Mvc.Rendering.IHtmlHelper<AlgorytmDobieraniaZasobowProdukcyjnych.Models.ImagePath> Html { get; private set; }
+        public global::Microsoft.AspNetCore.Mvc.Rendering.IHtmlHelper<AlgorytmDobieraniaZasobowProdukcyjnych.Data.ImagePath> Html { get; private set; }
     }
 }
 #pragma warning restore 1591
