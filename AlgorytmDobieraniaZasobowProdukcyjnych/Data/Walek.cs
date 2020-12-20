@@ -6,17 +6,34 @@ using System.Threading.Tasks;
 
 namespace AlgorytmDobieraniaZasobowProdukcyjnych.Data
 {
-    public class Walek
+    public class Walek : DaneWalka, IWalek
     {
         private readonly MfgResourcesContext db;
 
         public Walek(MfgResourcesContext db)
         {
             this.db = db;
-            Calculate();
         }
 
-        private void Calculate()
+        public void SetWalek(DaneWalka dane)
+        {
+            Srednica = dane.Srednica;
+            Dlugosc = dane.Dlugosc;
+            Material = dane.Material;
+            Stopnie = dane.Stopnie;
+            DlugoscStopnia = dane.DlugoscStopnia;
+            SrednicaStopnia = dane.SrednicaStopnia;
+            KlasaTolerancji = dane.KlasaTolerancji;
+            TPO = new List<double>();
+            KO = new List<double>();
+            IZ = new List<int>();
+            DFN = new List<double>();
+            DMT = new List<double>();
+            DRG = new List<double>();
+            APMAX = new List<double>();
+        }
+
+        public void Calculate()
         {
             Smuklosc();
             ObjetoscWalu();
@@ -39,18 +56,6 @@ namespace AlgorytmDobieraniaZasobowProdukcyjnych.Data
             MaxSkrawanie();
         }
 
-        //wpisane
-        public double Dlugosc { get; set; }
-        public double Srednica { get; set; }
-        public string Matrial { get; set; }
-        public double GestoscMaterialu = 7.85;
-
-        public int Stopnie { get; set; }
-
-        public List<double> DlugoscStopnia { get; set; }
-        public List<double> SrednicaStopnia { get; set; }
-        public List<int> KlasaTolerancji { get; set; }
-
         //obliczone
         public double S { get; set; } //smuklosc
         public double VPO { get; set; } //objetosc walu
@@ -68,8 +73,6 @@ namespace AlgorytmDobieraniaZasobowProdukcyjnych.Data
         public List<double> TPO { get; set; } //tolerancje stopni
         public List<double> KO { get; set; }  //wskaznik wzrostu dokaldnosci stopni
         public List<int> IZ { get; set; }  //liczba operacji (1 - tylko zgrubna 2 - zgrubna ksztaltujaca 3 - zgruba ksztaltujaca wykanczajaca)
-        public List<double> QSR { get; set; } //naddatki srednica
-        public List<double> QDL { get; set; } //naddatki dlugosc
         public List<double> DFN { get; set; } //srednica przed wykonwcza
         public List<double> DMT { get; set; } //srednica przed ksztaltujaca
         public List<double> DRG { get; set; } //srednica przed zgrubna
@@ -85,75 +88,76 @@ namespace AlgorytmDobieraniaZasobowProdukcyjnych.Data
         public double DLC { get; set; }
 
         //smuklosc
-        public void Smuklosc()
+        private void Smuklosc()
         {
             this.S = Dlugosc / Srednica;
         }
 
         //zmiana objetosci walu
-        public void ObjetoscWalu()
+        private void ObjetoscWalu()
         {
             var suma = 0.000000;
             for (int i = 0; i < Stopnie; i++)
             {
-                var x = (3.14 * DlugoscStopnia[i] * SrednicaStopnia[i] * SrednicaStopnia[i]);
+                var x = (3.14 * DlugoscStopnia[i]/100 * SrednicaStopnia[i]/100 * SrednicaStopnia[i]/100);
                 suma += (x / 4);
             }
             VPO = suma;
         }
 
-        public void ObjetoscPolfabrykatu()
+        private void ObjetoscPolfabrykatu()
         {
-            VPF = (3.14 * Dlugosc * Srednica*Srednica)/4;
+            VPF = (3.14 * (Dlugosc/100) * (Srednica/100) * (Srednica/100)) / 4;
         }
 
-        public void ZmianaObjetosci()
+        private void ZmianaObjetosci()
         {
             var x = (VPF - VPO) / VPF;
             x *= 100;
             O = x;
         }
 
-        public void MasaWalu()
+        private void MasaWalu()
         {
-            MPO = GestoscMaterialu* VPO;
+            MPO = GestoscMaterialu * VPO;
         }
 
-        public void MasaPolfabrykatu()
+        private void MasaPolfabrykatu()
         {
             MPF = GestoscMaterialu * VPF;
         }
 
-        public void MasaWiorow()
+        private void MasaWiorow()
         {
             MW = MPF - MPO;
         }
-        
-        public void TolerancjaPolfabrykatu()
+
+        private void TolerancjaPolfabrykatu()
         {
             var tolerance = from l in db.RolledBarsTols
-                        where l.Dmax <= Srednica && l.Dmin >= Srednica
-                        select l.TolA1;
+                            where l.Dmax > Srednica && l.Dmin <= Srednica
+                            select l.TolA1;
             var x = tolerance.ToList();
 
-            TPF =  (float)x[0] * 2 * 1000;
+            TPF = (float)x[0] * 1000;
         }
 
-        public void TolerancjaStopni()
+        private void TolerancjaStopni()
         {
+
             var index = 0;
             foreach (var srednica in SrednicaStopnia)
             {
                 var query = from l in db.Tolerances
-                            where l.Dmax <= srednica && l.Dmin > srednica && l.Itc == KlasaTolerancji[index]
+                            where l.Dmax >= srednica && l.Dmin < srednica && l.Itc == KlasaTolerancji[index]
                             select l.Tol;
 
-                TPO.Add((float)query.ToList()[0]);
+                TPO.Add((float)query.ToList()[0]*1000);
                 index++;
             }
         }
 
-        public void WzrostDokladnosci()
+        private void WzrostDokladnosci()
         {
             foreach (var tolerance in TPO)
             {
@@ -161,16 +165,16 @@ namespace AlgorytmDobieraniaZasobowProdukcyjnych.Data
             }
         }
 
-        public void Operacje()
+        private void Operacje()
         {
             foreach (var wskaznik in KO)
             {
-                if(wskaznik <= 10)
+                if (wskaznik < 10)
                 {
                     IZ.Add(1);
                 }
-                else if(wskaznik > 10 && wskaznik <=50)
-                            {
+                else if (wskaznik >= 10 && wskaznik <= 50)
+                {
                     IZ.Add(2);
                 }
                 else
@@ -180,78 +184,87 @@ namespace AlgorytmDobieraniaZasobowProdukcyjnych.Data
             }
         }
 
-        public void SredniaSrednica()
+        private void SredniaSrednica()
         {
             var suma = 0.0;
-            for(int i = 0; i<Stopnie;i++)
+            for (int i = 0; i < Stopnie; i++)
             {
                 suma += DlugoscStopnia[i] * SrednicaStopnia[i];
             }
             DSR = suma / Dlugosc;
         }
 
-        public void NaddatkiSrednica()
+        private void NaddatkiSrednica()
         {
             var RG = from l in db.TurnAllowCentrRgs
-                          where l.Lmax <= Dlugosc && l.Lmin > Dlugosc &&
-                                l.Dmax <= DSR && l.Dmin > DSR
-                          select l.Qnom;
+                     where l.Lmax > Dlugosc && l.Lmin <= Dlugosc &&
+                           l.Dmax > DSR && l.Dmin <= DSR
+                     select l.Qnom;
 
             var MT = from l in db.TurnAllowCentrMts
-                          where l.Lmax <= Dlugosc && l.Lmin > Dlugosc &&
-                                l.Dmax <= DSR && l.Dmin > DSR
-                          select l.Qnom;
+                     where l.Lmax > Dlugosc && l.Lmin <= Dlugosc &&
+                           l.Dmax > DSR && l.Dmin <= DSR
+                     select l.Qnom;
 
             var FN = from l in db.TurnAllowCentrFns
-                          where l.Lmax <= Dlugosc && l.Lmin > Dlugosc &&
-                                l.Dmax <= DSR && l.Dmin > DSR
-                          select l.Qnom;
+                     where l.Lmax > Dlugosc && l.Lmin <= Dlugosc &&
+                           l.Dmax > DSR && l.Dmin <= DSR
+                     select l.Qnom;
 
             QFN = (double)FN.ToList()[0];
             QMT = (double)MT.ToList()[0];
             QRG = (double)RG.ToList()[0];
         }
 
-        public void NaddatkiDlugosc()
+        private void NaddatkiDlugosc()
         {
             var RG = from l in db.TurnAllowChuckRgs
-                     where l.Lmax <= Dlugosc && l.Lmin > Dlugosc &&
-                           l.Dmax <= DSR && l.Dmin > DSR
+                     where l.Lmax > Dlugosc && l.Lmin <= Dlugosc &&
+                           l.Dmax > DSR && l.Dmin <= DSR
                      select l.Qnom;
 
             var MT = from l in db.TurnAllowChuckMts
-                     where l.Lmax <= Dlugosc && l.Lmin > Dlugosc &&
-                           l.Dmax <= DSR && l.Dmin > DSR
+                     where l.Lmax > Dlugosc && l.Lmin <= Dlugosc &&
+                           l.Dmax > DSR && l.Dmin <= DSR
                      select l.Qnom;
-            QLMT = (double)MT.ToList()[0];
-            QLRG = (double)RG.ToList()[0];
+            if(MT.ToList().Count == 0)
+            {
+                QLMT = 2;
+                QLRG = 2;
+            }
+            else
+            {
+                QLMT = (double)MT.ToList()[0];
+                QLRG = (double)RG.ToList()[0];
+            }
+            
         }
 
-        public void SrednicaPolfabrykatu()
+        private void SrednicaPolfabrykatu()
         {
-            var Q = QSR[0] + QSR[1] + QSR[2];
+            var Q = QFN + QMT + QRG;
             SRPF = Srednica + Q;
         }
 
-        public void DlugoscPolfabrykatu()
+        private void DlugoscPolfabrykatu()
         {
-            var Q = QDL[0] + QDL[1];
+            var Q = QLMT + QLRG;
             DLPF = Dlugosc + (Q * 2);
             DLC = DLPF;
         }
 
-        public void SrednicePrzedObrobka()
+        private void SrednicePrzedObrobka()
         {
             var index = 0;
             foreach (var srednica in SrednicaStopnia)
             {
                 if (IZ[index] <= 2)
                 {
-                    DFN[index] = srednica;
+                    DFN.Add(srednica);
                 }
                 else
                 {
-                    DFN[index] = SrednicaStopnia[index] + QFN;
+                    DFN.Add(SrednicaStopnia[index] + QFN);
                 }
                 index++;
             }
@@ -261,11 +274,11 @@ namespace AlgorytmDobieraniaZasobowProdukcyjnych.Data
             {
                 if (IZ[index] == 1)
                 {
-                    DMT[index] = srednica;
+                    DMT.Add( srednica);
                 }
                 else
                 {
-                    DMT[index] = DFN[index] + QMT;
+                    DMT.Add( DFN[index] + QMT);
                 }
                 index++;
             }
@@ -273,12 +286,12 @@ namespace AlgorytmDobieraniaZasobowProdukcyjnych.Data
             index = 0;
             foreach (var srednica in SrednicaStopnia)
             {
-                DRG[index] = DMT[index] + QRG;
+                DRG.Add(DMT[index] + QRG);
                 index++;
             }
         }
 
-        public void WymiaryPolfabrykatu()
+        private void WymiaryPolfabrykatu()
         {
             var srednica = from l in db.RolledBarsDiams
                            where l.D > SRPF
@@ -287,12 +300,12 @@ namespace AlgorytmDobieraniaZasobowProdukcyjnych.Data
             SRC = srednica.ToList()[0];
         }
 
-        public void MaxSkrawanie()
+        private void MaxSkrawanie()
         {
             var index = 0;
             foreach (var srednica in SrednicaStopnia)
             {
-                APMAX[index] = SRC - srednica / 2;
+                APMAX.Add((SRC - srednica) / 2);
                 index++;
             }
         }

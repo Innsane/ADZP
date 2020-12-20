@@ -50,7 +50,8 @@
 <h1>Algorithm</h1>
 
 <div>
-    <form action="/" method="post">
+    <form method="post">
+        @Html.AntiForgeryToken();
         <label>Wprowadź parametry geometryczne wałka:</label><br />
         <label for="srC">Średnica całkowita: </label>
         <input type="text" name="srC" value="" />
@@ -64,6 +65,8 @@
         <div id="stopnie">
 
         </div>
+
+        <input type="submit" value="Zatwierdź"/>
     </form>
 </div>
 

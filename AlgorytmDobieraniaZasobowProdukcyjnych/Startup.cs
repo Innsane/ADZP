@@ -35,6 +35,7 @@ namespace AlgorytmDobieraniaZasobowProdukcyjnych
             services.AddScoped<IMfgResources, ToolsData>();
             services.AddScoped<TreeViewViewModel>();
             services.AddScoped<DataTableViewModel>();
+            services.AddScoped<IWalek, Walek>();
             services.AddRazorPages();
             JsonConvert.DefaultSettings = () => new JsonSerializerSettings
             {
