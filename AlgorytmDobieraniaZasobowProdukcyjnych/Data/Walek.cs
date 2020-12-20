@@ -13,8 +13,32 @@ namespace AlgorytmDobieraniaZasobowProdukcyjnych.Data
         public Walek(MfgResourcesContext db)
         {
             this.db = db;
-
+            Calculate();
         }
+
+        private void Calculate()
+        {
+            Smuklosc();
+            ObjetoscWalu();
+            ObjetoscPolfabrykatu();
+            ZmianaObjetosci();
+            MasaWalu();
+            MasaPolfabrykatu();
+            MasaWiorow();
+            TolerancjaPolfabrykatu();
+            TolerancjaStopni();
+            WzrostDokladnosci();
+            Operacje();
+            SredniaSrednica();
+            NaddatkiSrednica();
+            NaddatkiDlugosc();
+            SrednicaPolfabrykatu();
+            DlugoscPolfabrykatu();
+            SrednicePrzedObrobka();
+            WymiaryPolfabrykatu();
+            MaxSkrawanie();
+        }
+
         //wpisane
         public double Dlugosc { get; set; }
         public double Srednica { get; set; }
