@@ -14,13 +14,24 @@ namespace AlgorytmDobieraniaZasobowProdukcyjnych.Models
         {
         }
 
+        public virtual DbSet<Accuracy> Accuracies { get; set; }
+        public virtual DbSet<FaceAllow> FaceAllows { get; set; }
+        public virtual DbSet<InsertShape> InsertShapes { get; set; }
+        public virtual DbSet<InsertSize> InsertSizes { get; set; }
         public virtual DbSet<Lathe> Lathes { get; set; }
+        public virtual DbSet<Material> Materials { get; set; }
         public virtual DbSet<NozeJednolite> NozeJednolites { get; set; }
         public virtual DbSet<NozeLutowane> NozeLutowanes { get; set; }
         public virtual DbSet<Opskl> Opskls { get; set; }
         public virtual DbSet<Opsklo> Opsklos { get; set; }
+        public virtual DbSet<ParKcVal> ParKcVals { get; set; }
+        public virtual DbSet<ParVcVal> ParVcVals { get; set; }
         public virtual DbSet<QTurningTool> QTurningTools { get; set; }
         public virtual DbSet<Resource> Resources { get; set; }
+        public virtual DbSet<RolledBarLen> RolledBarLens { get; set; }
+        public virtual DbSet<RolledBarsDiam> RolledBarsDiams { get; set; }
+        public virtual DbSet<RolledBarsTol> RolledBarsTols { get; set; }
+        public virtual DbSet<Tolerance> Tolerances { get; set; }
         public virtual DbSet<TreeOfCuttingTool> TreeOfCuttingTools { get; set; }
         public virtual DbSet<TreeOfEquipment> TreeOfEquipments { get; set; }
         public virtual DbSet<TreeOfMachineTool> TreeOfMachineTools { get; set; }
@@ -28,6 +39,12 @@ namespace AlgorytmDobieraniaZasobowProdukcyjnych.Models
         public virtual DbSet<TurctHolder> TurctHolders { get; set; }
         public virtual DbSet<TurctInsert> TurctInserts { get; set; }
         public virtual DbSet<TurctParVcVal> TurctParVcVals { get; set; }
+        public virtual DbSet<TurnAllowCentrFn> TurnAllowCentrFns { get; set; }
+        public virtual DbSet<TurnAllowCentrMt> TurnAllowCentrMts { get; set; }
+        public virtual DbSet<TurnAllowCentrRg> TurnAllowCentrRgs { get; set; }
+        public virtual DbSet<TurnAllowChuckFn> TurnAllowChuckFns { get; set; }
+        public virtual DbSet<TurnAllowChuckMt> TurnAllowChuckMts { get; set; }
+        public virtual DbSet<TurnAllowChuckRg> TurnAllowChuckRgs { get; set; }
         public virtual DbSet<TurnToolTab> TurnToolTabs { get; set; }
         public virtual DbSet<WiertlaDat> WiertlaDats { get; set; }
         public virtual DbSet<WiertlaTab> WiertlaTabs { get; set; }
@@ -43,6 +60,140 @@ namespace AlgorytmDobieraniaZasobowProdukcyjnych.Models
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            modelBuilder.Entity<Accuracy>(entity =>
+            {
+                entity.HasKey(e => e.Ida)
+                    .HasName("Accuracy$PrimaryKey");
+
+                entity.ToTable("Accuracy");
+
+                entity.Property(e => e.Ida)
+                    .HasMaxLength(5)
+                    .HasColumnName("IDA")
+                    .HasComment("Identyfikator zakresu dokładności obróbki");
+
+                entity.Property(e => e.AccDescr)
+                    .HasMaxLength(80)
+                    .HasComment("Opis słowny zakresu dokładności obróbki");
+
+                entity.Property(e => e.AccName)
+                    .HasMaxLength(20)
+                    .HasComment("Angielska nazwa zakresu dokładności obróbki");
+
+                entity.Property(e => e.Itmax)
+                    .HasColumnName("ITmax")
+                    .HasDefaultValueSql("((0))")
+                    .HasComment("Max zakresu klasy dokładności IT");
+
+                entity.Property(e => e.Itmin)
+                    .HasColumnName("ITmin")
+                    .HasDefaultValueSql("((0))")
+                    .HasComment("Min zakresu klasy dokładności IT");
+
+                entity.Property(e => e.RaMax)
+                    .HasDefaultValueSql("((0))")
+                    .HasComment("Max zakresu chropowatości Ra");
+
+                entity.Property(e => e.RaMin)
+                    .HasDefaultValueSql("((0))")
+                    .HasComment("Min zakresu chropowatości Ra");
+
+                entity.Property(e => e.SsmaTimeStamp)
+                    .IsRequired()
+                    .IsRowVersion()
+                    .IsConcurrencyToken()
+                    .HasColumnName("SSMA_TimeStamp");
+            });
+
+            modelBuilder.Entity<FaceAllow>(entity =>
+            {
+                entity.HasKey(e => e.Ida)
+                    .HasName("FaceAllow$Identyfikator");
+
+                entity.ToTable("FaceAllow");
+
+                entity.Property(e => e.Ida).HasColumnName("IDA");
+
+                entity.Property(e => e.Range).HasMaxLength(255);
+
+                entity.Property(e => e.SsmaTimeStamp)
+                    .IsRequired()
+                    .IsRowVersion()
+                    .IsConcurrencyToken()
+                    .HasColumnName("SSMA_TimeStamp");
+            });
+
+            modelBuilder.Entity<InsertShape>(entity =>
+            {
+                entity.HasKey(e => e.Shape)
+                    .HasName("InsertShape$Shape");
+
+                entity.ToTable("InsertShape");
+
+                entity.Property(e => e.Shape)
+                    .HasMaxLength(1)
+                    .HasComment("Identyfikator kształtu płytki");
+
+                entity.Property(e => e.An)
+                    .HasColumnName("AN")
+                    .HasComment("Kąt wierzchołkowy płytki (Nose Angle)");
+
+                entity.Property(e => e.Elf)
+                    .HasColumnName("ELF")
+                    .HasComment("Współczynnik korekty efektywnej długości krawędzi skrawającej (effective lenght of cutting edge factor)");
+
+                entity.Property(e => e.Name)
+                    .HasMaxLength(12)
+                    .HasComment("Nazwa opisowa płytki");
+
+                entity.Property(e => e.Nce)
+                    .HasColumnName("NCE")
+                    .HasComment("Liczba krawędzi skrawających (numer of cutting edges)");
+
+                entity.Property(e => e.SsmaTimeStamp)
+                    .IsRequired()
+                    .IsRowVersion()
+                    .IsConcurrencyToken()
+                    .HasColumnName("SSMA_TimeStamp");
+            });
+
+            modelBuilder.Entity<InsertSize>(entity =>
+            {
+                entity.HasKey(e => e.Idis)
+                    .HasName("InsertSize$IDIS");
+
+                entity.ToTable("InsertSize");
+
+                entity.Property(e => e.Idis)
+                    .HasMaxLength(4)
+                    .HasColumnName("IDIS")
+                    .HasComment("Identyfikator rozmiaru płytki");
+
+                entity.Property(e => e.IC)
+                    .HasColumnName("iC")
+                    .HasDefaultValueSql("((0))")
+                    .HasComment("Rozmiar okręgu wpisanego w płytkę");
+
+                entity.Property(e => e.S)
+                    .HasColumnName("s")
+                    .HasComment("Grubość płytki [mm]");
+
+                entity.Property(e => e.Shape)
+                    .IsRequired()
+                    .HasMaxLength(1)
+                    .HasComment("Kształt płytki");
+
+                entity.Property(e => e.Size).HasComment("Rozmiar płytki");
+
+                entity.Property(e => e.SsmaTimeStamp)
+                    .IsRequired()
+                    .IsRowVersion()
+                    .IsConcurrencyToken()
+                    .HasColumnName("SSMA_TimeStamp");
+
+                entity.Property(e => e.Th).HasComment("Kod grubości płytki (thickness)");
+            });
+
             modelBuilder.Entity<Lathe>(entity =>
             {
                 entity.HasKey(e => e.Oznaczenie);
@@ -78,11 +229,68 @@ namespace AlgorytmDobieraniaZasobowProdukcyjnych.Models
                 entity.Property(e => e.Wrzeciono).HasMaxLength(30);
             });
 
+            modelBuilder.Entity<Material>(entity =>
+            {
+                entity.HasKey(e => e.MatEn)
+                    .HasName("Material$PrimaryKey");
+
+                entity.ToTable("Material");
+
+                entity.Property(e => e.MatEn)
+                    .HasMaxLength(15)
+                    .HasColumnName("Mat_EN")
+                    .HasComment("PK - oznaczenie materiału wg normy EN");
+
+                entity.Property(e => e.C).HasDefaultValueSql("((0))");
+
+                entity.Property(e => e.Cmc)
+                    .HasMaxLength(5)
+                    .HasColumnName("CMC");
+
+                entity.Property(e => e.Hb).HasColumnName("HB");
+
+                entity.Property(e => e.Kc04).HasColumnName("kc04");
+
+                entity.Property(e => e.Kc11).HasColumnName("kc11");
+
+                entity.Property(e => e.MatDin)
+                    .HasMaxLength(15)
+                    .HasColumnName("Mat_DIN");
+
+                entity.Property(e => e.MatIso)
+                    .HasMaxLength(15)
+                    .HasColumnName("Mat_ISO");
+
+                entity.Property(e => e.MatPn)
+                    .HasMaxLength(15)
+                    .HasColumnName("Mat_PN");
+
+                entity.Property(e => e.MatWnr)
+                    .HasMaxLength(15)
+                    .HasColumnName("Mat_Wnr");
+
+                entity.Property(e => e.Mc)
+                    .HasColumnName("mc")
+                    .HasDefaultValueSql("((0))");
+
+                entity.Property(e => e.Rodzaj).HasMaxLength(50);
+
+                entity.Property(e => e.Smc)
+                    .HasMaxLength(12)
+                    .HasColumnName("SMC");
+
+                entity.Property(e => e.SsmaTimeStamp)
+                    .IsRequired()
+                    .IsRowVersion()
+                    .IsConcurrencyToken()
+                    .HasColumnName("SSMA_TimeStamp");
+
+                entity.Property(e => e.Stan).HasMaxLength(70);
+            });
+
             modelBuilder.Entity<NozeJednolite>(entity =>
             {
                 entity.HasNoKey();
-
-                entity.ToTable("NozeJednolites");
 
                 entity.Property(e => e.B).HasColumnName("b");
 
@@ -95,6 +303,7 @@ namespace AlgorytmDobieraniaZasobowProdukcyjnych.Models
                 entity.Property(e => e.Hand).HasMaxLength(2);
 
                 entity.Property(e => e.Id)
+                    .IsRequired()
                     .HasMaxLength(20)
                     .HasColumnName("ID");
 
@@ -130,8 +339,6 @@ namespace AlgorytmDobieraniaZasobowProdukcyjnych.Models
             modelBuilder.Entity<NozeLutowane>(entity =>
             {
                 entity.HasNoKey();
-
-                entity.ToTable("NozeLutowanes");
 
                 entity.Property(e => e.B).HasColumnName("b");
 
@@ -238,6 +445,66 @@ namespace AlgorytmDobieraniaZasobowProdukcyjnych.Models
                 entity.Property(e => e.Typ).HasMaxLength(25);
             });
 
+            modelBuilder.Entity<ParKcVal>(entity =>
+            {
+                entity.ToTable("Par_kc_Val");
+
+                entity.Property(e => e.Id)
+                    .HasMaxLength(255)
+                    .HasColumnName("ID");
+
+                entity.Property(e => e.Cmc)
+                    .HasMaxLength(255)
+                    .HasColumnName("CMC");
+
+                entity.Property(e => e.F1).HasColumnName("f1");
+
+                entity.Property(e => e.F2).HasColumnName("f2");
+
+                entity.Property(e => e.Kc1).HasColumnName("kc1");
+
+                entity.Property(e => e.Kc2).HasColumnName("kc2");
+
+                entity.Property(e => e.Material).HasMaxLength(255);
+
+                entity.Property(e => e.RmMax).HasColumnName("Rm_max");
+
+                entity.Property(e => e.RmMin).HasColumnName("Rm_min");
+
+                entity.Property(e => e.SsmaTimeStamp)
+                    .IsRequired()
+                    .IsRowVersion()
+                    .IsConcurrencyToken()
+                    .HasColumnName("SSMA_TimeStamp");
+            });
+
+            modelBuilder.Entity<ParVcVal>(entity =>
+            {
+                entity.ToTable("Par_vc_Val");
+
+                entity.Property(e => e.Id)
+                    .HasMaxLength(255)
+                    .HasColumnName("ID");
+
+                entity.Property(e => e.Cmc)
+                    .HasMaxLength(255)
+                    .HasColumnName("CMC");
+
+                entity.Property(e => e.F1).HasColumnName("f1");
+
+                entity.Property(e => e.F2).HasColumnName("f2");
+
+                entity.Property(e => e.Mc)
+                    .HasMaxLength(255)
+                    .HasColumnName("MC");
+
+                entity.Property(e => e.SsmaTimeStamp)
+                    .IsRequired()
+                    .IsRowVersion()
+                    .IsConcurrencyToken()
+                    .HasColumnName("SSMA_TimeStamp");
+            });
+
             modelBuilder.Entity<QTurningTool>(entity =>
             {
                 entity.HasNoKey();
@@ -339,6 +606,66 @@ namespace AlgorytmDobieraniaZasobowProdukcyjnych.Models
                 entity.Property(e => e.Tree)
                     .HasMaxLength(50)
                     .IsUnicode(false);
+            });
+
+            modelBuilder.Entity<RolledBarLen>(entity =>
+            {
+                entity.HasKey(e => e.Identyfikator)
+                    .HasName("RolledBarLen$PrimaryKey");
+
+                entity.ToTable("RolledBarLen");
+
+                entity.Property(e => e.Dmax).HasComment("Zakres średnic do max");
+
+                entity.Property(e => e.Dmin).HasComment("Zakres średnic od min");
+
+                entity.Property(e => e.Lmax).HasComment("Długość maksymalna pręta");
+
+                entity.Property(e => e.Lmin).HasComment("Długość minimalna pręta");
+            });
+
+            modelBuilder.Entity<RolledBarsDiam>(entity =>
+            {
+                entity.HasKey(e => e.D)
+                    .HasName("RolledBarsDiam$D");
+
+                entity.ToTable("RolledBarsDiam");
+
+                entity.Property(e => e.D).ValueGeneratedNever();
+
+                entity.Property(e => e.SsmaTimeStamp)
+                    .IsRequired()
+                    .IsRowVersion()
+                    .IsConcurrencyToken()
+                    .HasColumnName("SSMA_TimeStamp");
+            });
+
+            modelBuilder.Entity<RolledBarsTol>(entity =>
+            {
+                entity.HasKey(e => e.Identyfikator)
+                    .HasName("RolledBarsTol$Identyfikator");
+
+                entity.ToTable("RolledBarsTol");
+
+                entity.Property(e => e.SsmaTimeStamp)
+                    .IsRequired()
+                    .IsRowVersion()
+                    .IsConcurrencyToken()
+                    .HasColumnName("SSMA_TimeStamp");
+            });
+
+            modelBuilder.Entity<Tolerance>(entity =>
+            {
+                entity.HasKey(e => e.Identyfikator)
+                    .HasName("Tolerances$Identyfikator");
+
+                entity.Property(e => e.Itc).HasColumnName("ITC");
+
+                entity.Property(e => e.SsmaTimeStamp)
+                    .IsRequired()
+                    .IsRowVersion()
+                    .IsConcurrencyToken()
+                    .HasColumnName("SSMA_TimeStamp");
             });
 
             modelBuilder.Entity<TreeOfCuttingTool>(entity =>
@@ -606,6 +933,126 @@ namespace AlgorytmDobieraniaZasobowProdukcyjnych.Models
                 entity.Property(e => e.Mc)
                     .HasMaxLength(12)
                     .HasColumnName("MC");
+            });
+
+            modelBuilder.Entity<TurnAllowCentrFn>(entity =>
+            {
+                entity.HasKey(e => e.Ida)
+                    .HasName("TurnAllowCentr_FN$Identyfikator");
+
+                entity.ToTable("TurnAllowCentr_FN");
+
+                entity.Property(e => e.Ida).HasColumnName("IDA");
+
+                entity.Property(e => e.It).HasColumnName("IT");
+
+                entity.Property(e => e.Ra).HasColumnName("RA");
+
+                entity.Property(e => e.SsmaTimeStamp)
+                    .IsRequired()
+                    .IsRowVersion()
+                    .IsConcurrencyToken()
+                    .HasColumnName("SSMA_TimeStamp");
+            });
+
+            modelBuilder.Entity<TurnAllowCentrMt>(entity =>
+            {
+                entity.HasKey(e => e.Ida)
+                    .HasName("TurnAllowCentr_MT$Identyfikator");
+
+                entity.ToTable("TurnAllowCentr_MT");
+
+                entity.Property(e => e.Ida).HasColumnName("IDA");
+
+                entity.Property(e => e.It).HasColumnName("IT");
+
+                entity.Property(e => e.Ra).HasColumnName("RA");
+
+                entity.Property(e => e.SsmaTimeStamp)
+                    .IsRequired()
+                    .IsRowVersion()
+                    .IsConcurrencyToken()
+                    .HasColumnName("SSMA_TimeStamp");
+            });
+
+            modelBuilder.Entity<TurnAllowCentrRg>(entity =>
+            {
+                entity.HasKey(e => e.Ida)
+                    .HasName("TurnAllowCentr_RG$Identyfikator");
+
+                entity.ToTable("TurnAllowCentr_RG");
+
+                entity.Property(e => e.Ida).HasColumnName("IDA");
+
+                entity.Property(e => e.It).HasColumnName("IT");
+
+                entity.Property(e => e.Ra).HasColumnName("RA");
+
+                entity.Property(e => e.SsmaTimeStamp)
+                    .IsRequired()
+                    .IsRowVersion()
+                    .IsConcurrencyToken()
+                    .HasColumnName("SSMA_TimeStamp");
+            });
+
+            modelBuilder.Entity<TurnAllowChuckFn>(entity =>
+            {
+                entity.HasKey(e => e.Ida)
+                    .HasName("TurnAllowChuck_FN$Identyfikator");
+
+                entity.ToTable("TurnAllowChuck_FN");
+
+                entity.Property(e => e.Ida).HasColumnName("IDA");
+
+                entity.Property(e => e.It).HasColumnName("IT");
+
+                entity.Property(e => e.Ra).HasColumnName("RA");
+
+                entity.Property(e => e.SsmaTimeStamp)
+                    .IsRequired()
+                    .IsRowVersion()
+                    .IsConcurrencyToken()
+                    .HasColumnName("SSMA_TimeStamp");
+            });
+
+            modelBuilder.Entity<TurnAllowChuckMt>(entity =>
+            {
+                entity.HasKey(e => e.Ida)
+                    .HasName("TurnAllowChuck_MT$Identyfikator");
+
+                entity.ToTable("TurnAllowChuck_MT");
+
+                entity.Property(e => e.Ida).HasColumnName("IDA");
+
+                entity.Property(e => e.It).HasColumnName("IT");
+
+                entity.Property(e => e.Ra).HasColumnName("RA");
+
+                entity.Property(e => e.SsmaTimeStamp)
+                    .IsRequired()
+                    .IsRowVersion()
+                    .IsConcurrencyToken()
+                    .HasColumnName("SSMA_TimeStamp");
+            });
+
+            modelBuilder.Entity<TurnAllowChuckRg>(entity =>
+            {
+                entity.HasKey(e => e.Ida)
+                    .HasName("TurnAllowChuck_RG$Identyfikator");
+
+                entity.ToTable("TurnAllowChuck_RG");
+
+                entity.Property(e => e.Ida).HasColumnName("IDA");
+
+                entity.Property(e => e.It).HasColumnName("IT");
+
+                entity.Property(e => e.Ra).HasColumnName("RA");
+
+                entity.Property(e => e.SsmaTimeStamp)
+                    .IsRequired()
+                    .IsRowVersion()
+                    .IsConcurrencyToken()
+                    .HasColumnName("SSMA_TimeStamp");
             });
 
             modelBuilder.Entity<TurnToolTab>(entity =>
