@@ -4,5 +4,67 @@
     ViewData["Title"] = "Algorithm";
 }
 
+@section Scripts
+{
+    <script type="text/javascript">
+        function addStopnieFields() {
+            var number = document.getElementById("N").value;
+            var container = document.getElementById("stopnie");
+
+            while (container.hasChildNodes()) {
+                container.removeChild(container.lastChild);
+            }
+
+            for (i = 0; i < number; i++) {
+                container.appendChild(document.createTextNode("Stopień " + (i + 1)));
+                container.appendChild(document.createElement("br"));
+
+                container.appendChild(document.createTextNode("Średnica stopnia: "));
+                var input = document.createElement("input");
+                input.type = "text";
+                input.name = "stopienSr" + i;
+                input.id = "stopienSr" + i;
+                container.appendChild(input);
+
+                container.appendChild(document.createTextNode("Długość stopnia: "));
+                var input = document.createElement("input");
+                input.type = "text";
+                input.name = "stopienDl" + i;
+                input.id = "stopienDl" + i;
+                container.appendChild(input);
+
+                container.appendChild(document.createTextNode("Tolerancja stopnia: "));
+                var input = document.createElement("input");
+                input.type = "text";
+                input.name = "stopienT" + i;
+                input.id = "stopienT" + i;
+                container.appendChild(input);
+
+                container.appendChild(document.createElement("br"));
+            }
+        }
+    </script>
+}
+
+
 <h1>Algorithm</h1>
+
+<div>
+    <form action="/" method="post">
+        <label>Wprowadź parametry geometryczne wałka:</label><br />
+        <label for="srC">Średnica całkowita: </label>
+        <input type="text" name="srC" value="" />
+
+        <label for="dlC">Długość całkowita: </label>
+        <input type="text" name="dlC" value="" />
+        <br />
+        <label for="N">Wprowadź liczbę stopni wału: </label>
+        <input type="text" id="N" name="N" value="" />
+        <a href="#" id="filldetails" onclick="addStopnieFields()">Fill details</a>
+        <div id="stopnie">
+
+        </div>
+    </form>
+</div>
+
 
