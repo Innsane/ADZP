@@ -46,6 +46,7 @@ namespace AlgorytmDobieraniaZasobowProdukcyjnych.Models
         public virtual DbSet<TurnAllowChuckMt> TurnAllowChuckMts { get; set; }
         public virtual DbSet<TurnAllowChuckRg> TurnAllowChuckRgs { get; set; }
         public virtual DbSet<TurnToolTab> TurnToolTabs { get; set; }
+        public virtual DbSet<Walki> Walkis { get; set; }
         public virtual DbSet<WiertlaDat> WiertlaDats { get; set; }
         public virtual DbSet<WiertlaTab> WiertlaTabs { get; set; }
 
@@ -1082,6 +1083,30 @@ namespace AlgorytmDobieraniaZasobowProdukcyjnych.Models
                 entity.Property(e => e.ShankCode).HasMaxLength(255);
 
                 entity.Property(e => e.Tooling).HasMaxLength(255);
+            });
+
+            modelBuilder.Entity<Walki>(entity =>
+            {
+                entity.ToTable("Walki");
+
+                entity.Property(e => e.Id)
+                    .ValueGeneratedNever()
+                    .HasColumnName("ID");
+
+                entity.Property(e => e.Di).HasColumnName("DI");
+
+                entity.Property(e => e.Li).HasColumnName("LI");
+
+                entity.Property(e => e.Material)
+                    .HasMaxLength(20)
+                    .IsFixedLength(true);
+
+                entity.Property(e => e.Nazwa)
+                    .IsRequired()
+                    .HasMaxLength(10)
+                    .IsFixedLength(true);
+
+                entity.Property(e => e.Ti).HasColumnName("TI");
             });
 
             modelBuilder.Entity<WiertlaDat>(entity =>

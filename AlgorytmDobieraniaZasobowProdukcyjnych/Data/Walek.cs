@@ -406,6 +406,50 @@ namespace AlgorytmDobieraniaZasobowProdukcyjnych.Data
             }
         }
 
-        
+        public void GetWalekByName(string name)
+        {
+            var query = from l in db.Walkis
+                        where l.Nazwa == name
+                        orderby l.N ascending
+                        select l;
+
+            var list = query.ToList();
+            SetWalek(list);
+        }
+
+        public void SetWalek(List<Walki> dane)
+        {
+            DlugoscStopnia = new List<double>();
+            SrednicaStopnia = new List<double>();
+            KlasaTolerancji = new List<int>();
+            foreach (var stopien in dane)
+            {
+                if(stopien.Di > Srednica)
+                {
+                    Srednica = stopien.Di;
+                }
+                Dlugosc += stopien.Li;
+                DlugoscStopnia.Add(stopien.Li);
+                SrednicaStopnia.Add(stopien.Di);
+                KlasaTolerancji.Add(stopien.Ti);
+            }
+            Material = dane[0].Material;
+            Stopnie = dane.Count;
+            TPO = new List<double>();
+            KO = new List<double>();
+            IZ = new List<int>();
+            DFN = new List<double>();
+            DMT = new List<double>();
+            DRG = new List<double>();
+            APMAX = new List<double>();
+        }
+
+        public List<string> GetWalkiName()
+        {
+            var query = from l in db.Walkis
+                        select l.Nazwa;
+            var list = query.Distinct().ToList();
+            return list;
+        }
     }
 }

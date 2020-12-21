@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc.RazorPages;
+﻿using AlgorytmDobieraniaZasobowProdukcyjnych.Models;
+using Microsoft.AspNetCore.Mvc.RazorPages;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,7 +10,10 @@ namespace AlgorytmDobieraniaZasobowProdukcyjnych.Data
     public interface IWalek
     {
         public void SetWalek(DaneWalka dane);
+        public void SetWalek(List<Walki> dane);
         public void Calculate();
         public DaneWalkaDoTabel GetData();
+        public void GetWalekByName(string name);
+        public List<string> GetWalkiName();
     }
 }

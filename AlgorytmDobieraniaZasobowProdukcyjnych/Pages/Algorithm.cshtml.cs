@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using AlgorytmDobieraniaZasobowProdukcyjnych.Data;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Primitives;
 
@@ -23,9 +24,20 @@ namespace AlgorytmDobieraniaZasobowProdukcyjnych.Pages
 
         public IWalek Walek { get; }
         public DaneWalkaDoTabel Dane { get; }
+        [BindProperty]
+        public string Name { get; set; }
+        public List<string> Names { get; set; }
+        public List<SelectListItem> Options { get; set; }
 
         public void OnGet()
         {
+            Names = Walek.GetWalkiName();
+            Options = new List<SelectListItem>();
+            foreach (var name in Names)
+            {
+                Options.Add(new SelectListItem { Value = name, Text = name });
+            }
+            
         }
 
         public IActionResult OnPost()
@@ -53,6 +65,16 @@ namespace AlgorytmDobieraniaZasobowProdukcyjnych.Pages
             Dane.Dane(Walek.GetData());
 
             return RedirectToPage("Tabela"); 
+        }
+
+        public IActionResult OnPostWalekSql()
+        {
+            Walek.GetWalekByName(Name);
+
+            Walek.Calculate();
+            Dane.Dane(Walek.GetData());
+
+            return RedirectToPage("Tabela");
         }
     }
 }
