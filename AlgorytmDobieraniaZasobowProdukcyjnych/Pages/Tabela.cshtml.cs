@@ -10,9 +10,20 @@ namespace AlgorytmDobieraniaZasobowProdukcyjnych.Pages
 {
     public class TabelaModel : PageModel
     {
-        public Walek walek { set; get; }
-        public void OnGet(Walek walek)
+        private IWalek Walek;
+
+        public TabelaModel(IWalek walek, DaneWalkaDoTabel dane)
         {
+            Walek = walek;
+            Dane = dane;
+        }
+
+        public DaneWalkaDoTabel Data { get; set; }
+        public DaneWalkaDoTabel Dane { get; }
+
+        public void OnGet()
+        {
+            Data = Dane;
         }
     }
 }

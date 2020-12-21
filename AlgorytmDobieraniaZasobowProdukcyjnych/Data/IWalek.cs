@@ -10,5 +10,6 @@ namespace AlgorytmDobieraniaZasobowProdukcyjnych.Data
     {
         public void SetWalek(DaneWalka dane);
         public void Calculate();
+        public DaneWalkaDoTabel GetData();
     }
 }

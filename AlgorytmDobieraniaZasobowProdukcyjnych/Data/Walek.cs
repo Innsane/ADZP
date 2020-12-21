@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Threading.Tasks;
 
 namespace AlgorytmDobieraniaZasobowProdukcyjnych.Data
@@ -13,6 +14,101 @@ namespace AlgorytmDobieraniaZasobowProdukcyjnych.Data
         public Walek(MfgResourcesContext db)
         {
             this.db = db;
+        }
+
+        public DaneWalkaDoTabel GetData()
+        {
+            var list = new List<object>
+            {
+                Srednica,
+                SRC,
+                Dlugosc,
+                DLC,
+                Material,
+                GestoscMaterialu,
+                Stopnie,
+                S,
+                O,
+                MPO,
+                MPF,
+                MW,
+                DSR,
+                SRPF,
+                DLPF,
+                QRG,
+                QMT,
+                QFN,
+                QLRG,
+                QLMT
+            };
+
+            var atname = new List<string>
+            {
+                nameof(Srednica),
+                nameof(SRC),
+                nameof(Dlugosc),
+                nameof(DLC),
+                nameof(Material),
+                nameof(GestoscMaterialu),
+                nameof(Stopnie),
+                nameof(S),
+                nameof(O),
+                nameof(MPO),
+                nameof(MPF),
+                nameof(MW),
+                nameof(DSR),
+                nameof(SRPF),
+                nameof(DLPF),
+                nameof(QRG),
+                nameof(QMT),
+                nameof(QFN),
+                nameof(QLRG),
+                nameof(QLMT)
+            };
+
+            var stopienWalu = new List<int>();
+            for (int i = 0; i < Stopnie; i++)
+            {
+                stopienWalu.Add(i + 1);
+            }
+            var listList = new List<object[]>
+            {
+                stopienWalu.Cast<object>().ToArray(),
+                DlugoscStopnia.Cast<object>().ToArray(),
+                SrednicaStopnia.Cast<object>().ToArray(),
+                KlasaTolerancji.Cast<object>().ToArray(),
+                TPO.Cast<object>().ToArray(),
+                KO.Cast<object>().ToArray(),
+                IZ.Cast<object>().ToArray(),
+                DFN.Cast<object>().ToArray(),
+                DMT.Cast<object>().ToArray(),
+                DRG.Cast<object>().ToArray(),
+                APMAX.Cast<object>().ToArray()
+            };
+
+            var listname = new List<string>
+            {
+                "Stopien walu",
+                nameof(DlugoscStopnia),
+                nameof(SrednicaStopnia),
+                nameof(KlasaTolerancji),
+                nameof(TPO),
+                nameof(KO),
+                nameof(IZ),
+                nameof(DFN),
+                nameof(DMT),
+                nameof(DRG),
+                nameof(APMAX)
+            };
+
+
+            return new DaneWalkaDoTabel
+            {
+                AtributeValue = list,
+                ListValue = listList,
+                AtributeName = atname,
+                ListName = listname
+            };
         }
 
         public void SetWalek(DaneWalka dane)
@@ -56,36 +152,36 @@ namespace AlgorytmDobieraniaZasobowProdukcyjnych.Data
             MaxSkrawanie();
         }
 
-        //obliczone
-        public double S { get; set; } //smuklosc
-        public double VPO { get; set; } //objetosc walu
-        public double VPF { get; set; } //objetosc polfabrykatu
-        public double O { get; set; } //zmiana objetosci
-        public double MPO { get; set; } //masa PO
-        public double MPF { get; set; } //masa PF
-        public double MW { get; set; } //masa wiorow
-        public double TPF { get; set; } //tolerancja polfabrykatu
-        public double DSR { get; set; } //srednia srednica
-        public double SRPF { get; set; } //srednica calkowita polfabrykatu
-        public double DLPF { get; set; } //dlugosc calkowita polfabrykatu
+        ////obliczone
+        //public double S { get; set; } //smuklosc
+        //public double VPO { get; set; } //objetosc walu
+        //public double VPF { get; set; } //objetosc polfabrykatu
+        //public double O { get; set; } //zmiana objetosci
+        //public double MPO { get; set; } //masa PO
+        //public double MPF { get; set; } //masa PF
+        //public double MW { get; set; } //masa wiorow
+        //public double TPF { get; set; } //tolerancja polfabrykatu
+        //public double DSR { get; set; } //srednia srednica
+        //public double SRPF { get; set; } //srednica calkowita polfabrykatu
+        //public double DLPF { get; set; } //dlugosc calkowita polfabrykatu
 
 
-        public List<double> TPO { get; set; } //tolerancje stopni
-        public List<double> KO { get; set; }  //wskaznik wzrostu dokaldnosci stopni
-        public List<int> IZ { get; set; }  //liczba operacji (1 - tylko zgrubna 2 - zgrubna ksztaltujaca 3 - zgruba ksztaltujaca wykanczajaca)
-        public List<double> DFN { get; set; } //srednica przed wykonwcza
-        public List<double> DMT { get; set; } //srednica przed ksztaltujaca
-        public List<double> DRG { get; set; } //srednica przed zgrubna
-        public List<double> APMAX { get; set; } //maksymalna dlugosc skrawania
+        //public List<double> TPO { get; set; } //tolerancje stopni
+        //public List<double> KO { get; set; }  //wskaznik wzrostu dokaldnosci stopni
+        //public List<int> IZ { get; set; }  //liczba operacji (1 - tylko zgrubna 2 - zgrubna ksztaltujaca 3 - zgruba ksztaltujaca wykanczajaca)
+        //public List<double> DFN { get; set; } //srednica przed wykonwcza
+        //public List<double> DMT { get; set; } //srednica przed ksztaltujaca
+        //public List<double> DRG { get; set; } //srednica przed zgrubna
+        //public List<double> APMAX { get; set; } //maksymalna dlugosc skrawania
 
-        //z tabeli w SQL SERVER
-        public double QFN { get; set; }
-        public double QMT { get; set; }
-        public double QRG { get; set; }
-        public double QLMT { get; set; }
-        public double QLRG { get; set; }
-        public double SRC { get; set; }
-        public double DLC { get; set; }
+        ////z tabeli w SQL SERVER
+        //public double QFN { get; set; }
+        //public double QMT { get; set; }
+        //public double QRG { get; set; }
+        //public double QLMT { get; set; }
+        //public double QLRG { get; set; }
+        //public double SRC { get; set; }
+        //public double DLC { get; set; }
 
         //smuklosc
         private void Smuklosc()
@@ -309,5 +405,7 @@ namespace AlgorytmDobieraniaZasobowProdukcyjnych.Data
                 index++;
             }
         }
+
+        
     }
 }

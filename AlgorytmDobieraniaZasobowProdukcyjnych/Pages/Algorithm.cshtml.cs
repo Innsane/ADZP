@@ -14,13 +14,15 @@ namespace AlgorytmDobieraniaZasobowProdukcyjnych.Pages
     {
         private readonly IConfiguration config;
 
-        public AlgorithmModel(IConfiguration config, IWalek walek)
+        public AlgorithmModel(IConfiguration config, IWalek walek, DaneWalkaDoTabel dane)
         {
             this.config = config;
             Walek = walek;
+            Dane = dane;
         }
 
         public IWalek Walek { get; }
+        public DaneWalkaDoTabel Dane { get; }
 
         public void OnGet()
         {
@@ -48,8 +50,9 @@ namespace AlgorytmDobieraniaZasobowProdukcyjnych.Pages
 
             Walek.SetWalek(dane);
             Walek.Calculate();
+            Dane.Dane(Walek.GetData());
 
-            return RedirectToPage("Tabela", Walek);
+            return RedirectToPage("Tabela"); 
         }
     }
 }
