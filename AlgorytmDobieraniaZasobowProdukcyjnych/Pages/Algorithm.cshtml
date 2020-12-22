@@ -52,8 +52,12 @@
     <form method="post" asp-page-handler="WalekSql">
         @Html.AntiForgeryToken()
         <label>Wybierz wałek do obliczeń z listy: </label>
-        <select name="name" asp-items="Model.Options">
+        <select name="name" asp-items="Model.NamesOptions">
             <option value="">Wybierz wałek</option>
+        </select>
+        <label>Wybierz obrabiarke: </label>
+        <select name="lathe" asp-items="Model.LathesOptions">
+            <option value="">Wybierz obrabiarke</option>
         </select>
         <input type="submit" value="Zatwierdź" />
     </form>
@@ -62,12 +66,22 @@
 <div>
     <form method="post">
         @Html.AntiForgeryToken()
+        <label>Wybierz obrabiarke: </label>
+        <select name="lathe" asp-items="Model.LathesOptions">
+            <option value="">Wybierz obrabiarke</option>
+        </select>
         <label>Wprowadź parametry geometryczne wałka:</label><br />
         <label for="srC">Średnica całkowita: </label>
         <input type="text" name="srC" value="" />
 
         <label for="dlC">Długość całkowita: </label>
         <input type="text" name="dlC" value="" />
+
+        <label>Wybierz materiał wałka: </label>
+        <select name="material" asp-items="Model.MaterialOptions">
+            <option value="">Wybierz materiał</option>
+        </select>
+
         <br />
         <label for="N">Wprowadź liczbę stopni wału: </label>
         <input type="text" id="N" name="N" value="" />
@@ -76,7 +90,7 @@
 
         </div>
 
-        <input type="submit" value="Zatwierdź"/>
+        <input type="submit" value="Zatwierdź" />
     </form>
 </div>
 

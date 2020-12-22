@@ -37,6 +37,7 @@ namespace AlgorytmDobieraniaZasobowProdukcyjnych
             services.AddScoped<DataTableViewModel>();
             services.AddScoped<IWalek, Walek>();
             services.AddSingleton<DaneWalkaDoTabel>();
+            services.AddScoped<IRepository, Repository>();
             services.AddRazorPages();
             JsonConvert.DefaultSettings = () => new JsonSerializerSettings
             {

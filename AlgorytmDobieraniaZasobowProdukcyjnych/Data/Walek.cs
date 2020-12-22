@@ -334,24 +334,25 @@ namespace AlgorytmDobieraniaZasobowProdukcyjnych.Data
 
         private void NaddatkiDlugosc()
         {
-            var RG = from l in db.TurnAllowChuckRgs
+            var RG = from l in db.FaceAllows
                      where l.Lmax > Dlugosc && l.Lmin <= Dlugosc &&
-                           l.Dmax > DSR && l.Dmin <= DSR
+                           l.Dmax > DSR && l.Dmin <= DSR && l.Range == "RG"
                      select l.Qnom;
 
-            var MT = from l in db.TurnAllowChuckMts
+            var MT = from l in db.FaceAllows
                      where l.Lmax > Dlugosc && l.Lmin <= Dlugosc &&
-                           l.Dmax > DSR && l.Dmin <= DSR
+                           l.Dmax > DSR && l.Dmin <= DSR && l.Range == "MT"
                      select l.Qnom;
+
             if(MT.ToList().Count == 0)
             {
-                QLMT = 2;
-                QLRG = 2;
+                QLMT = 1;
+                QLRG = 1;
             }
             else
             {
-                QLMT = (double)MT.ToList()[0];
-                QLRG = (double)RG.ToList()[0];
+                QLMT = (double)MT.ToList().First();
+                QLRG = (double)RG.ToList().First();
             }
             
         }
@@ -439,7 +440,8 @@ namespace AlgorytmDobieraniaZasobowProdukcyjnych.Data
 
         public void SetWalek(List<Walki> dane)
         {
-            Image = dane[0].Nazwa;
+            Image = dane.First().Nazwa;
+            Material = dane.First().Material;
             DlugoscStopnia = new List<double>();
             SrednicaStopnia = new List<double>();
             KlasaTolerancji = new List<int>();
@@ -454,7 +456,6 @@ namespace AlgorytmDobieraniaZasobowProdukcyjnych.Data
                 SrednicaStopnia.Add(stopien.Di);
                 KlasaTolerancji.Add(stopien.Ti);
             }
-            Material = dane[0].Material;
             Stopnie = dane.Count;
             TPO = new List<double>();
             KO = new List<double>();
@@ -470,6 +471,14 @@ namespace AlgorytmDobieraniaZasobowProdukcyjnych.Data
             var query = from l in db.Walkis
                         select l.Nazwa;
             var list = query.Distinct().ToList();
+            return list;
+        }
+
+        public List<string> GetWalkiMaterial()
+        {
+            var query = from l in db.Materials
+                        select l.MatPn;
+            var list = query.ToList();
             return list;
         }
     }

@@ -14,7 +14,7 @@ namespace AlgorytmDobieraniaZasobowProdukcyjnych.Data
 
         }
 
-        public void Dane(DaneWalkaDoTabel dane)
+        public void SetDataToTable(DaneWalkaDoTabel dane)
         {
             AtributeValue = dane.AtributeValue;
             ListValue = dane.ListValue;
