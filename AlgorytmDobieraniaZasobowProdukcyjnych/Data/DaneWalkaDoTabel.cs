@@ -20,6 +20,7 @@ namespace AlgorytmDobieraniaZasobowProdukcyjnych.Data
             ListValue = dane.ListValue;
             AtributeName = dane.AtributeName;
             ListName = dane.ListName;
+            Image = dane.Image;
         }
 
         public List<object> AtributeValue { get; set; }
@@ -27,5 +28,7 @@ namespace AlgorytmDobieraniaZasobowProdukcyjnych.Data
 
         public List<object[]> ListValue { get; set; }
         public List<string> ListName { get; set; }
+
+        public string Image { get; set; }
     }
 }

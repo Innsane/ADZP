@@ -101,13 +101,13 @@ namespace AlgorytmDobieraniaZasobowProdukcyjnych.Data
                 nameof(APMAX)
             };
 
-
             return new DaneWalkaDoTabel
             {
                 AtributeValue = list,
                 ListValue = listList,
                 AtributeName = atname,
-                ListName = listname
+                ListName = listname,
+                Image = this.Image
             };
         }
 
@@ -186,7 +186,7 @@ namespace AlgorytmDobieraniaZasobowProdukcyjnych.Data
         //smuklosc
         private void Smuklosc()
         {
-            this.S = Dlugosc / Srednica;
+            S = Dlugosc / Srednica;
         }
 
         //zmiana objetosci walu
@@ -307,9 +307,29 @@ namespace AlgorytmDobieraniaZasobowProdukcyjnych.Data
                            l.Dmax > DSR && l.Dmin <= DSR
                      select l.Qnom;
 
-            QFN = (double)FN.ToList()[0];
-            QMT = (double)MT.ToList()[0];
-            QRG = (double)RG.ToList()[0];
+            var oldDlugosc = Dlugosc;
+            Dlugosc /= 2;
+            if ((double)FN.ToList().Count == 0)
+            {
+                 RG = from l in db.TurnAllowCentrRgs
+                         where l.Lmax > Dlugosc && l.Lmin <= Dlugosc &&
+                               l.Dmax > DSR && l.Dmin <= DSR
+                         select l.Qnom;
+
+                 MT = from l in db.TurnAllowCentrMts
+                         where l.Lmax > Dlugosc && l.Lmin <= Dlugosc &&
+                               l.Dmax > DSR && l.Dmin <= DSR
+                         select l.Qnom;
+
+                 FN = from l in db.TurnAllowCentrFns
+                         where l.Lmax > Dlugosc && l.Lmin <= Dlugosc &&
+                               l.Dmax > DSR && l.Dmin <= DSR
+                         select l.Qnom;
+            }
+            Dlugosc = oldDlugosc;
+            QFN = (double)FN.ToList().First();
+            QMT = (double)MT.ToList().First();
+            QRG = (double)RG.ToList().First();
         }
 
         private void NaddatkiDlugosc()
@@ -419,6 +439,7 @@ namespace AlgorytmDobieraniaZasobowProdukcyjnych.Data
 
         public void SetWalek(List<Walki> dane)
         {
+            Image = dane[0].Nazwa;
             DlugoscStopnia = new List<double>();
             SrednicaStopnia = new List<double>();
             KlasaTolerancji = new List<int>();

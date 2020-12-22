@@ -47,10 +47,10 @@
 }
 
 
-<h1>Algorithm</h1>
+
 <div>
     <form method="post" asp-page-handler="WalekSql">
-        @Html.AntiForgeryToken();
+        @Html.AntiForgeryToken()
         <label>Wybierz wałek do obliczeń z listy: </label>
         <select name="name" asp-items="Model.Options">
             <option value="">Wybierz wałek</option>
@@ -58,10 +58,10 @@
         <input type="submit" value="Zatwierdź" />
     </form>
 </div>
-
+<h3>LUB</h3>
 <div>
     <form method="post">
-        @Html.AntiForgeryToken();
+        @Html.AntiForgeryToken()
         <label>Wprowadź parametry geometryczne wałka:</label><br />
         <label for="srC">Średnica całkowita: </label>
         <input type="text" name="srC" value="" />
@@ -71,7 +71,7 @@
         <br />
         <label for="N">Wprowadź liczbę stopni wału: </label>
         <input type="text" id="N" name="N" value="" />
-        <a href="#" id="filldetails" onclick="addStopnieFields()">Fill details</a>
+        <a href="#" id="filldetails" onclick="addStopnieFields()">Pokaż stopnie wału</a>
         <div id="stopnie">
 
         </div>

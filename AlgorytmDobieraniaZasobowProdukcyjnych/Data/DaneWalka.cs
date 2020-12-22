@@ -8,6 +8,7 @@ namespace AlgorytmDobieraniaZasobowProdukcyjnych.Data
     public class DaneWalka
     {
         //wpisane
+        public string Image { get; set; }
         public double Dlugosc { get; set; }
         public double Srednica { get; set; }
         public string Material { get; set; }

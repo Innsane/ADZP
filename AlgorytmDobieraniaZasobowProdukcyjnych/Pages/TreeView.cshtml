@@ -3,7 +3,9 @@
 @{
     ViewData["Title"] = "TreeView";
 }
+
 @using AlgorytmDobieraniaZasobowProdukcyjnych.Models;
+
 @section Scripts
 {
     <script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
@@ -76,8 +78,8 @@ $(document).ready(function () {
 <label>Symbol wybranego zasobu: </label>
 <label id="lb"> </label>
 
-
 <form id="form" method="post">
+    <label>Klasa wybranych zasobów produkcyjnych: </label>
     <select name="picked" asp-for="Picked">
         @foreach (var resource in Model.Resources)
         {
@@ -86,16 +88,15 @@ $(document).ready(function () {
     </select>
     <input type="submit" id="submitName" value="Display" />
 </form>
-<br />
-<label>Nazwa wybranej tablicy: </label>
+
+<label>Nazwa wybranej tabeli: </label>
 <input type="text" id="tableName" disabled />
-<button id="tbButton">Load table</button>
 <br />
-<label>Obraz wybranej komorki: </label>
+<label>Nazwa obrazu dla wybranego narzędzia: </label>
 <input id="cellName" type="text" disabled />
 
 <button id="myModal" type="button" class="btn btn-primary" data-toggle="modal" data-target="#imgModal">
-    Obrazek
+    Pokaż
 </button>
 
 

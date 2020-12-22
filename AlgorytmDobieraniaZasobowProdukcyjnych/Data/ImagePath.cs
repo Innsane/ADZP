@@ -10,6 +10,4 @@ namespace AlgorytmDobieraniaZasobowProdukcyjnych.Data
         public string Path { get; set; }
         public string Path2D { get; set; }
     }
-
-
 }

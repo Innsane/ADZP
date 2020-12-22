@@ -4,8 +4,14 @@
     ViewData["Title"] = "Tabela";
 }
 
-<table style="font-size:0.9rem" ; text-align="center"
-       class="table table-bordered table-responsive">
+
+@if (!(Model.Image is null))
+{
+
+}
+
+<h2>Dane dla zasobu produkcyjnego klasy wał</h2>
+<table class="table table-bordered">
     <thead>
         <tr>
             @foreach (var info in Model.Data.AtributeName)
@@ -13,20 +19,22 @@
                 <td>@info</td>
             }
         </tr>
-    </thead>    
+    </thead>
     <tbody>
         <tr>
             @foreach (var value in Model.Data.AtributeValue)
             {
-                <td>@value</td>
+                <td>@string.Format("{0:0.00}", value)</td>
             }
         </tr>
     </tbody>
 
 </table>
-
-<table style="font-size:0.9rem" ; text-align="center"
-       class="table table-bordered">
+<br />
+<br />
+<br />
+<h2>Dane dla poszczególnych stopni wału</h2>
+<table class="table table-bordered">
     <thead>
         <tr>
             @foreach (var info in Model.Data.ListName)
@@ -39,12 +47,22 @@
     <tbody>
         @for (int i = 0; i < Model.Data.ListValue[0].Length; i++)
         {
-        <tr>
-            @foreach (var list in Model.Data.ListValue)
-            {
-                    <td>@list[i]</td>
-            }
-        </tr>
+
+            <tr>
+                @foreach (var list in Model.Data.ListValue)
+                {
+                    if (Model.Index == 0 || Model.Index == 3 || Model.Index == 4 || Model.Index == 6)
+                    {
+                        <td>@list[i]</td>
+                    }
+                    else
+                    {
+                        <td>@string.Format("{0:0.00}", list[i])</td>
+                    }
+                    Model.Index++;
+                }
+            </tr>
+            Model.Index = 0;
         }
     </tbody>
 
