@@ -12,7 +12,8 @@ namespace AlgorytmDobieraniaZasobowProdukcyjnych.Data
         public void SetWalek(DaneWalka dane);
         public void SetWalek(List<Walki> dane);
         public void Calculate();
-        public DaneWalkaDoTabel GetData();
+        public DaneWalkaDoTabel GetDataToTable();
+        public DaneWalka GetData();
         public void GetWalekByName(string name);
         public List<string> GetWalkiName();
         public List<string> GetWalkiMaterial();

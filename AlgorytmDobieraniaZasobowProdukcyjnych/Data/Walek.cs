@@ -16,7 +16,7 @@ namespace AlgorytmDobieraniaZasobowProdukcyjnych.Data
             this.db = db;
         }
 
-        public DaneWalkaDoTabel GetData()
+        public DaneWalkaDoTabel GetDataToTable()
         {
             var list = new List<object>
             {
@@ -129,6 +129,27 @@ namespace AlgorytmDobieraniaZasobowProdukcyjnych.Data
             APMAX = new List<double>();
         }
 
+        public DaneWalka GetData()
+        {
+            return new DaneWalka
+            {
+                Srednica = this.Srednica,
+                Dlugosc = this.Dlugosc,
+                Material = this.Material,
+                Stopnie = this.Stopnie,
+                DlugoscStopnia = this.DlugoscStopnia,
+                SrednicaStopnia = this.SrednicaStopnia,
+                KlasaTolerancji = this.KlasaTolerancji,
+                TPO = this.TPO,
+                KO = this.KO,
+                IZ = this.IZ,
+                DFN = this.DFN,
+                DMT = this.DMT,
+                DRG = this.DRG,
+                APMAX = this.APMAX
+            };
+        }
+
         public void Calculate()
         {
             Smuklosc();
@@ -195,7 +216,7 @@ namespace AlgorytmDobieraniaZasobowProdukcyjnych.Data
             var suma = 0.000000;
             for (int i = 0; i < Stopnie; i++)
             {
-                var x = (3.14 * DlugoscStopnia[i]/100 * SrednicaStopnia[i]/100 * SrednicaStopnia[i]/100);
+                var x = (3.14 * DlugoscStopnia[i] / 100 * SrednicaStopnia[i] / 100 * SrednicaStopnia[i] / 100);
                 suma += (x / 4);
             }
             VPO = suma;
@@ -203,7 +224,7 @@ namespace AlgorytmDobieraniaZasobowProdukcyjnych.Data
 
         private void ObjetoscPolfabrykatu()
         {
-            VPF = (3.14 * (Dlugosc/100) * (Srednica/100) * (Srednica/100)) / 4;
+            VPF = (3.14 * (Dlugosc / 100) * (Srednica / 100) * (Srednica / 100)) / 4;
         }
 
         private void ZmianaObjetosci()
@@ -248,7 +269,7 @@ namespace AlgorytmDobieraniaZasobowProdukcyjnych.Data
                             where l.Dmax >= srednica && l.Dmin < srednica && l.Itc == KlasaTolerancji[index]
                             select l.Tol;
 
-                TPO.Add((float)query.ToList()[0]*1000);
+                TPO.Add((float)query.ToList()[0] * 1000);
                 index++;
             }
         }
@@ -311,20 +332,20 @@ namespace AlgorytmDobieraniaZasobowProdukcyjnych.Data
             Dlugosc /= 2;
             if ((double)FN.ToList().Count == 0)
             {
-                 RG = from l in db.TurnAllowCentrRgs
-                         where l.Lmax > Dlugosc && l.Lmin <= Dlugosc &&
-                               l.Dmax > DSR && l.Dmin <= DSR
-                         select l.Qnom;
+                RG = from l in db.TurnAllowCentrRgs
+                     where l.Lmax > Dlugosc && l.Lmin <= Dlugosc &&
+                           l.Dmax > DSR && l.Dmin <= DSR
+                     select l.Qnom;
 
-                 MT = from l in db.TurnAllowCentrMts
-                         where l.Lmax > Dlugosc && l.Lmin <= Dlugosc &&
-                               l.Dmax > DSR && l.Dmin <= DSR
-                         select l.Qnom;
+                MT = from l in db.TurnAllowCentrMts
+                     where l.Lmax > Dlugosc && l.Lmin <= Dlugosc &&
+                           l.Dmax > DSR && l.Dmin <= DSR
+                     select l.Qnom;
 
-                 FN = from l in db.TurnAllowCentrFns
-                         where l.Lmax > Dlugosc && l.Lmin <= Dlugosc &&
-                               l.Dmax > DSR && l.Dmin <= DSR
-                         select l.Qnom;
+                FN = from l in db.TurnAllowCentrFns
+                     where l.Lmax > Dlugosc && l.Lmin <= Dlugosc &&
+                           l.Dmax > DSR && l.Dmin <= DSR
+                     select l.Qnom;
             }
             Dlugosc = oldDlugosc;
             QFN = (double)FN.ToList().First();
@@ -344,7 +365,7 @@ namespace AlgorytmDobieraniaZasobowProdukcyjnych.Data
                            l.Dmax > DSR && l.Dmin <= DSR && l.Range == "MT"
                      select l.Qnom;
 
-            if(MT.ToList().Count == 0)
+            if (MT.ToList().Count == 0)
             {
                 QLMT = 1;
                 QLRG = 1;
@@ -354,7 +375,7 @@ namespace AlgorytmDobieraniaZasobowProdukcyjnych.Data
                 QLMT = (double)MT.ToList().First();
                 QLRG = (double)RG.ToList().First();
             }
-            
+
         }
 
         private void SrednicaPolfabrykatu()
@@ -391,11 +412,11 @@ namespace AlgorytmDobieraniaZasobowProdukcyjnych.Data
             {
                 if (IZ[index] == 1)
                 {
-                    DMT.Add( srednica);
+                    DMT.Add(srednica);
                 }
                 else
                 {
-                    DMT.Add( DFN[index] + QMT);
+                    DMT.Add(DFN[index] + QMT);
                 }
                 index++;
             }
@@ -447,7 +468,7 @@ namespace AlgorytmDobieraniaZasobowProdukcyjnych.Data
             KlasaTolerancji = new List<int>();
             foreach (var stopien in dane)
             {
-                if(stopien.Di > Srednica)
+                if (stopien.Di > Srednica)
                 {
                     Srednica = stopien.Di;
                 }

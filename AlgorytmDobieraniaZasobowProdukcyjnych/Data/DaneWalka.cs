@@ -1,4 +1,5 @@
-﻿using System;
+﻿using AlgorytmDobieraniaZasobowProdukcyjnych.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -19,6 +20,9 @@ namespace AlgorytmDobieraniaZasobowProdukcyjnych.Data
         public List<double> DlugoscStopnia { get; set; }
         public List<double> SrednicaStopnia { get; set; }
         public List<int> KlasaTolerancji { get; set; }
+        public List<QTurningTool> ToolsRG { get; set; }
+        public List<QTurningTool> ToolsMT { get; set; }
+        public List<QTurningTool> ToolsFN { get; set; }
 
         //obliczone
         public double S { get; set; } //smuklosc

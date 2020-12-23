@@ -55,14 +55,18 @@
         <select name="name" asp-items="Model.NamesOptions">
             <option value="">Wybierz wałek</option>
         </select>
+
         <label>Wybierz obrabiarke: </label>
         <select name="lathe" asp-items="Model.LathesOptions">
             <option value="">Wybierz obrabiarke</option>
         </select>
+
         <input type="submit" value="Zatwierdź" />
     </form>
 </div>
+
 <h3>LUB</h3>
+
 <div>
     <form method="post">
         @Html.AntiForgeryToken()

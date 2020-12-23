@@ -9,5 +9,8 @@ namespace AlgorytmDobieraniaZasobowProdukcyjnych.Data
     public interface IRepository
     {
         public IEnumerable<Lathe> GetObrabiarki();
+        public IEnumerable<Lathe> GetObrabiarki(string name);
+        public IEnumerable<TurnToolTab> GetTools(Lathe lathe, string zabieg);
+        public List<QTurningTool> GetTurningTools(IEnumerable<TurnToolTab> tools, Lathe lathe);
     }
 }
