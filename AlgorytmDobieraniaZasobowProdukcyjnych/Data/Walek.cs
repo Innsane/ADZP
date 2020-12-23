@@ -330,7 +330,8 @@ namespace AlgorytmDobieraniaZasobowProdukcyjnych.Data
 
             var oldDlugosc = Dlugosc;
             Dlugosc /= 2;
-            if ((double)FN.ToList().Count == 0)
+            var any = FN.Any();
+            if (!(FN.Any() || MT.Any() || RG.Any()))
             {
                 RG = from l in db.TurnAllowCentrRgs
                      where l.Lmax > Dlugosc && l.Lmin <= Dlugosc &&

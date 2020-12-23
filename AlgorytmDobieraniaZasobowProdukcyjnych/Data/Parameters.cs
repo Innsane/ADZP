@@ -15,12 +15,7 @@ namespace AlgorytmDobieraniaZasobowProdukcyjnych.Data
 
         public void CalculateParameters()
         {
-            foreach (var turning in Turnings)
-            {
-                var parameter = new Parameter(Walek, Lathe, turning);
-                parameter.Calculate();
-                ParaList.Add(parameter);
-            }
+ 
         }
     }
 }

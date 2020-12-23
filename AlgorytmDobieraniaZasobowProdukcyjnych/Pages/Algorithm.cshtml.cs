@@ -15,15 +15,17 @@ namespace AlgorytmDobieraniaZasobowProdukcyjnych.Pages
     {
         private readonly IRepository repository;
 
-        public AlgorithmModel(IWalek walek, IRepository repository, DaneWalkaDoTabel dane, DaneWalka daneWalka)
+        public AlgorithmModel(IWalek walek, IParameter parameter, IRepository repository, DaneWalkaDoTabel dane, DaneWalka daneWalka)
         {
             Walek = walek;
+            Parameter = parameter;
             this.repository = repository;
             DataToTable = dane;
             DaneWalka = daneWalka;
         }
 
         public IWalek Walek { get; }
+        public IParameter Parameter { get; }
         public DaneWalkaDoTabel DataToTable { get; }
         public DaneWalka DaneWalka { get; }
         [BindProperty]
@@ -99,11 +101,18 @@ namespace AlgorytmDobieraniaZasobowProdukcyjnych.Pages
         {
             Walek.GetWalekByName(Name);
             Walek.Calculate();
-            var walek = Walek.GetData();
 
+            var walek = Walek.GetData();
             var lathe = repository.GetObrabiarki(Lathe).First();
             var tools = repository.GetTools(lathe, "RG");
-            var turnings = repository.GetTurningTools(tools, lathe);
+            var cmc = repository.GetCmcMaterial(walek);
+            var grades = repository.GetGrades(cmc);
+            var turnings = repository.GetTurningTools(tools, lathe, walek, grades);
+            var listOfParameters = new List<Parameter>();
+            foreach (var turn in turnings)
+            {
+                listOfParameters.Add(Parameter.Calculate(walek, lathe, turn, cmc));
+            }
 
             DataToTable.SetDataToTable(Walek.GetDataToTable());
 

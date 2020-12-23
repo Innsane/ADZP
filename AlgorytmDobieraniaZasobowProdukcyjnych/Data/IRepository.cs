@@ -11,6 +11,8 @@ namespace AlgorytmDobieraniaZasobowProdukcyjnych.Data
         public IEnumerable<Lathe> GetObrabiarki();
         public IEnumerable<Lathe> GetObrabiarki(string name);
         public IEnumerable<TurnToolTab> GetTools(Lathe lathe, string zabieg);
-        public List<QTurningTool> GetTurningTools(IEnumerable<TurnToolTab> tools, Lathe lathe);
+        public List<QTurningTool> GetTurningTools(IEnumerable<TurnToolTab> tools, Lathe lathe, DaneWalka walek, List<string> grades);
+        public string GetCmcMaterial(DaneWalka walek);
+        public List<string> GetGrades(string cmc);
     }
 }

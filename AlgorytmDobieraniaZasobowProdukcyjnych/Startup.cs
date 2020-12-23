@@ -36,6 +36,7 @@ namespace AlgorytmDobieraniaZasobowProdukcyjnych
             services.AddScoped<TreeViewViewModel>();
             services.AddScoped<DataTableViewModel>();
             services.AddScoped<IWalek, Walek>();
+            services.AddScoped<IParameter, Parameter>();
             services.AddSingleton<DaneWalkaDoTabel>();
             services.AddScoped<IRepository, Repository>();
             services.AddSingleton<DaneWalka>();
