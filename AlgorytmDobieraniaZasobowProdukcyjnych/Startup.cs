@@ -40,6 +40,7 @@ namespace AlgorytmDobieraniaZasobowProdukcyjnych
             services.AddSingleton<DaneWalkaDoTabel>();
             services.AddScoped<IRepository, Repository>();
             services.AddSingleton<DaneWalka>();
+            services.AddScoped<IParameters, Parameters>();
             services.AddRazorPages();
             JsonConvert.DefaultSettings = () => new JsonSerializerSettings
             {

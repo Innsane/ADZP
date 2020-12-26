@@ -14,14 +14,16 @@ namespace AlgorytmDobieraniaZasobowProdukcyjnych.Pages
     public class AlgorithmModel : PageModel
     {
         private readonly IRepository repository;
+        private readonly IParameters parameters;
 
-        public AlgorithmModel(IWalek walek, IParameter parameter, IRepository repository, DaneWalkaDoTabel dane, DaneWalka daneWalka)
+        public AlgorithmModel(IWalek walek, IParameter parameter, IRepository repository, DaneWalkaDoTabel dane, DaneWalka daneWalka, IParameters parameters)
         {
             Walek = walek;
             Parameter = parameter;
             this.repository = repository;
             DataToTable = dane;
             DaneWalka = daneWalka;
+            this.parameters = parameters;
         }
 
         public IWalek Walek { get; }
@@ -108,15 +110,40 @@ namespace AlgorytmDobieraniaZasobowProdukcyjnych.Pages
             var cmc = repository.GetCmcMaterial(walek);
             var grades = repository.GetGrades(cmc);
             var turnings = repository.GetTurningTools(tools, lathe, walek, grades);
-            var listOfParameters = new List<Parameter>();
-            foreach (var turn in turnings)
-            {
-                listOfParameters.Add(Parameter.Calculate(walek, lathe, turn, cmc));
-            }
 
+            parameters.SetParameterList(walek, lathe, cmc, turnings);
+            parameters.Calculate();
+            //var listOfParameters = new List<Parameter>();
+            //for (int i = 0; i < turnings.Count; i++)
+            //{
+            //    var calculated = new Parameter();
+            //    calculated.Calculate(walek, lathe, turnings[i], cmc);
+            //    listOfParameters.Add(calculated);
+            //}
+            //foreach (var turn in turnings)
+            //{
+            //    listOfParameters.Add(Parameter.Calculate(walek, lathe, turn, cmc));
+            //}
+            //notes when comeback:
+            //add display of parameters to site
+            //check needed power if it extends power of lathe remove from list
+            //display only tools that can be used to this process
+            //SortListOfParameter(listOfParameters);
             DataToTable.SetDataToTable(Walek.GetDataToTable());
+            DataToTable.SetParameterToTable(parameters.GetParametersList());
 
             return RedirectToPage("Tabela");
+        }
+
+        private void SortListOfParameter(List<Parameter> listOfParameters)
+        {
+            for (int i = 0; i < listOfParameters.Count; i++)
+            {
+                if(listOfParameters[i].PE <= listOfParameters[i].PC)
+                {
+                    listOfParameters.RemoveAt(i);
+                }
+            }
         }
     }
 }

@@ -15,6 +15,10 @@ namespace AlgorytmDobieraniaZasobowProdukcyjnych.Data
             this.db = db;
         }
 
+        public Parameter()
+        {
+        }
+
         internal void SetParameter(DaneWalka walek, Lathe lathe, QTurningTool tool, string cmc)
         {
             Walek = walek;
@@ -24,7 +28,7 @@ namespace AlgorytmDobieraniaZasobowProdukcyjnych.Data
             CmcMaterial = cmc;
         }
 
-        public Parameter Calculate(DaneWalka walek, Lathe lathe, QTurningTool tool, string cmc)
+        public void Calculate(DaneWalka walek, Lathe lathe, QTurningTool tool, string cmc)
         {
             Walek = walek;
             Lathe = lathe;
@@ -43,8 +47,20 @@ namespace AlgorytmDobieraniaZasobowProdukcyjnych.Data
             DostepnaMoc();
             PotrzebnaMoc();
             CzasMaszynowy();
+        }
 
-            return this;
+        public void Calculate()
+        {
+            GlebokoscSkrawania();
+            Posuw();
+            PredkoscObrotowa();
+            WydajnoscObjetosciowa();
+            GruboscWiora();
+            OporWlasciwy();
+            GlownaSilaSkrawania();
+            DostepnaMoc();
+            PotrzebnaMoc();
+            CzasMaszynowy();
         }
 
         public DaneWalka Walek { get; set; }
@@ -67,7 +83,6 @@ namespace AlgorytmDobieraniaZasobowProdukcyjnych.Data
         public double PE { get; private set; } //dostepna moc [kW]
 
         
-
         public void GlebokoscSkrawania()
         {
             var toolAp = Convert.ToDouble(Tool.ApMax);
@@ -143,16 +158,12 @@ namespace AlgorytmDobieraniaZasobowProdukcyjnych.Data
 
         public void DostepnaMoc()
         {
-            PE = Convert.ToDouble(Lathe.P) * 0.75;
+            PE = Convert.ToDouble(Lathe.P) * 0.85;
         }
 
         public void PotrzebnaMoc()
         {
             PC = FC * VC / 60000;
-            if(PC>PE)
-            {
-
-            }
         }
 
         public void CzasMaszynowy()

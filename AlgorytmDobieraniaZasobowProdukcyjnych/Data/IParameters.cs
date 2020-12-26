@@ -6,8 +6,10 @@ using System.Threading.Tasks;
 
 namespace AlgorytmDobieraniaZasobowProdukcyjnych.Data
 {
-    public interface IParameter
+    public interface IParameters
     {
-        public void Calculate(DaneWalka walek, Lathe lathe, QTurningTool tool,string cmc);
+        public void SetParameterList(DaneWalka walek, Lathe lathe, string cmc, List<QTurningTool> turnings);
+        public void Calculate();
+        List<Parameter> GetParametersList();
     }
 }
