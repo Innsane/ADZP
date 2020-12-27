@@ -135,15 +135,15 @@ namespace AlgorytmDobieraniaZasobowProdukcyjnych.Pages
             return RedirectToPage("Tabela");
         }
 
-        private void SortListOfParameter(List<Parameter> listOfParameters)
-        {
-            for (int i = 0; i < listOfParameters.Count; i++)
-            {
-                if(listOfParameters[i].PE <= listOfParameters[i].PC)
-                {
-                    listOfParameters.RemoveAt(i);
-                }
-            }
-        }
+        //private void SortListOfParameter(List<Parameter> listOfParameters)
+        //{
+        //    for (int i = 0; i < listOfParameters.Count; i++)
+        //    {
+        //        if(listOfParameters[i].PE <= listOfParameters[i].PC)
+        //        {
+        //            listOfParameters.RemoveAt(i);
+        //        }
+        //    }
+        //}
     }
 }

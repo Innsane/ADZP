@@ -35,33 +35,56 @@ namespace AlgorytmDobieraniaZasobowProdukcyjnych.Data
             Tool = tool;
             Obrobka = "RG";
             CmcMaterial = cmc;
+            Stopien = 0;
 
-            GlebokoscSkrawania();
-            Posuw();
-            PredkoscSkrawania();
-            PredkoscObrotowa();
-            WydajnoscObjetosciowa();
-            GruboscWiora();
-            OporWlasciwy();
-            GlownaSilaSkrawania();
-            DostepnaMoc();
-            PotrzebnaMoc();
-            CzasMaszynowy();
+            for (int i = 0; i < Walek.Stopnie; i++)
+            {
+                GlebokoscSkrawania();
+                Posuw();
+                PredkoscSkrawania();
+                PredkoscObrotowa();
+                WydajnoscObjetosciowa();
+                GruboscWiora();
+                OporWlasciwy();
+                GlownaSilaSkrawania();
+                DostepnaMoc();
+                PotrzebnaMoc();
+                CzasMaszynowy();
+                Stopien++;
+            }
         }
 
         public void Calculate()
         {
-            GlebokoscSkrawania();
-            Posuw();
-            PredkoscObrotowa();
-            WydajnoscObjetosciowa();
-            GruboscWiora();
-            OporWlasciwy();
-            GlownaSilaSkrawania();
-            DostepnaMoc();
-            PotrzebnaMoc();
-            CzasMaszynowy();
+            Stopien = 0;
+            for (int i = 0; i < Walek.Stopnie; i++)
+            {
+                GlebokoscSkrawania();
+                Posuw();
+                PredkoscObrotowa();
+                WydajnoscObjetosciowa();
+                GruboscWiora();
+                OporWlasciwy();
+                GlownaSilaSkrawania();
+                DostepnaMoc();
+                PotrzebnaMoc();
+                CzasMaszynowy();
+                Stopien++;
+            }
+            AP.RemoveRange(0, Walek.Stopnie);
+            F.RemoveRange(0, Walek.Stopnie);
+            N.RemoveRange(0, Walek.Stopnie);
+            Q.RemoveRange(0, Walek.Stopnie);
+            TG.RemoveRange(0, Walek.Stopnie);
+            //T.RemoveRange(0, Walek.Stopnie);
+            FC.RemoveRange(0, Walek.Stopnie);
+            KC.RemoveRange(0, Walek.Stopnie);
+            HM.RemoveRange(0, Walek.Stopnie);
+            PC.RemoveRange(0, Walek.Stopnie);
+            PE.RemoveRange(0, Walek.Stopnie);
         }
+
+        private int Stopien { get; set; }
 
         public DaneWalka Walek { get; set; }
         public Lathe Lathe { get; set; }
@@ -69,34 +92,47 @@ namespace AlgorytmDobieraniaZasobowProdukcyjnych.Data
         public string Obrobka { get; set; }
         public string CmcMaterial { get; private set; } //wartosc cmc materialu PO
 
-        public double AP { get; set; } //glebokosc skrawania [mm]
-        public double F { get; set; } //posuw [mm/obr]
-        public double VC { get; set; } //predkosc skrawania [m/min]
-        public double N { get; set; } //predkosc obrotowa napedu obrabiarki [obr/min]
-        public double Q { get; set; } //wydajnosc objetosciowa [cm3/min]
-        public double TG { get; set; } //czas maszynowy obrobki [min]
-        public double T { get; set; } //okres trwalosci [min]
-        public double FC { get; private set; } //glowna sila skrawania [N]
-        public double KC { get; private set; } //opor wlasciwy skrawania
-        public double HM { get; private set; } //grubosc wiora
-        public double PC { get; private set; } //moc skrawania netto [kW]
-        public double PE { get; private set; } //dostepna moc [kW]
+        public List<double> AP = new List<double>();
+        public List<double> F = new List<double>();
+        public List<double> VC = new List<double>();
+        public List<double> N = new List<double>();
+        public List<double> Q = new List<double>();
+        public List<double> TG = new List<double>();
+        public List<double> T = new List<double>();
+        public List<double> FC = new List<double>();
+        public List<double> KC = new List<double>();
+        public List<double> HM = new List<double>();
+        public List<double> PC = new List<double>();
+        public List<double> PE = new List<double>();
+
+        //public double AP { get; set; } //glebokosc skrawania [mm]
+        //public double F { get; set; } //posuw [mm/obr]
+        //public double VC { get; set; } //predkosc skrawania [m/min]
+        //public double N { get; set; } //predkosc obrotowa napedu obrabiarki [obr/min]
+        //public double Q { get; set; } //wydajnosc objetosciowa [cm3/min]
+        //public double TG { get; set; } //czas maszynowy obrobki [min]
+        //public double T { get; set; } //okres trwalosci [min]
+        //public double FC { get; private set; } //glowna sila skrawania [N]
+        //public double KC { get; private set; } //opor wlasciwy skrawania
+        //public double HM { get; private set; } //grubosc wiora
+        //public double PC { get; private set; } //moc skrawania netto [kW]
+        //public double PE { get; private set; } //dostepna moc [kW]
 
         
         public void GlebokoscSkrawania()
         {
             var toolAp = Convert.ToDouble(Tool.ApMax);
-            var walekAp = Walek.APMAX.Max();
+            var walekAp = Walek.APMAX[Stopien];
             while (!(walekAp <= toolAp))
             {
                 walekAp /= 2;
             }
-            AP = walekAp;
+            AP.Add(walekAp);
         }
 
         public void Posuw()
         {
-            F = Convert.ToDouble(Tool.FnZ);
+            F.Add(Convert.ToDouble(Tool.FnZ));
         }
 
         public void PredkoscSkrawania()
@@ -108,29 +144,29 @@ namespace AlgorytmDobieraniaZasobowProdukcyjnych.Data
 
             var a = (vc2 - vc1) / (f2 - f1);
             var b = vc1 - ((vc2 - vc1) * f1) / (f2 - f1);
-            VC = Convert.ToDouble(a) * Convert.ToDouble(F) + Convert.ToDouble(b);
+            VC.Add(Convert.ToDouble(a) * Convert.ToDouble(F[Stopien]) + Convert.ToDouble(b));
         }
 
         public void PredkoscObrotowa()
         {
-            N = (1000 * VC) / (3.14 * Walek.SrednicaStopnia.Max());
-            if(N>Lathe.NMax)
+            N.Add((1000 * VC[Stopien]) / (3.14 * Walek.SrednicaStopnia[Stopien]));
+            if(N[Stopien] > Lathe.NMax)
             {
-                VC = (3.14 * Convert.ToDouble(Lathe.NMax) * Walek.SRC) / 1000;
-                N = Convert.ToDouble(Lathe.NMax);
+                VC.Add((3.14 * Convert.ToDouble(Lathe.NMax) * Walek.SRC) / 1000);
+                N.Add(Convert.ToDouble(Lathe.NMax));
             }
         }
 
         public void WydajnoscObjetosciowa()
         {
-            Q = VC * AP * F;
+            Q.Add(VC[Stopien] * AP[Stopien] * F[Stopien]);
         }
 
         public void GruboscWiora()
         {
             var kr = Convert.ToDouble(Tool.Kr);
             var sin = (kr * 3.14) / 180;
-            HM = F * (Math.Sin(sin));
+            HM.Add(F[Stopien] * (Math.Sin(sin)));
         }
 
         public void OporWlasciwy()
@@ -148,28 +184,28 @@ namespace AlgorytmDobieraniaZasobowProdukcyjnych.Data
             var gamma = Convert.ToDouble(query1.ToList().First());
 
             var minusmc = 0 - mc;
-            KC = kc1 * (Math.Pow(HM, minusmc)) * (1 - (gamma / 100));
+            KC.Add(kc1 * (Math.Pow(HM[Stopien], minusmc)) * (1 - (gamma / 100)));
         }
 
         public void GlownaSilaSkrawania()
         {
-            FC = KC * AP * F;
+            FC.Add(KC[Stopien] * AP[Stopien] * F[Stopien]);
         }
 
         public void DostepnaMoc()
         {
-            PE = Convert.ToDouble(Lathe.P) * 0.85;
+            PE.Add(Convert.ToDouble(Lathe.P) * 0.85);
         }
 
         public void PotrzebnaMoc()
         {
-            PC = FC * VC / 60000;
+            PC.Add(FC[Stopien] * VC[Stopien] / 60000);
         }
 
         public void CzasMaszynowy()
         {
-            var l = Walek.DlugoscStopnia.Last();
-            TG = l / (N * F);
+            var l = Walek.DlugoscStopnia[Stopien];
+            TG.Add(l / (N[Stopien] * F[Stopien]));
         }
     }
 }

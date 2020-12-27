@@ -14,8 +14,11 @@ namespace AlgorytmDobieraniaZasobowProdukcyjnych.Data
         {
             this.db = db;
         }
-        public List<Parameter> ParaList = new List<Parameter>();
+        public List<Parameter> ParametersRG = new List<Parameter>();
+        public List<Parameter> ParametersMT = new List<Parameter>();
+        public List<Parameter> ParametersFN = new List<Parameter>();
         public List<QTurningTool> Turnings = new List<QTurningTool>();
+
         public Lathe Lathe { get; set; }
         public string Cmc { get; private set; }
         public DaneWalka Walek { get; set; }
@@ -26,39 +29,55 @@ namespace AlgorytmDobieraniaZasobowProdukcyjnych.Data
             {
                 var parameter = new Parameter(db);
                 parameter.Calculate(Walek, Lathe, turning, Cmc);
-                ParaList.Add(parameter);
+                ParametersRG.Add(parameter);
+            }
+
+            while (!(IsTool()))
+            {
                 if (IsTool()) SortOfPower();
                 else Recalculate();
             }
-        }
-
-        private void Recalculate()
-        {
-            foreach (var para in ParaList)
-            {
-                para.VC -= para.VC * 0.1;
-                para.Calculate();
-            }
+            SortOfPower();
         }
 
         private bool IsTool()
         {
             var goodTools = new List<Parameter>();
-            foreach (var para in ParaList)
+            foreach (var para in ParametersRG)
             {
-                if(para.PE > para.PC)
+                int count = 0;
+                for (int i = 0; i < Walek.Stopnie; i++)
                 {
-                    goodTools.Add(para);
+                    if (para.PE[i] > para.PC[i])
+                    {
+                        count++;
+                    }
                 }
+                if (count == Walek.Stopnie) goodTools.Add(para);
             }
 
-            if(goodTools.Count>0)
+            if(goodTools.Count > 0)
             {
                 return true;
             }
             else
             {
                 return false;
+            }
+        }
+
+        private void Recalculate()
+        {
+            foreach (var para in ParametersRG)
+            {
+                for (int i = 0; i < Walek.Stopnie; i++)
+                {
+                    if (para.PE[i] < para.PC[i])
+                    {
+                        para.VC[i] -= para.VC[i] * 0.1;
+                    }
+                }
+                para.Calculate();
             }
         }
 
@@ -72,18 +91,23 @@ namespace AlgorytmDobieraniaZasobowProdukcyjnych.Data
 
         internal void SortOfPower()
         {
-            for (int i = 0; i < ParaList.Count; i++)
+            for (int i = 0; i < ParametersRG.Count; i++)
             {
-                if (ParaList[i].PE < ParaList[i].PC)
+                for (int j = 0; j < Walek.Stopnie; j++)
                 {
-                    ParaList.RemoveAt(i);
+                    if (ParametersRG[i].PE[j] < ParametersRG[i].PC[j])
+                    {
+                        ParametersRG.RemoveAt(i);
+                        i--;
+                        break;
+                    }
                 }
             }
         }
 
         public List<Parameter> GetParametersList()
         {
-            return ParaList;
+            return ParametersRG;
         }
     }
 }

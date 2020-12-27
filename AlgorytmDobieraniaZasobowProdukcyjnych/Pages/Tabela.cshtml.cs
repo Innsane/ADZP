@@ -27,10 +27,8 @@ namespace AlgorytmDobieraniaZasobowProdukcyjnych.Pages
         public void OnGet()
         {
             Data = Dane;
-            //Image = Dane.Image.Trim();
-            //Path = "/images/" + Image + ".jpg";
-
-
+            Image = Dane.Image.Trim();
+            Path = "/images/" + Image + ".jpg";
         }
     }
 }
