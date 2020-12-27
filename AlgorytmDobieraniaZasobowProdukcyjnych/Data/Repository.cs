@@ -60,7 +60,11 @@ namespace AlgorytmDobieraniaZasobowProdukcyjnych.Data
                         select t;
             return query;
         }
-
+        //getting turnings base on data
+        //LT = longitudal turning
+        //FC = facing
+        //PR = profiling
+        //CH = 
         public List<QTurningTool> GetTurningTools(IEnumerable<TurnToolTab> tools, Lathe lathe, DaneWalka walek, List<string> grades)
         {
             var dlugosc = Convert.ToDouble(lathe.Gniazdo.Substring(0, 2));
@@ -71,7 +75,8 @@ namespace AlgorytmDobieraniaZasobowProdukcyjnych.Data
             while(turnings.Count == 0)
             {
                 var query = from l in db.QTurningTools
-                            where l.B == dlugosc && l.H == szerokosc && l.Ht == "L" && l.Kr < 90 && l.ApMax >= ap
+                            where l.B == dlugosc && l.H == szerokosc && l.Ht == "L" && l.Kr < 90 && l.ApMax >= ap && 
+                                  l.OpA == "LT" && l.Geometry.Contains("PR")
                             select l;
                 ap /= 2;
                 turnings = query.ToList();
