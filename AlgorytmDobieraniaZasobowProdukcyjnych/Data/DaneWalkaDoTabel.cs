@@ -13,13 +13,17 @@ namespace AlgorytmDobieraniaZasobowProdukcyjnych.Data
 
         public List<object[]> ListValue { get; set; }
         public List<string> ListName { get; set; }
+
+        public List<List<object>> NaddatkiValues { get; internal set; }
+        public List<string> NaddatkiNames { get; internal set; }
+
         public List<Parameter> ParameterList = new List<Parameter>();
         public List<PropertyInfo> ParameterListInfo = new List<PropertyInfo>();
         public List<List<List<object>>> Parameters = new List<List<List<object>>>();
         public List<string> ParametersNames = new List<string>();
 
         public string Image { get; set; }
-
+        
 
         public DaneWalkaDoTabel()
         {
@@ -32,10 +36,10 @@ namespace AlgorytmDobieraniaZasobowProdukcyjnych.Data
             ListValue = dane.ListValue;
             AtributeName = dane.AtributeName;
             ListName = dane.ListName;
+            NaddatkiValues = dane.NaddatkiValues;
+            NaddatkiNames = dane.NaddatkiNames;
             Image = dane.Image;
         }
-
-        
 
         internal void SetParameterToTable(List<Parameter> listOfParameters)
         {

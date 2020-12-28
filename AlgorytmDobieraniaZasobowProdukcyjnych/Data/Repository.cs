@@ -75,7 +75,8 @@ namespace AlgorytmDobieraniaZasobowProdukcyjnych.Data
             while(turnings.Count == 0)
             {
                 var query = from l in db.QTurningTools
-                            where l.B == dlugosc && l.H == szerokosc && l.Ht == "L" && l.Kr < 90 && l.ApMax >= ap && 
+                            where l.B == dlugosc && l.H == szerokosc && l.ApMax >= ap &&
+                                  l.Ht == "L" &&  
                                   l.OpA == "LT" && l.Geometry.Contains("PR")
                             select l;
                 ap /= 2;

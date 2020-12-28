@@ -11,6 +11,7 @@ namespace AlgorytmDobieraniaZasobowProdukcyjnych.Data
     {
         private readonly MfgResourcesContext db;
 
+
         public Walek(MfgResourcesContext db)
         {
             this.db = db;
@@ -101,12 +102,43 @@ namespace AlgorytmDobieraniaZasobowProdukcyjnych.Data
                 nameof(APMAX)
             };
 
+            var naddatki = new List<List<object>>
+            {
+                new List<object>
+                {
+                    "Wykańczający",
+                    "Kształtujący",
+                    "Zgrubny"
+                },
+                new List<object>
+                {
+                    QFND,
+                    QMTD,
+                    QRGD
+                },
+                new List<object>
+                {
+                    QFN,
+                    QMT,
+                    QRG
+                }
+            };
+
+            var naddatkiNames = new List<string>
+            {
+                "Rodzaj naddatku",
+                "Naddatki dobrane",
+                "Naddatki do obliczeń"
+            };
+
             return new DaneWalkaDoTabel
             {
                 AtributeValue = list,
                 ListValue = listList,
                 AtributeName = atname,
                 ListName = listname,
+                NaddatkiValues = naddatki,
+                NaddatkiNames = naddatkiNames,
                 Image = this.Image
             };
         }
@@ -148,6 +180,61 @@ namespace AlgorytmDobieraniaZasobowProdukcyjnych.Data
                 DRG = this.DRG,
                 APMAX = this.APMAX
             };
+        }
+
+        public void GetWalekByName(string name)
+        {
+            var query = from l in db.Walkis
+                        where l.Nazwa == name
+                        orderby l.N ascending
+                        select l;
+
+            var list = query.ToList();
+            SetWalek(list);
+        }
+
+        public void SetWalek(List<Walki> dane)
+        {
+            Image = dane.First().Nazwa;
+            Material = dane.First().Material;
+            DlugoscStopnia = new List<double>();
+            SrednicaStopnia = new List<double>();
+            KlasaTolerancji = new List<int>();
+            foreach (var stopien in dane)
+            {
+                if (stopien.Di > Srednica)
+                {
+                    Srednica = stopien.Di;
+                }
+                Dlugosc += stopien.Li;
+                DlugoscStopnia.Add(stopien.Li);
+                SrednicaStopnia.Add(stopien.Di);
+                KlasaTolerancji.Add(stopien.Ti);
+            }
+            Stopnie = dane.Count;
+            TPO = new List<double>();
+            KO = new List<double>();
+            IZ = new List<int>();
+            DFN = new List<double>();
+            DMT = new List<double>();
+            DRG = new List<double>();
+            APMAX = new List<double>();
+        }
+
+        public List<string> GetWalkiName()
+        {
+            var query = from l in db.Walkis
+                        select l.Nazwa;
+            var list = query.Distinct().ToList();
+            return list;
+        }
+
+        public List<string> GetWalkiMaterial()
+        {
+            var query = from l in db.Materials
+                        select l.MatPn;
+            var list = query.ToList();
+            return list;
         }
 
         public void Calculate()
@@ -349,9 +436,13 @@ namespace AlgorytmDobieraniaZasobowProdukcyjnych.Data
                      select l.Qnom;
             }
             Dlugosc = oldDlugosc;
-            QFN = (double)FN.ToList().First();
-            QMT = (double)MT.ToList().First();
-            QRG = (double)RG.ToList().First();
+            QFN = Math.Round((double)FN.ToList().First(), 1);
+            QMT = Math.Round((double)MT.ToList().First(), 1);
+            QRG = Math.Round((double)RG.ToList().First(), 1);
+
+            QFND = (double)FN.ToList().First();
+            QMTD = (double)MT.ToList().First();
+            QRGD = (double)RG.ToList().First();
         }
 
         private void NaddatkiDlugosc()
@@ -449,59 +540,5 @@ namespace AlgorytmDobieraniaZasobowProdukcyjnych.Data
             }
         }
 
-        public void GetWalekByName(string name)
-        {
-            var query = from l in db.Walkis
-                        where l.Nazwa == name
-                        orderby l.N ascending
-                        select l;
-
-            var list = query.ToList();
-            SetWalek(list);
-        }
-
-        public void SetWalek(List<Walki> dane)
-        {
-            Image = dane.First().Nazwa;
-            Material = dane.First().Material;
-            DlugoscStopnia = new List<double>();
-            SrednicaStopnia = new List<double>();
-            KlasaTolerancji = new List<int>();
-            foreach (var stopien in dane)
-            {
-                if (stopien.Di > Srednica)
-                {
-                    Srednica = stopien.Di;
-                }
-                Dlugosc += stopien.Li;
-                DlugoscStopnia.Add(stopien.Li);
-                SrednicaStopnia.Add(stopien.Di);
-                KlasaTolerancji.Add(stopien.Ti);
-            }
-            Stopnie = dane.Count;
-            TPO = new List<double>();
-            KO = new List<double>();
-            IZ = new List<int>();
-            DFN = new List<double>();
-            DMT = new List<double>();
-            DRG = new List<double>();
-            APMAX = new List<double>();
-        }
-
-        public List<string> GetWalkiName()
-        {
-            var query = from l in db.Walkis
-                        select l.Nazwa;
-            var list = query.Distinct().ToList();
-            return list;
-        }
-
-        public List<string> GetWalkiMaterial()
-        {
-            var query = from l in db.Materials
-                        select l.MatPn;
-            var list = query.ToList();
-            return list;
-        }
     }
 }
