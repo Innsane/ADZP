@@ -45,6 +45,7 @@ namespace AlgorytmDobieraniaZasobowProdukcyjnych.Data
         public List<double> DMT { get; set; } //srednica przed ksztaltujaca
         public List<double> DRG { get; set; } //srednica przed zgrubna
         public List<double> APMAX { get; set; } //ilosc materialu do zebrania
+        public List<double> APRGREAL { get; set; } //glebokosci skrawania dla zgrubnej
 
         //z tabeli w SQL SERVER
         public double QFN { get; set; }

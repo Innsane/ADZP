@@ -19,6 +19,38 @@ namespace AlgorytmDobieraniaZasobowProdukcyjnych.Data
         {
         }
 
+        public DaneWalka Walek { get; set; }
+        public Lathe Lathe { get; set; }
+        public QTurningTool Tool { get; set; }
+        public string Obrobka { get; set; }
+        public string CmcMaterial { get; private set; } //wartosc cmc materialu PO
+
+        public List<double> AP = new List<double>();
+        public List<double> F = new List<double>();
+        public List<double> VC = new List<double>();
+        public List<double> N = new List<double>();
+        public List<double> Q = new List<double>();
+        public List<double> TG = new List<double>();
+        public List<double> T = new List<double>();
+        public List<double> FC = new List<double>();
+        public List<double> KC = new List<double>();
+        public List<double> HM = new List<double>();
+        public List<double> PC = new List<double>();
+        public List<double> PE = new List<double>();
+
+        //public double AP { get; set; } //glebokosc skrawania [mm]
+        //public double F { get; set; } //posuw [mm/obr]
+        //public double VC { get; set; } //predkosc skrawania [m/min]
+        //public double N { get; set; } //predkosc obrotowa napedu obrabiarki [obr/min]
+        //public double Q { get; set; } //wydajnosc objetosciowa [cm3/min]
+        //public double TG { get; set; } //czas maszynowy obrobki [min]
+        //public double T { get; set; } //okres trwalosci [min]
+        //public double FC { get; private set; } //glowna sila skrawania [N]
+        //public double KC { get; private set; } //opor wlasciwy skrawania
+        //public double HM { get; private set; } //grubosc wiora
+        //public double PC { get; private set; } //moc skrawania netto [kW]
+        //public double PE { get; private set; } //dostepna moc [kW]
+
         internal void SetParameter(DaneWalka walek, Lathe lathe, QTurningTool tool, string cmc)
         {
             Walek = walek;
@@ -85,39 +117,6 @@ namespace AlgorytmDobieraniaZasobowProdukcyjnych.Data
         }
 
         private int Stopien { get; set; }
-
-        public DaneWalka Walek { get; set; }
-        public Lathe Lathe { get; set; }
-        public QTurningTool Tool { get; set; }
-        public string Obrobka { get; set; }
-        public string CmcMaterial { get; private set; } //wartosc cmc materialu PO
-
-        public List<double> AP = new List<double>();
-        public List<double> F = new List<double>();
-        public List<double> VC = new List<double>();
-        public List<double> N = new List<double>();
-        public List<double> Q = new List<double>();
-        public List<double> TG = new List<double>();
-        public List<double> T = new List<double>();
-        public List<double> FC = new List<double>();
-        public List<double> KC = new List<double>();
-        public List<double> HM = new List<double>();
-        public List<double> PC = new List<double>();
-        public List<double> PE = new List<double>();
-
-        //public double AP { get; set; } //glebokosc skrawania [mm]
-        //public double F { get; set; } //posuw [mm/obr]
-        //public double VC { get; set; } //predkosc skrawania [m/min]
-        //public double N { get; set; } //predkosc obrotowa napedu obrabiarki [obr/min]
-        //public double Q { get; set; } //wydajnosc objetosciowa [cm3/min]
-        //public double TG { get; set; } //czas maszynowy obrobki [min]
-        //public double T { get; set; } //okres trwalosci [min]
-        //public double FC { get; private set; } //glowna sila skrawania [N]
-        //public double KC { get; private set; } //opor wlasciwy skrawania
-        //public double HM { get; private set; } //grubosc wiora
-        //public double PC { get; private set; } //moc skrawania netto [kW]
-        //public double PE { get; private set; } //dostepna moc [kW]
-
         
         public void GlebokoscSkrawania()
         {

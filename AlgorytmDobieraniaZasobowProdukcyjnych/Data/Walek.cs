@@ -178,7 +178,8 @@ namespace AlgorytmDobieraniaZasobowProdukcyjnych.Data
                 DFN = this.DFN,
                 DMT = this.DMT,
                 DRG = this.DRG,
-                APMAX = this.APMAX
+                APMAX = this.APMAX,
+                APRGREAL = this.APRGREAL
             };
         }
 
@@ -258,6 +259,7 @@ namespace AlgorytmDobieraniaZasobowProdukcyjnych.Data
             SrednicePrzedObrobka();
             WymiaryPolfabrykatu();
             MaxSkrawanie();
+            PrawdziwaGlebokoscSkrawania();
         }
 
         ////obliczone
@@ -540,5 +542,24 @@ namespace AlgorytmDobieraniaZasobowProdukcyjnych.Data
             }
         }
 
+        private void PrawdziwaGlebokoscSkrawania()
+        {
+            var aps = new List<double>();
+            var dmt = new List<double>(DMT);
+            dmt = dmt.OrderByDescending(d => d).ToList();
+            for (int i = 0; i < dmt.Count-1; i++)
+            {
+                aps.Add((dmt[i] - dmt[i + 1])/2);
+            }
+            while(aps.Max() > 10.29)
+
+            {
+                for (int i = 0; i < aps.Count; i++)
+                {
+                    aps[i] = aps[i] / 2;
+                }
+            }
+            APRGREAL = aps;
+        }
     }
 }

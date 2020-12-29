@@ -107,6 +107,21 @@ namespace AlgorytmDobieraniaZasobowProdukcyjnych.Data
 
         public List<Parameter> GetParametersList()
         {
+            var bestParameter = new Parameter();
+            var bestIndex = 0;
+            var bestQ = 0.0;
+            for (int i = 0; i < ParametersRG.Count; i++)
+            {
+                ParametersRG[i].Q.Max();
+                if(ParametersRG[i].Q.Max() > bestQ)
+                {
+                    bestQ = ParametersRG[i].Q.Max();
+                    bestIndex = i;
+                }
+                bestParameter = ParametersRG[bestIndex];
+            }
+            ParametersRG.Clear();
+            ParametersRG.Add(bestParameter);
             return ParametersRG;
         }
     }

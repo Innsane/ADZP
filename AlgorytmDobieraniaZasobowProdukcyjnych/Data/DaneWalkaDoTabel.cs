@@ -47,6 +47,12 @@ namespace AlgorytmDobieraniaZasobowProdukcyjnych.Data
 
             ParameterListInfo = listOfParameters.First().GetType().GetProperties().ToList();
 
+            var ListaStopni = new List<int>();
+            for (int i = 0; i < listOfParameters.First().VC.Count; i++)
+            {
+                ListaStopni.Add(i+1);
+            }
+
             var tablesParameters = new List<List<List<object>>>();
             foreach (var parameter in listOfParameters)
             {
@@ -54,6 +60,7 @@ namespace AlgorytmDobieraniaZasobowProdukcyjnych.Data
                 for (int i = 0; i < listOfParameters.First().Walek.Stopnie; i++)
                 {
                     singleTable.Add(new List<object> {
+                        ListaStopni[i],
                         parameter.Tool.Geometry,
                         parameter.Tool.Holder,
                         parameter.Tool.Material,
@@ -76,21 +83,22 @@ namespace AlgorytmDobieraniaZasobowProdukcyjnych.Data
 
             var nameList = new List<string>
                     {
+                        "Stopień",
                         "Geometry",
                         "Holder",
                         "Material",
-                        "AP",
-                        "F",
-                        "VC",
-                        "N",
+                        "ap",
+                        "f",
+                        "vc",
+                        "n",
                         "Q",
-                        "TG",
+                        "tg",
                         "T",
-                        "FC",
-                        "KC",
-                        "HM",
-                        "PC",
-                        "PE"
+                        "Fc",
+                        "kc",
+                        "hm [mm]",
+                        "Pc [kW]",
+                        "Pe [kW]"
                     };
 
             ParametersNames = nameList;
