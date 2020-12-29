@@ -14,10 +14,11 @@ namespace AlgorytmDobieraniaZasobowProdukcyjnych.Data
         {
             this.db = db;
         }
-        public List<Parameter> ParametersRG = new List<Parameter>();
+        public List<Parameter> ParametersCalculated = new List<Parameter>();
         public List<Parameter> ParametersMT = new List<Parameter>();
         public List<Parameter> ParametersFN = new List<Parameter>();
-        public List<QTurningTool> Turnings = new List<QTurningTool>();
+        public List<List<Parameter>> ParameterList = new List<List<Parameter>>();
+        public List<List<QTurningTool>> Turnings = new List<List<QTurningTool>>();
 
         public Lathe Lathe { get; set; }
         public string Cmc { get; private set; }
@@ -25,25 +26,30 @@ namespace AlgorytmDobieraniaZasobowProdukcyjnych.Data
 
         public void Calculate()
         {
-            foreach (var turning in Turnings)
+            for (int i = 0; i < Turnings.Count; i++)
             {
-                var parameter = new Parameter(db);
-                parameter.Calculate(Walek, Lathe, turning, Cmc);
-                ParametersRG.Add(parameter);
+                var parametersCalculated = new List<Parameter>();
+                foreach (var turning in Turnings[i])
+                {
+                    var parameter = new Parameter(db);
+                    parameter.Calculate(Walek, Lathe, turning, Cmc);
+                    parametersCalculated.Add(parameter);
+                }
+                ParameterList.Add(parametersCalculated);
             }
-
-            while (!(IsTool()))
-            {
-                if (IsTool()) SortOfPower();
-                else Recalculate();
-            }
+            
+            //while (!(IsTool()))
+            //{
+            //    if (IsTool()) SortOfPower();
+            //    else Recalculate();
+            //}
             SortOfPower();
         }
 
         private bool IsTool()
         {
             var goodTools = new List<Parameter>();
-            foreach (var para in ParametersRG)
+            foreach (var para in ParametersCalculated)
             {
                 int count = 0;
                 for (int i = 0; i < Walek.Stopnie; i++)
@@ -68,7 +74,7 @@ namespace AlgorytmDobieraniaZasobowProdukcyjnych.Data
 
         private void Recalculate()
         {
-            foreach (var para in ParametersRG)
+            foreach (var para in ParametersCalculated)
             {
                 for (int i = 0; i < Walek.Stopnie; i++)
                 {
@@ -81,7 +87,7 @@ namespace AlgorytmDobieraniaZasobowProdukcyjnych.Data
             }
         }
 
-        public void SetParameterList(DaneWalka walek, Lathe lathe, string cmc, List<QTurningTool> turnings)
+        public void SetParameterList(DaneWalka walek, Lathe lathe, string cmc, List<List<QTurningTool>> turnings)
         {
             Walek = walek;
             Lathe = lathe;
@@ -91,13 +97,13 @@ namespace AlgorytmDobieraniaZasobowProdukcyjnych.Data
 
         internal void SortOfPower()
         {
-            for (int i = 0; i < ParametersRG.Count; i++)
+            for (int i = 0; i < ParameterList[0].Count; i++)
             {
                 for (int j = 0; j < Walek.Stopnie; j++)
                 {
-                    if (ParametersRG[i].PE[j] < ParametersRG[i].PC[j])
+                    if (ParameterList[0][i].PE[j] < ParameterList[0][i].PC[j])
                     {
-                        ParametersRG.RemoveAt(i);
+                        ParameterList[0].RemoveAt(i);
                         i--;
                         break;
                     }
@@ -105,24 +111,28 @@ namespace AlgorytmDobieraniaZasobowProdukcyjnych.Data
             }
         }
 
-        public List<Parameter> GetParametersList()
+        public List<List<Parameter>> GetParametersList()
         {
             var bestParameter = new Parameter();
             var bestIndex = 0;
             var bestQ = 0.0;
-            for (int i = 0; i < ParametersRG.Count; i++)
+            foreach (var list in ParameterList)
             {
-                ParametersRG[i].Q.Max();
-                if(ParametersRG[i].Q.Max() > bestQ)
+                for (int i = 0; i < list.Count; i++)
                 {
-                    bestQ = ParametersRG[i].Q.Max();
-                    bestIndex = i;
+                    list[i].Q.Max();
+                    if (list[i].Q.Max() > bestQ)
+                    {
+                        bestQ = list[i].Q.Max();
+                        bestIndex = i;
+                    }
+                    bestParameter = list[bestIndex];
                 }
-                bestParameter = ParametersRG[bestIndex];
+                list.Clear();
+                list.Add(bestParameter);
             }
-            ParametersRG.Clear();
-            ParametersRG.Add(bestParameter);
-            return ParametersRG;
+            
+            return ParameterList;
         }
     }
 }

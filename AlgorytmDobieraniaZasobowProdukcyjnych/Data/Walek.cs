@@ -179,7 +179,10 @@ namespace AlgorytmDobieraniaZasobowProdukcyjnych.Data
                 DMT = this.DMT,
                 DRG = this.DRG,
                 APMAX = this.APMAX,
-                APRGREAL = this.APRGREAL
+                APRGREAL = this.APRGREAL,
+                QLMT = this.QLMT,
+                SRPF = this.SRPF,
+                SRC = this.SRC
             };
         }
 

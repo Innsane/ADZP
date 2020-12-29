@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace AlgorytmDobieraniaZasobowProdukcyjnych.Data
 {
-    public class Parameter: IParameter
+    public class Parameter : IParameter
     {
         private readonly MfgResourcesContext db;
 
@@ -24,8 +24,11 @@ namespace AlgorytmDobieraniaZasobowProdukcyjnych.Data
         public QTurningTool Tool { get; set; }
         public string Obrobka { get; set; }
         public string CmcMaterial { get; private set; } //wartosc cmc materialu PO
+        private int Stopien { get; set; }
+        
 
         public List<double> AP = new List<double>();
+        public List<int> Przejsc = new List<int>();
         public List<double> F = new List<double>();
         public List<double> VC = new List<double>();
         public List<double> N = new List<double>();
@@ -71,6 +74,7 @@ namespace AlgorytmDobieraniaZasobowProdukcyjnych.Data
 
             for (int i = 0; i < Walek.Stopnie; i++)
             {
+                RodzajObrobki();
                 GlebokoscSkrawania();
                 Posuw();
                 PredkoscSkrawania();
@@ -116,17 +120,69 @@ namespace AlgorytmDobieraniaZasobowProdukcyjnych.Data
             PE.RemoveRange(0, Walek.Stopnie);
         }
 
-        private int Stopien { get; set; }
-        
+        public void RodzajObrobki()
+        {
+            Obrobka = Tool.Geometry.Substring(Tool.Geometry.Length - 2, 2);
+        }
+
         public void GlebokoscSkrawania()
         {
-            var toolAp = Convert.ToDouble(Tool.ApMax);
+            var toolAp = Convert.ToDouble(Tool.MaxAp);
             var walekAp = Walek.APMAX[Stopien];
-            while (!(walekAp <= toolAp))
+            var index = 1;
+
+            if (Obrobka == "PF")
             {
-                walekAp /= 2;
+                AP.Add((Walek.DFN[Stopien] - Walek.SrednicaStopnia[Stopien]) / 2);
+                Przejsc.Add(1);
             }
-            AP.Add(walekAp);
+            else if (Obrobka == "PM")
+            {
+                AP.Add((Walek.DMT[Stopien] - Walek.DFN[Stopien]) / 2);
+                Przejsc.Add(1);
+            }
+            else if (Obrobka == "PR")
+            {
+                if (Walek.DMT[Stopien] == Walek.DMT.Max())
+                {
+                    if ((Walek.SRC - Walek.DMT[Stopien]) / 2 < Tool.MaxAp)
+                    {
+                        AP.Add((Walek.SRC - Walek.DMT[Stopien]) / 2);
+                        Przejsc.Add(index);
+                    }
+                    else
+                    {
+                        index = 1;
+                        do
+                        {
+                            index++;
+                        } while ((Walek.SRC - Walek.DMT[Stopien]) / 2 / index < Tool.MaxAp);
+                        AP.Add((Walek.SRC - Walek.DMT[Stopien]) / 2 / index);
+                        Przejsc.Add(index);
+                    }
+                }
+                else
+                {
+                    var srP = Walek.DMT.FindAll(t => t > Walek.DMT[Stopien]).Min();
+                    if ((srP - Walek.DMT[Stopien]) / 2 < Tool.MaxAp)
+                    {
+                        AP.Add((srP - Walek.DMT[Stopien]) / 2);
+                        Przejsc.Add(index);
+                    }
+                    else
+                    {
+                        index = 1;
+                        do
+                        {
+                            index++;
+                        } while (((srP - Walek.DMT[Stopien]) / 2) / index < Tool.MaxAp);
+                        AP.Add(((srP - Walek.DMT[Stopien]) / 2) / index);
+                        Przejsc.Add(index);
+                    }
+                }
+
+            }
+            else AP.Add(0);
         }
 
         public void Posuw()
@@ -149,7 +205,7 @@ namespace AlgorytmDobieraniaZasobowProdukcyjnych.Data
         public void PredkoscObrotowa()
         {
             N.Add((1000 * VC[Stopien]) / (3.14 * Walek.SrednicaStopnia[Stopien]));
-            if(N[Stopien] > Lathe.NMax)
+            if (N[Stopien] > Lathe.NMax)
             {
                 VC.Add((3.14 * Convert.ToDouble(Lathe.NMax) * Walek.SRC) / 1000);
                 N.Add(Convert.ToDouble(Lathe.NMax));
@@ -175,8 +231,8 @@ namespace AlgorytmDobieraniaZasobowProdukcyjnych.Data
                         select m;
 
             var query1 = from t in db.TurnToolTabs
-                              where t.ShankCode.StartsWith(Tool.Holder.Substring(0, 4))
-                              select t.Gamma;
+                         where t.ShankCode.StartsWith(Tool.Holder.Substring(0, 4))
+                         select t.Gamma;
 
             var kc1 = Convert.ToDouble(query.ToList().First().Kc11);
             var mc = Convert.ToDouble(query.ToList().First().Mc);
@@ -193,7 +249,7 @@ namespace AlgorytmDobieraniaZasobowProdukcyjnych.Data
 
         public void DostepnaMoc()
         {
-            PE.Add(Convert.ToDouble(Lathe.P) * 0.85);
+            PE.Add(Convert.ToDouble(Lathe.P) * 1);
         }
 
         public void PotrzebnaMoc()

@@ -102,12 +102,12 @@
 <br />
 <br />
 <h2>Parametry skrawania dla wybranych narzędzi do obróbki zgrubnej: </h2>
-@foreach (var table in Model.Dane.Parameters)
+@foreach (var table in Model.Dane.ParametersRG)
 {
     <table class="table table-bordered">
         <thead>
             <tr>
-                @foreach (var info in Model.Dane.ParametersNames)
+                @foreach (var info in Model.Dane.ParametersNamesRG)
                 {
                     <td>@info</td>
                 }
@@ -116,20 +116,94 @@
         <tbody>
             @foreach (var parameter in table)
             {
+                <tr>
+                    @for (int i = 0; i < parameter.Count; i++)
+                    {
+                        if (Model.Index == 0 || Model.Index == 3)
+                        {
+                            <td>@parameter[i]</td>
+                        }
+                        else
+                        {
+                            <td>@string.Format("{0:0.00}", parameter[i])</td>
+                        }
+                        Model.Index++;
+                    }
+                </tr>
+                Model.Index = 0;
+            }
+        </tbody>
+    </table>
+}
+<br />
+<br />
+<br />
+<h2>Parametry skrawania dla wybranych narzędzi do obróbki ksztaltujacej: </h2>
+@foreach (var table in Model.Dane.ParametersMT)
+{
+    <table class="table table-bordered">
+        <thead>
             <tr>
-                @for (int i = 0; i < parameter.Count; i++)
+                @foreach (var info in Model.Dane.ParametersNamesMT)
                 {
-                    if (Model.Index == 0 || Model.Index == 3)
-                    {
-                        <td>@parameter[i]</td>
-                    }
-                    else
-                    {
-                        <td>@string.Format("{0:0.00}", parameter[i])</td>
-                    }
-                    Model.Index++;
+                    <td>@info</td>
                 }
             </tr>
+        </thead>
+        <tbody>
+            @foreach (var parameter in table)
+            {
+                <tr>
+                    @for (int i = 0; i < parameter.Count; i++)
+                    {
+                        if (Model.Index == 0 || Model.Index == 3)
+                        {
+                            <td>@parameter[i]</td>
+                        }
+                        else
+                        {
+                            <td>@string.Format("{0:0.00}", parameter[i])</td>
+                        }
+                        Model.Index++;
+                    }
+                </tr>
+                Model.Index = 0;
+            }
+        </tbody>
+    </table>
+}
+<br />
+<br />
+<br />
+<h2>Parametry skrawania dla wybranych narzędzi do obróbki wykanczajacej: </h2>
+@foreach (var table in Model.Dane.ParametersFN)
+{
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                @foreach (var info in Model.Dane.ParametersNamesFN)
+                {
+                    <td>@info</td>
+                }
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var parameter in table)
+            {
+                <tr>
+                    @for (int i = 0; i < parameter.Count; i++)
+                    {
+                        if (Model.Index == 0 || Model.Index == 3 || Model.Index == 4)
+                        {
+                            <td>@parameter[i]</td>
+                        }
+                        else
+                        {
+                            <td>@string.Format("{0:0.00}", parameter[i])</td>
+                        }
+                        Model.Index++;
+                    }
+                </tr>
                 Model.Index = 0;
             }
         </tbody>

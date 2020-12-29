@@ -26,8 +26,8 @@ namespace AlgorytmDobieraniaZasobowProdukcyjnych.Data
         public List<string> GetGrades(string cmc)
         {
             var grades = from g in db.ParVcVals
-                        where g.Cmc == cmc
-                        select g.Grade;
+                         where g.Cmc == cmc
+                         select g.Grade;
             var list = new List<string>();
             foreach (var grade in grades)
             {
@@ -60,62 +60,91 @@ namespace AlgorytmDobieraniaZasobowProdukcyjnych.Data
                         select t;
             return query;
         }
-        
+
         //getting turnings base on data
         //LT = longitudal turning
         //FC = facing
         //PR = profiling
         //CH = 
-        public List<QTurningTool> GetTurningTools(IEnumerable<TurnToolTab> tools, Lathe lathe, DaneWalka walek, List<string> grades)
+        public List<List<QTurningTool>> GetTurningTools(IEnumerable<TurnToolTab> tools, Lathe lathe, DaneWalka walek, List<string> grades)
         {
             var dlugosc = Convert.ToDouble(lathe.Gniazdo.Substring(0, 2));
             var szerokosc = Convert.ToDouble(lathe.Gniazdo.Substring(3, 2));
             var ap = Convert.ToDecimal(walek.APMAX.Max());
-            var turnings = new List<QTurningTool>();
+            var turnings = new List<List<QTurningTool>>();
 
-            while (turnings.Count == 0)
-            {
-                var query = from l in db.QTurningTools
-                            where l.B == dlugosc && l.H == szerokosc && l.MaxAp > walek.APRGREAL.Max() &&
-                                  l.Kr < 90 &&
-                                  l.Re == (decimal)1.6 &&
-                                  l.Ht == "L" &&
-                                  l.OpA == "LT" && l.Geometry.Contains("PR")
-                            select l;
-                turnings = query.ToList();
-            }
+            var TurnRG = from l in db.QTurningTools
+                         where l.B == dlugosc && l.H == szerokosc && l.MaxAp > walek.APRGREAL.Max() &&
+                               l.Kr < 90 &&
+                               l.Re == (decimal)1.6 &&
+                               l.Ht == "L" &&
+                               l.OpA == "LT" &&
+                               l.Geometry.Contains("PR")
+                         select l;
+            turnings.Add(TurnRG.ToList());
 
-            List<QTurningTool> newTurnings = SortByGrade(grades, turnings);
-            turnings = newTurnings;
+            var TurnMT = from l in db.QTurningTools
+                         where l.B == dlugosc && l.H == szerokosc && l.MaxAp > walek.QMT &&
+                               l.Kr > 90 &&
+                               l.Re == (decimal)1.2 &&
+                               l.Ht == "L" &&
+                               l.OpA == "LT" &&
+                               l.Geometry.Contains("PM")
+                         select l;
+            turnings.Add(TurnMT.ToList());
+
+            var TurnFN = from l in db.QTurningTools
+                         where l.B == dlugosc && l.H == szerokosc && l.MaxAp > walek.QFN &&
+                               l.Kr > 90 &&
+                               l.Re == (decimal)0.8 &&
+                               l.Ht == "L" &&
+                               l.OpA == "LT" &&
+                               l.Geometry.Contains("PF")
+                         select l;
+            turnings.Add(TurnFN.ToList());
+
+
+            turnings = SortByGrade(grades, turnings);
             SortByMaxAp(turnings);
             return turnings;
         }
 
-        private static void SortByMaxAp(List<QTurningTool> turnings)
+        private static void SortByMaxAp(List<List<QTurningTool>> turnings)
         {
             decimal apmax = 1000;
-            foreach (var turning in turnings)
+            foreach (var list in turnings)
             {
-                if (turning.ApMax < apmax)
+                foreach (var turning in list)
                 {
-                    apmax = (decimal)turning.ApMax;
-                }
-            }
-            turnings.RemoveAll(t => t.ApMax != apmax);
-        }
-
-        private static List<QTurningTool> SortByGrade(List<string> grades, List<QTurningTool> turnings)
-        {
-            var newTurnings = new List<QTurningTool>();
-            foreach (var grade in grades)
-            {
-                foreach (var turn in turnings)
-                {
-                    if (turn.Material == Convert.ToInt32(grade))
+                    if (turning.ApMax < apmax)
                     {
-                        newTurnings.Add(turn);
+                        apmax = (decimal)turning.ApMax;
                     }
                 }
+                list.RemoveAll(t => t.ApMax != apmax);
+            }
+
+        }
+
+        private static List<List<QTurningTool>> SortByGrade(List<string> grades, List<List<QTurningTool>> turnings)
+        {
+            var newTurnings = new List<List<QTurningTool>>();
+            
+
+            foreach (var list in turnings)
+            {
+                var newList = new List<QTurningTool>();
+                foreach (var grade in grades)
+                {
+                    foreach (var turn in list)
+                    {
+                        if (turn.Material == Convert.ToInt32(grade))
+                        {
+                            newList.Add(turn);
+                        }
+                    }
+                }
+                newTurnings.Add(newList);
             }
 
             return newTurnings;
