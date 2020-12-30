@@ -149,5 +149,6 @@ namespace AlgorytmDobieraniaZasobowProdukcyjnych.Data
 
             return newTurnings;
         }
+
     }
 }

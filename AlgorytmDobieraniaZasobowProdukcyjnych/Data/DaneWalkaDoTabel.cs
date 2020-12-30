@@ -1,4 +1,5 @@
-﻿using System;
+﻿using AlgorytmDobieraniaZasobowProdukcyjnych.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
@@ -30,7 +31,11 @@ namespace AlgorytmDobieraniaZasobowProdukcyjnych.Data
         public List<List<List<object>>> ParametersFN = new List<List<List<object>>>();
         public List<string> ParametersNamesFN = new List<string>();
 
-        public string Image { get; set; }
+        public string ImageLathe { get; set; }
+        public string ImageToolRG { get; set; }
+        public string ImageToolMT { get; set; }
+        public string ImageToolFN { get; set; }
+        public string ImageWalek { get; set; }
         
 
         public DaneWalkaDoTabel()
@@ -46,7 +51,7 @@ namespace AlgorytmDobieraniaZasobowProdukcyjnych.Data
             ListName = dane.ListName;
             NaddatkiValues = dane.NaddatkiValues;
             NaddatkiNames = dane.NaddatkiNames;
-            Image = dane.Image;
+            ImageLathe = dane.ImageLathe;
         }
 
         internal void SetParameterToTable(List<List<Parameter>> listOfParameters)
@@ -173,6 +178,16 @@ namespace AlgorytmDobieraniaZasobowProdukcyjnych.Data
             ParametersNamesMT = nameList;
             ParametersMT = tablesParameters;
         }
+
+        internal void SetImages(Lathe lathe, List<List<Parameter>> lists, DaneWalka walek)
+        {
+            ImageLathe = "/images/" + lathe.Obraz;
+            ImageWalek = "/images/" + walek.Image.Trim() + ".jpg";
+            ImageToolRG = "/images/" + lists[0][0].Tool.Obraz;
+            ImageToolMT = "/images/" + lists[1][0].Tool.Obraz;
+            ImageToolFN = "/images/" + lists[2][0].Tool.Obraz;
+        }
+
         private void SetParametrListFN(List<Parameter> listOfParameters, List<int> listaStopni)
         {
             var tablesParameters = new List<List<List<object>>>();

@@ -139,12 +139,13 @@ namespace AlgorytmDobieraniaZasobowProdukcyjnych.Data
                 ListName = listname,
                 NaddatkiValues = naddatki,
                 NaddatkiNames = naddatkiNames,
-                Image = this.Image
+                ImageWalek = Image
             };
         }
 
         public void SetWalek(DaneWalka dane)
         {
+            Image = dane.Image;
             Srednica = dane.Srednica;
             Dlugosc = dane.Dlugosc;
             Material = dane.Material;
@@ -165,6 +166,7 @@ namespace AlgorytmDobieraniaZasobowProdukcyjnych.Data
         {
             return new DaneWalka
             {
+                Image = this.Image,
                 Srednica = this.Srednica,
                 Dlugosc = this.Dlugosc,
                 Material = this.Material,
@@ -421,26 +423,27 @@ namespace AlgorytmDobieraniaZasobowProdukcyjnych.Data
                      select l.Qnom;
 
             var oldDlugosc = Dlugosc;
-            Dlugosc /= 2;
-            var any = FN.Any();
-            if (!(FN.Any() || MT.Any() || RG.Any()))
+            if(!FN.Any() || !MT.Any() || !RG.Any()) Dlugosc /= 2;
+            if (!FN.Any() || !MT.Any() || !RG.Any())
             {
-                RG = from l in db.TurnAllowCentrRgs
+                var RGN = from l in db.TurnAllowCentrRgs
                      where l.Lmax > Dlugosc && l.Lmin <= Dlugosc &&
                            l.Dmax > DSR && l.Dmin <= DSR
                      select l.Qnom;
 
-                MT = from l in db.TurnAllowCentrMts
+                var MTN = from l in db.TurnAllowCentrMts
                      where l.Lmax > Dlugosc && l.Lmin <= Dlugosc &&
                            l.Dmax > DSR && l.Dmin <= DSR
                      select l.Qnom;
 
-                FN = from l in db.TurnAllowCentrFns
+                var FNN = from l in db.TurnAllowCentrFns
                      where l.Lmax > Dlugosc && l.Lmin <= Dlugosc &&
                            l.Dmax > DSR && l.Dmin <= DSR
                      select l.Qnom;
+                RG = RGN;
+                MT = MTN;
+                FNN = FN;
             }
-            Dlugosc = oldDlugosc;
             QFN = Math.Round((double)FN.ToList().First(), 1);
             QMT = Math.Round((double)MT.ToList().First(), 1);
             QRG = Math.Round((double)RG.ToList().First(), 1);
@@ -448,6 +451,7 @@ namespace AlgorytmDobieraniaZasobowProdukcyjnych.Data
             QFND = (double)FN.ToList().First();
             QMTD = (double)MT.ToList().First();
             QRGD = (double)RG.ToList().First();
+            Dlugosc = oldDlugosc;
         }
 
         private void NaddatkiDlugosc()

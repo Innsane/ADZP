@@ -3,10 +3,71 @@
 @{
     ViewData["Title"] = "Tabela";
 }
+<style>
+    img {
+        display: block;
+        max-width: 333px;
+        max-height: 130px;
+        width: auto;
+        height: auto;
+        margin-left:auto;
+        margin-right:auto;
+    }
 
+    #imgContainer div{
+        height: 200px;
+        width: auto;
+        text-align: center;
+    }
+    #upper img {
+        display: block;
+        max-width: 400px;
+        max-height: 160px;
+        width: auto;
+        height: auto;
+        margin-left: auto;
+        margin-right: auto;
+    }
+    #lower img {
+        display: block;
+        max-width: 300px;
+        max-height: 130px;
+        width: auto;
+        height: auto;
+        margin-left: auto;
+        margin-right: auto;
+    }
+</style>
 
-@if (!(Model.Image is null))
+@if (!(Model.Dane.ImageLathe is null))
 {
+<div id="imgContainer" class="container">
+    <div id="upper" class="row">
+        <div class="col-6">
+            <label class="">Obrabiarka: </label>
+            <img class="img-fluid" src="@Model.Dane.ImageLathe" alt="Alternate Text" />
+        </div>
+        <div class="col-6">
+            <label>Rysunek techniczny wałka: </label>
+            <img class="img-fluid" src="@Model.Dane.ImageWalek" alt="Alternate Text" />
+        </div>
+    </div>
+    <br />
+    <div id="lower" class="row">
+        <div class="col-4">
+            <label>Narzędzie do obróbki zgrubnej: </label>
+            <img class="img-fluid" src="@Model.Dane.ImageToolRG" alt="Alternate Text" />
+        </div>
+        <div class="col-4">
+            <label>Narzędzie do obróbki kształtującej: </label>
+            <img class="img-fluid" src="@Model.Dane.ImageToolMT" alt="Alternate Text" />
+        </div>
+        <div class="col-4">
+            <label>Narzędzie do obróbki wykańczającej: </label>
+            <img class="img-fluid" src="@Model.Dane.ImageToolFN" alt="Alternate Text" />
+        </div>
+    </div>
+</div>
 
 }
 
@@ -35,7 +96,7 @@
 <br />
 <br />
 <h2>Naddatki dla wału</h2>
-<table class="table table-bordered">
+<table class="table table-bordered table-sm">
     <thead>
         <tr>
             @foreach (var info in Model.Data.NaddatkiNames)
@@ -64,7 +125,7 @@
 <br />
 <br />
 <h2>Dane dla poszczególnych stopni wału</h2>
-<table class="table table-bordered">
+<table class="table table-bordered table-sm">
     <thead>
         <tr>
             @foreach (var info in Model.Data.ListName)
@@ -104,7 +165,7 @@
 <h2>Parametry skrawania dla wybranych narzędzi do obróbki zgrubnej: </h2>
 @foreach (var table in Model.Dane.ParametersRG)
 {
-    <table class="table table-bordered">
+    <table class="table table-bordered table-sm">
         <thead>
             <tr>
                 @foreach (var info in Model.Dane.ParametersNamesRG)
@@ -119,7 +180,7 @@
                 <tr>
                     @for (int i = 0; i < parameter.Count; i++)
                     {
-                        if (Model.Index == 0 || Model.Index == 3)
+                        if (Model.Index == 0 || Model.Index == 3 || Model.Index == 4)
                         {
                             <td>@parameter[i]</td>
                         }
@@ -141,7 +202,7 @@
 <h2>Parametry skrawania dla wybranych narzędzi do obróbki ksztaltujacej: </h2>
 @foreach (var table in Model.Dane.ParametersMT)
 {
-    <table class="table table-bordered">
+    <table class="table table-bordered table-sm">
         <thead>
             <tr>
                 @foreach (var info in Model.Dane.ParametersNamesMT)
@@ -153,6 +214,7 @@
         <tbody>
             @foreach (var parameter in table)
             {
+                if ((double)parameter[4] == 0) continue;
                 <tr>
                     @for (int i = 0; i < parameter.Count; i++)
                     {
@@ -178,7 +240,7 @@
 <h2>Parametry skrawania dla wybranych narzędzi do obróbki wykanczajacej: </h2>
 @foreach (var table in Model.Dane.ParametersFN)
 {
-    <table class="table table-bordered">
+    <table class="table table-bordered table-sm">
         <thead>
             <tr>
                 @foreach (var info in Model.Dane.ParametersNamesFN)
@@ -190,10 +252,11 @@
         <tbody>
             @foreach (var parameter in table)
             {
+                if ((double)parameter[4] == 0) continue;
                 <tr>
                     @for (int i = 0; i < parameter.Count; i++)
                     {
-                        if (Model.Index == 0 || Model.Index == 3 || Model.Index == 4)
+                        if (Model.Index == 0 || Model.Index == 3)
                         {
                             <td>@parameter[i]</td>
                         }

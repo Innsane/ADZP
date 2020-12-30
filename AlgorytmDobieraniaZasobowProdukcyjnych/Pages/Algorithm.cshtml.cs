@@ -131,6 +131,7 @@ namespace AlgorytmDobieraniaZasobowProdukcyjnych.Pages
             //SortListOfParameter(listOfParameters);
             DataToTable.SetDataToTable(Walek.GetDataToTable());
             DataToTable.SetParameterToTable(parameters.GetParametersList());
+            DataToTable.SetImages(lathe, parameters.GetParametersList(), walek);
 
             return RedirectToPage("Tabela");
         }
