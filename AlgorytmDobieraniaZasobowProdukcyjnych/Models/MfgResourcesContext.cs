@@ -8,17 +8,19 @@ namespace AlgorytmDobieraniaZasobowProdukcyjnych.Models
 {
     public partial class MfgResourcesContext : DbContext
     {
-
         public MfgResourcesContext(DbContextOptions<MfgResourcesContext> options)
             : base(options)
         {
         }
 
         public virtual DbSet<Accuracy> Accuracies { get; set; }
+        public virtual DbSet<Blank> Blanks { get; set; }
         public virtual DbSet<FaceAllow> FaceAllows { get; set; }
+        public virtual DbSet<Feature> Features { get; set; }
         public virtual DbSet<InsertShape> InsertShapes { get; set; }
         public virtual DbSet<InsertSize> InsertSizes { get; set; }
         public virtual DbSet<Lathe> Lathes { get; set; }
+        public virtual DbSet<ManufacturingFeature> ManufacturingFeatures { get; set; }
         public virtual DbSet<Material> Materials { get; set; }
         public virtual DbSet<NozeJednolite> NozeJednolites { get; set; }
         public virtual DbSet<NozeLutowane> NozeLutowanes { get; set; }
@@ -26,6 +28,16 @@ namespace AlgorytmDobieraniaZasobowProdukcyjnych.Models
         public virtual DbSet<Opsklo> Opsklos { get; set; }
         public virtual DbSet<ParKcVal> ParKcVals { get; set; }
         public virtual DbSet<ParVcVal> ParVcVals { get; set; }
+        public virtual DbSet<Part> Parts { get; set; }
+        public virtual DbSet<QCechy> QCechies { get; set; }
+        public virtual DbSet<QPocl> QPocls { get; set; }
+        public virtual DbSet<QPocz> QPoczs { get; set; }
+        public virtual DbSet<QPogmz> QPogmzs { get; set; }
+        public virtual DbSet<QPopd> QPopds { get; set; }
+        public virtual DbSet<QPopo> QPopos { get; set; }
+        public virtual DbSet<QPorw> QPorws { get; set; }
+        public virtual DbSet<QPosf> QPosfs { get; set; }
+        public virtual DbSet<QPost> QPosts { get; set; }
         public virtual DbSet<QTurningTool> QTurningTools { get; set; }
         public virtual DbSet<Resource> Resources { get; set; }
         public virtual DbSet<RolledBarLen> RolledBarLens { get; set; }
@@ -55,7 +67,7 @@ namespace AlgorytmDobieraniaZasobowProdukcyjnych.Models
             if (!optionsBuilder.IsConfigured)
             {
 #warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
-                optionsBuilder.UseSqlServer("Server=.\\SQLEXPRESS;Database=MfgResources;Trusted_Connection=True;");
+                optionsBuilder.UseSqlServer("Server=.\\SQLExpress;Database=MfgResources;Trusted_Connection=True;");
             }
         }
 
@@ -106,6 +118,76 @@ namespace AlgorytmDobieraniaZasobowProdukcyjnych.Models
                     .HasColumnName("SSMA_TimeStamp");
             });
 
+            modelBuilder.Entity<Blank>(entity =>
+            {
+                entity.HasKey(e => e.Idbl)
+                    .HasName("Blank$PrimaryKey");
+
+                entity.ToTable("Blank");
+
+                entity.HasIndex(e => e.Idbl, "Blank$IDBL");
+
+                entity.Property(e => e.Idbl)
+                    .HasMaxLength(30)
+                    .HasColumnName("IDBL")
+                    .HasComment("Identyfikator półfabrykatu, oznaczenie handlowe np. RB_fi_Lpf_Material");
+
+                entity.Property(e => e.Dmax).HasComment("Największa obliczona średnica");
+
+                entity.Property(e => e.Dpf).HasComment("Dobrana średnica pręta walcowanego");
+
+                entity.Property(e => e.Idp)
+                    .IsRequired()
+                    .HasMaxLength(10)
+                    .HasColumnName("IDP")
+                    .HasComment("FK - klucz obcy - identyfikator przedmiotu");
+
+                entity.Property(e => e.Itpf)
+                    .HasColumnName("ITpf")
+                    .HasComment("Klasa dokładności wykonania dla średnicy pręta");
+
+                entity.Property(e => e.Lpf).HasComment("Dobrana długość pręta walcowanego");
+
+                entity.Property(e => e.Material)
+                    .HasMaxLength(20)
+                    .HasComment("Materiał z jakiego wykonano półfabrykat");
+
+                entity.Property(e => e.Np).HasComment("Ilość sztuk PO z jednego pręta");
+
+                entity.Property(e => e.Price)
+                    .HasColumnType("money")
+                    .HasComment("Cena jednego pręta");
+
+                entity.Property(e => e.Rapf)
+                    .HasDefaultValueSql("((0))")
+                    .HasComment("Chropowatość powierzchni pręta walcowanego");
+
+                entity.Property(e => e.SsmaTimeStamp)
+                    .IsRequired()
+                    .IsRowVersion()
+                    .IsConcurrencyToken()
+                    .HasColumnName("SSMA_TimeStamp");
+
+                entity.Property(e => e.Tdpf)
+                    .HasColumnName("TDpf")
+                    .HasDefaultValueSql("((0))")
+                    .HasComment("Tolerancja wykanania na średnicy pręta [mm]");
+
+                entity.Property(e => e.Tlpf)
+                    .HasColumnName("TLpf")
+                    .HasDefaultValueSql("((0))")
+                    .HasComment("Tolerancja wykonania dla długości pręta [mm]");
+
+                entity.Property(e => e.Weight)
+                    .HasDefaultValueSql("((0))")
+                    .HasComment("Waga jednego pręta");
+
+                entity.HasOne(d => d.IdpNavigation)
+                    .WithMany(p => p.Blanks)
+                    .HasForeignKey(d => d.Idp)
+                    .HasConstraintName("Blank$PartBlank");
+            });
+
             modelBuilder.Entity<FaceAllow>(entity =>
             {
                 entity.HasKey(e => e.Ida)
@@ -122,6 +204,84 @@ namespace AlgorytmDobieraniaZasobowProdukcyjnych.Models
                     .IsRowVersion()
                     .IsConcurrencyToken()
                     .HasColumnName("SSMA_TimeStamp");
+            });
+
+            modelBuilder.Entity<Feature>(entity =>
+            {
+                entity.HasKey(e => e.Idftr)
+                    .HasName("Features$PrimaryKey");
+
+                entity.HasIndex(e => e.Idpart, "Features$IDPart");
+
+                entity.Property(e => e.Idftr)
+                    .HasMaxLength(10)
+                    .HasColumnName("IDFtr")
+                    .HasComment("Identyfikator powierzchni: kod PxxxFNyy");
+
+                entity.Property(e => e.Angle)
+                    .HasDefaultValueSql("((0))")
+                    .HasComment("Kąt [stopnie]");
+
+                entity.Property(e => e.Depth)
+                    .HasDefaultValueSql("((0))")
+                    .HasComment("Głębokość powierzchni [mm]");
+
+                entity.Property(e => e.Diameter)
+                    .HasDefaultValueSql("((0))")
+                    .HasComment("Średnica powierzchni [mm]");
+
+                entity.Property(e => e.Fit)
+                    .HasMaxLength(4)
+                    .HasComment("Oznaczenie pasowania na średnicy lub innym wymiarze tolerowanym");
+
+                entity.Property(e => e.FtrNo)
+                    .HasMaxLength(8)
+                    .HasComment("Numer kolejny powierzchni w przedmiocie");
+
+                entity.Property(e => e.FtrType)
+                    .HasMaxLength(10)
+                    .HasComment("Kod cechy technologicznej: CYL, STOZ, KUL");
+
+                entity.Property(e => e.Idpart)
+                    .IsRequired()
+                    .HasMaxLength(10)
+                    .HasColumnName("IDPart")
+                    .HasComment("Identyfikator przedmiotu");
+
+                entity.Property(e => e.It)
+                    .HasColumnName("IT")
+                    .HasDefaultValueSql("((0))")
+                    .HasComment("Klasa dokładności (tolerancja) na średnicy");
+
+                entity.Property(e => e.Length)
+                    .HasDefaultValueSql("((0))")
+                    .HasComment("Długość powierzchni [mm]");
+
+                entity.Property(e => e.ParFtr)
+                    .HasMaxLength(8)
+                    .HasComment("Parent Feature - numer powierzchni rodzica 1 rzędu dla cech 2-go rzędu");
+
+                entity.Property(e => e.Ra)
+                    .HasDefaultValueSql("((0))")
+                    .HasComment("Chropowatość powierzchni Ra [µm]");
+
+                entity.Property(e => e.Radius)
+                    .HasDefaultValueSql("((0))")
+                    .HasComment("Promień [mm]");
+
+                entity.Property(e => e.SsmaTimeStamp)
+                    .IsRequired()
+                    .IsRowVersion()
+                    .IsConcurrencyToken()
+                    .HasColumnName("SSMA_TimeStamp");
+
+                entity.Property(e => e.Thread)
+                    .HasMaxLength(10)
+                    .HasComment("Oznaczenie typu gwintu - rodzaj x skok");
+
+                entity.Property(e => e.Width)
+                    .HasDefaultValueSql("((0))")
+                    .HasComment("Szerkość powierzchni [mm]");
             });
 
             modelBuilder.Entity<InsertShape>(entity =>
@@ -230,17 +390,35 @@ namespace AlgorytmDobieraniaZasobowProdukcyjnych.Models
                 entity.Property(e => e.Wrzeciono).HasMaxLength(30);
             });
 
+            modelBuilder.Entity<ManufacturingFeature>(entity =>
+            {
+                entity.HasKey(e => e.Idmftr)
+                    .HasName("ManufacturingFeatures$PKIDMF");
+
+                entity.Property(e => e.Idmftr)
+                    .HasMaxLength(20)
+                    .HasColumnName("IDMFtr")
+                    .HasComment("Identyfikator cechy technologicznej");
+
+                entity.Property(e => e.Description)
+                    .HasMaxLength(50)
+                    .HasComment("Opis słowny cechy technologicznej");
+
+                entity.Property(e => e.Stepnc)
+                    .HasMaxLength(50)
+                    .HasColumnName("STEPNC")
+                    .HasComment("Odpowiednik cechy technologicznej w STEP-NC");
+
+                entity.Property(e => e.Type)
+                    .HasMaxLength(40)
+                    .HasComment("Typ cechy technologicznej");
+            });
+
             modelBuilder.Entity<Material>(entity =>
             {
-                entity.HasKey(e => e.MatEn)
-                    .HasName("Material$PrimaryKey");
+                entity.HasNoKey();
 
                 entity.ToTable("Material");
-
-                entity.Property(e => e.MatEn)
-                    .HasMaxLength(15)
-                    .HasColumnName("Mat_EN")
-                    .HasComment("PK - oznaczenie materiału wg normy EN");
 
                 entity.Property(e => e.C).HasDefaultValueSql("((0))");
 
@@ -257,6 +435,11 @@ namespace AlgorytmDobieraniaZasobowProdukcyjnych.Models
                 entity.Property(e => e.MatDin)
                     .HasMaxLength(15)
                     .HasColumnName("Mat_DIN");
+
+                entity.Property(e => e.MatEn)
+                    .IsRequired()
+                    .HasMaxLength(15)
+                    .HasColumnName("Mat_EN");
 
                 entity.Property(e => e.MatIso)
                     .HasMaxLength(15)
@@ -504,6 +687,307 @@ namespace AlgorytmDobieraniaZasobowProdukcyjnych.Models
                     .IsRowVersion()
                     .IsConcurrencyToken()
                     .HasColumnName("SSMA_TimeStamp");
+            });
+
+            modelBuilder.Entity<Part>(entity =>
+            {
+                entity.HasKey(e => e.Idpart)
+                    .HasName("Part$PrimaryKey");
+
+                entity.ToTable("Part");
+
+                entity.HasIndex(e => e.Idmat, "Part$IDMat");
+
+                entity.Property(e => e.Idpart)
+                    .HasMaxLength(10)
+                    .HasColumnName("IDPart")
+                    .HasComment("Identyfikator części (Part0001)");
+
+                entity.Property(e => e.Drawing)
+                    .HasMaxLength(10)
+                    .HasComment("Identyfikator rysunku wykonawczego (Draw0001)");
+
+                entity.Property(e => e.Idmat)
+                    .HasMaxLength(10)
+                    .HasColumnName("IDMat")
+                    .HasComment("ID materiału z jakiego jest wykonana część (Mat0001)");
+
+                entity.Property(e => e.Mass)
+                    .HasDefaultValueSql("((0))")
+                    .HasComment("Masa części [kg]");
+
+                entity.Property(e => e.Model)
+                    .HasMaxLength(10)
+                    .HasComment("Identyfikator modelu 3D (Model0001)");
+
+                entity.Property(e => e.PartName)
+                    .IsRequired()
+                    .HasMaxLength(40)
+                    .HasComment("Nazwa części");
+
+                entity.Property(e => e.Picture)
+                    .HasMaxLength(8000)
+                    .IsUnicode(false)
+                    .HasComment("JPG z rysunkiem części");
+
+                entity.Property(e => e.SsmaTimeStamp)
+                    .IsRequired()
+                    .IsRowVersion()
+                    .IsConcurrencyToken()
+                    .HasColumnName("SSMA_TimeStamp");
+            });
+
+            modelBuilder.Entity<QCechy>(entity =>
+            {
+                entity.HasNoKey();
+
+                entity.ToView("qCechy");
+
+                entity.Property(e => e.Idftr)
+                    .IsRequired()
+                    .HasMaxLength(10)
+                    .HasColumnName("IDFtr");
+
+                entity.Property(e => e.Idpart)
+                    .IsRequired()
+                    .HasMaxLength(10)
+                    .HasColumnName("IDPart");
+
+                entity.Property(e => e.Type).HasMaxLength(40);
+            });
+
+            modelBuilder.Entity<QPocl>(entity =>
+            {
+                entity.HasNoKey();
+
+                entity.ToView("qPOCL");
+
+                entity.Property(e => e.Fit).HasMaxLength(4);
+
+                entity.Property(e => e.FtrNo).HasMaxLength(8);
+
+                entity.Property(e => e.FtrType).HasMaxLength(10);
+
+                entity.Property(e => e.Idftr)
+                    .IsRequired()
+                    .HasMaxLength(10)
+                    .HasColumnName("IDFtr");
+
+                entity.Property(e => e.Idpart)
+                    .IsRequired()
+                    .HasMaxLength(10)
+                    .HasColumnName("IDPart");
+
+                entity.Property(e => e.It).HasColumnName("IT");
+
+                entity.Property(e => e.Nazwa)
+                    .IsRequired()
+                    .HasMaxLength(25)
+                    .IsUnicode(false);
+            });
+
+            modelBuilder.Entity<QPocz>(entity =>
+            {
+                entity.HasNoKey();
+
+                entity.ToView("qPOCZ");
+
+                entity.Property(e => e.Fit).HasMaxLength(4);
+
+                entity.Property(e => e.FtrNo).HasMaxLength(8);
+
+                entity.Property(e => e.FtrType).HasMaxLength(10);
+
+                entity.Property(e => e.Idftr)
+                    .IsRequired()
+                    .HasMaxLength(10)
+                    .HasColumnName("IDFtr");
+
+                entity.Property(e => e.Idpart)
+                    .IsRequired()
+                    .HasMaxLength(10)
+                    .HasColumnName("IDPart");
+
+                entity.Property(e => e.It).HasColumnName("IT");
+
+                entity.Property(e => e.Nazwa)
+                    .IsRequired()
+                    .HasMaxLength(20)
+                    .IsUnicode(false);
+            });
+
+            modelBuilder.Entity<QPogmz>(entity =>
+            {
+                entity.HasNoKey();
+
+                entity.ToView("qPOGMZ");
+
+                entity.Property(e => e.Fit).HasMaxLength(4);
+
+                entity.Property(e => e.FtrNo).HasMaxLength(8);
+
+                entity.Property(e => e.FtrType).HasMaxLength(10);
+
+                entity.Property(e => e.Idftr)
+                    .IsRequired()
+                    .HasMaxLength(10)
+                    .HasColumnName("IDFtr");
+
+                entity.Property(e => e.Idpart)
+                    .IsRequired()
+                    .HasMaxLength(10)
+                    .HasColumnName("IDPart");
+
+                entity.Property(e => e.It).HasColumnName("IT");
+
+                entity.Property(e => e.Nazwa)
+                    .IsRequired()
+                    .HasMaxLength(44)
+                    .IsUnicode(false);
+            });
+
+            modelBuilder.Entity<QPopd>(entity =>
+            {
+                entity.HasNoKey();
+
+                entity.ToView("qPOPD");
+
+                entity.Property(e => e.FtrNo).HasMaxLength(8);
+
+                entity.Property(e => e.FtrType).HasMaxLength(10);
+
+                entity.Property(e => e.Idftr)
+                    .IsRequired()
+                    .HasMaxLength(10)
+                    .HasColumnName("IDFtr");
+
+                entity.Property(e => e.Idpart)
+                    .IsRequired()
+                    .HasMaxLength(10)
+                    .HasColumnName("IDPart");
+
+                entity.Property(e => e.It).HasColumnName("IT");
+
+                entity.Property(e => e.Nazwa)
+                    .IsRequired()
+                    .HasMaxLength(29)
+                    .IsUnicode(false);
+            });
+
+            modelBuilder.Entity<QPopo>(entity =>
+            {
+                entity.HasNoKey();
+
+                entity.ToView("qPOPO");
+
+                entity.Property(e => e.FtrNo).HasMaxLength(8);
+
+                entity.Property(e => e.FtrType).HasMaxLength(10);
+
+                entity.Property(e => e.Idftr)
+                    .IsRequired()
+                    .HasMaxLength(10)
+                    .HasColumnName("IDFtr");
+
+                entity.Property(e => e.Idpart)
+                    .IsRequired()
+                    .HasMaxLength(10)
+                    .HasColumnName("IDPart");
+
+                entity.Property(e => e.It).HasColumnName("IT");
+
+                entity.Property(e => e.Nazwa)
+                    .IsRequired()
+                    .HasMaxLength(22)
+                    .IsUnicode(false);
+            });
+
+            modelBuilder.Entity<QPorw>(entity =>
+            {
+                entity.HasNoKey();
+
+                entity.ToView("qPORW");
+
+                entity.Property(e => e.Fit).HasMaxLength(4);
+
+                entity.Property(e => e.FtrNo).HasMaxLength(8);
+
+                entity.Property(e => e.FtrType).HasMaxLength(10);
+
+                entity.Property(e => e.Idftr)
+                    .IsRequired()
+                    .HasMaxLength(10)
+                    .HasColumnName("IDFtr");
+
+                entity.Property(e => e.Idpart)
+                    .IsRequired()
+                    .HasMaxLength(10)
+                    .HasColumnName("IDPart");
+
+                entity.Property(e => e.It).HasColumnName("IT");
+
+                entity.Property(e => e.Nazwa)
+                    .IsRequired()
+                    .HasMaxLength(28)
+                    .IsUnicode(false);
+            });
+
+            modelBuilder.Entity<QPosf>(entity =>
+            {
+                entity.HasNoKey();
+
+                entity.ToView("qPOSF");
+
+                entity.Property(e => e.FtrNo).HasMaxLength(8);
+
+                entity.Property(e => e.FtrType).HasMaxLength(10);
+
+                entity.Property(e => e.Idftr)
+                    .IsRequired()
+                    .HasMaxLength(10)
+                    .HasColumnName("IDFtr");
+
+                entity.Property(e => e.Idpart)
+                    .IsRequired()
+                    .HasMaxLength(10)
+                    .HasColumnName("IDPart");
+
+                entity.Property(e => e.It).HasColumnName("IT");
+
+                entity.Property(e => e.Nazwa)
+                    .IsRequired()
+                    .HasMaxLength(19)
+                    .IsUnicode(false);
+            });
+
+            modelBuilder.Entity<QPost>(entity =>
+            {
+                entity.HasNoKey();
+
+                entity.ToView("qPOST");
+
+                entity.Property(e => e.Fit).HasMaxLength(4);
+
+                entity.Property(e => e.FtrNo).HasMaxLength(8);
+
+                entity.Property(e => e.FtrType).HasMaxLength(10);
+
+                entity.Property(e => e.Idftr)
+                    .IsRequired()
+                    .HasMaxLength(10)
+                    .HasColumnName("IDFtr");
+
+                entity.Property(e => e.Idpart)
+                    .IsRequired()
+                    .HasMaxLength(10)
+                    .HasColumnName("IDPart");
+
+                entity.Property(e => e.It).HasColumnName("IT");
+
+                entity.Property(e => e.Nazwa)
+                    .IsRequired()
+                    .HasMaxLength(21)
+                    .IsUnicode(false);
             });
 
             modelBuilder.Entity<QTurningTool>(entity =>

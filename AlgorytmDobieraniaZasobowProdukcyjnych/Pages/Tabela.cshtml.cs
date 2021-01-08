@@ -21,12 +21,16 @@ namespace AlgorytmDobieraniaZasobowProdukcyjnych.Pages
         public DaneWalkaDoTabel Data { get; set; }
         public DaneWalkaDoTabel Dane { get; }
         public string Image { get; set; }
-        public string  Path { get; set; }
+        public string Path { get; set; }
         public int Index = 0;
 
         public void OnGet()
         {
             Data = Dane;
+            if(Data is null)
+            {
+                RedirectToPage("Algorithm");
+            }
         }
     }
 }

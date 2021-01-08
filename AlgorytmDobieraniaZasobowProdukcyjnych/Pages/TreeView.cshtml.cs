@@ -120,12 +120,22 @@ namespace AlgorytmDobieraniaZasobowProdukcyjnych.Pages
                 }
             }
 
+            string pathToImage;
+            string pathToImage2D = "";
             if(pathList[0].Length > pathList[1].Length)
             {
                 pathList.Reverse();
             }
-            var pathToImage = "/images/" + Path.GetFileName(pathList[0]);
-            var pathToImage2D = "/images/" + Path.GetFileName(pathList[1]);
+            if (pathList.Count > 1)
+            {
+                pathToImage = "/images/" + Path.GetFileName(pathList[0]);
+                pathToImage2D = "/images/" + Path.GetFileName(pathList[1]);
+            }
+            else
+            {
+                pathToImage = "/images/" + Path.GetFileName(pathList[0]);
+            }
+
 
             ImagePath = new ImagePath
             {

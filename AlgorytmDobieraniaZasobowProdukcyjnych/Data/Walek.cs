@@ -33,6 +33,7 @@ namespace AlgorytmDobieraniaZasobowProdukcyjnych.Data
                 MPO,
                 MPF,
                 MW,
+                TPF,
                 DSR,
                 SRPF,
                 DLPF,
@@ -45,26 +46,27 @@ namespace AlgorytmDobieraniaZasobowProdukcyjnych.Data
 
             var atname = new List<string>
             {
-                nameof(Srednica),
-                nameof(SRC),
-                nameof(Dlugosc),
-                nameof(DLC),
-                nameof(Material),
-                nameof(GestoscMaterialu),
+                "Średnica",
+                "Średnica PF",
+                "Długość",
+                "Długość PF",
+                "Materiał",
+                "Gęstość materiału",
                 nameof(Stopnie),
                 nameof(S),
                 nameof(O),
-                nameof(MPO),
-                nameof(MPF),
-                nameof(MW),
-                nameof(DSR),
+                "mPO",
+                "mPF",
+                "mW",
+                "TPF",
+                "dśr",
                 nameof(SRPF),
                 nameof(DLPF),
-                nameof(QRG),
-                nameof(QMT),
-                nameof(QFN),
-                nameof(QLRG),
-                nameof(QLMT)
+                "Qzgr",
+                "Qkszt",
+                "Qwyk",
+                "QPLzgr",
+                "QPKksz"
             };
 
             var stopienWalu = new List<int>();
@@ -89,17 +91,17 @@ namespace AlgorytmDobieraniaZasobowProdukcyjnych.Data
 
             var listname = new List<string>
             {
-                "Stopien walu",
-                nameof(DlugoscStopnia),
-                nameof(SrednicaStopnia),
-                nameof(KlasaTolerancji),
-                nameof(TPO),
-                nameof(KO),
+                "Stopień wału",
+                "Długość stopnia [mm]",
+                "Średnica stopnia [mm]",
+                "Klasa Tolerancji",
+                "TPO",
+                "Ko",
                 nameof(IZ),
-                nameof(DFN),
-                nameof(DMT),
-                nameof(DRG),
-                nameof(APMAX)
+                "Di Wyk [mm]",
+                "Di Kszt [mm]",
+                "Di Zgr [mm]",
+                "apmax [mm]"
             };
 
             var naddatki = new List<List<object>>

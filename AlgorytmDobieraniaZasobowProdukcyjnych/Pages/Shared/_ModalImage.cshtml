@@ -8,16 +8,22 @@
 
 else
 {
-    <label>Rysunek</label>
-    <br />
-    <img class="img-fluid" src="@Model.Path" alt="Alternate Text" />
+    if (Model.Path != "")
+    {
+        <label>Rysunek</label>
+        <br />
+        <img class="img-fluid" src="@Model.Path" alt="Alternate Text" />
+    }
 
-    <br />
-    <br />
-    <br />
+    if (Model.Path2D != "")
+    {
+        <br />
+        <br />
+        <br />
 
-    <label>Rysunek 2D</label>
-    <br />
-    <img class="img-fluid" src="@Model.Path2D" alt="Alternate Text" />
+        <label>Rysunek 2D</label>
+        <br />
+        <img class="img-fluid" src="@Model.Path2D" alt="Alternate Text" />
+    }
 }
 

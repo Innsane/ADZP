@@ -104,19 +104,19 @@ namespace AlgorytmDobieraniaZasobowProdukcyjnych.Data
             var nameList = new List<string>
                     {
                         "Stopień",
-                        "Geometry",
-                        "Holder",
-                        "Material",
-                        "Przejsc",
-                        "ap",
-                        "f",
-                        "vc",
-                        "n",
-                        "Q",
-                        "tg",
-                        "T",
-                        "Fc",
-                        "kc",
+                        "Płytka",
+                        "Oprawka",
+                        "Materiał",
+                        "Przejść",
+                        "ap [mm]",
+                        "f [mm]/obr]",
+                        "vc [m/min]",
+                        "n [obr/min]",
+                        "Q [cm3/min]",
+                        "tg [min]",
+                        "T [min]",
+                        "Fc [N]",
+                        "kc [N/mm2]",
                         "hm [mm]",
                         "Pc [kW]",
                         "Pe [kW]"
@@ -158,18 +158,18 @@ namespace AlgorytmDobieraniaZasobowProdukcyjnych.Data
             var nameList = new List<string>
                     {
                         "Stopień",
-                        "Geometry",
-                        "Holder",
-                        "Material",
-                        "ap",
-                        "f",
-                        "vc",
-                        "n",
-                        "Q",
-                        "tg",
-                        "T",
-                        "Fc",
-                        "kc",
+                        "Płytka",
+                        "Oprawka",
+                        "Materiał",
+                        "ap [mm]",
+                        "f [mm]/obr]",
+                        "vc [m/min]",
+                        "n [obr/min]",
+                        "Q [cm3/min]",
+                        "tg [min]",
+                        "T [min]",
+                        "Fc [N]",
+                        "kc [N/mm2]",
                         "hm [mm]",
                         "Pc [kW]",
                         "Pe [kW]"
@@ -178,16 +178,6 @@ namespace AlgorytmDobieraniaZasobowProdukcyjnych.Data
             ParametersNamesMT = nameList;
             ParametersMT = tablesParameters;
         }
-
-        internal void SetImages(Lathe lathe, List<List<Parameter>> lists, DaneWalka walek)
-        {
-            ImageLathe = "/images/" + lathe.Obraz;
-            ImageWalek = "/images/" + walek.Image.Trim() + ".jpg";
-            ImageToolRG = "/images/" + lists[0][0].Tool.Obraz;
-            ImageToolMT = "/images/" + lists[1][0].Tool.Obraz;
-            ImageToolFN = "/images/" + lists[2][0].Tool.Obraz;
-        }
-
         private void SetParametrListFN(List<Parameter> listOfParameters, List<int> listaStopni)
         {
             var tablesParameters = new List<List<List<object>>>();
@@ -221,18 +211,18 @@ namespace AlgorytmDobieraniaZasobowProdukcyjnych.Data
             var nameList = new List<string>
                     {
                         "Stopień",
-                        "Geometry",
-                        "Holder",
-                        "Material",
-                        "ap",
-                        "f",
-                        "vc",
-                        "n",
-                        "Q",
-                        "tg",
-                        "T",
-                        "Fc",
-                        "kc",
+                        "Płytka",
+                        "Oprawka",
+                        "Materiał",
+                        "ap [mm]",
+                        "f [mm]/obr]",
+                        "vc [m/min]",
+                        "n [obr/min]",
+                        "Q [cm3/min]",
+                        "tg [min]",
+                        "T [min]",
+                        "Fc [N]",
+                        "kc [N/mm2]",
                         "hm [mm]",
                         "Pc [kW]",
                         "Pe [kW]"
@@ -240,6 +230,17 @@ namespace AlgorytmDobieraniaZasobowProdukcyjnych.Data
 
             ParametersNamesFN = nameList;
             ParametersFN = tablesParameters;
+        }
+
+
+
+        internal void SetImages(Lathe lathe, List<List<Parameter>> lists, DaneWalka walek)
+        {
+            ImageLathe = "/images/" + lathe.Obraz;
+            ImageWalek = "/images/" + walek.Image.Trim() + ".jpg";
+            ImageToolRG = "/images/" + lists[0][0].Tool.Obraz;
+            ImageToolMT = "/images/" + lists[1][0].Tool.Obraz;
+            ImageToolFN = "/images/" + lists[2][0].Tool.Obraz;
         }
 
         //    internal void SetParameterToTable(List<Parameter> listOfParameters)
