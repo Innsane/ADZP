@@ -10,7 +10,7 @@ namespace AlgorytmDobieraniaZasobowProdukcyjnych.Data
     public interface IWalek
     {
         public void SetWalek(DaneWalka dane);
-        public void SetWalek(List<Walki> dane);
+        public void SetWalek(List<QPocl> dane);
         public void Calculate();
         public DaneWalkaDoTabel GetDataToTable();
         public DaneWalka GetData();

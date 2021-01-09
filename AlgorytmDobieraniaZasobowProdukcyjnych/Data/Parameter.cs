@@ -25,7 +25,7 @@ namespace AlgorytmDobieraniaZasobowProdukcyjnych.Data
         public string Obrobka { get; set; }
         public string CmcMaterial { get; private set; } //wartosc cmc materialu PO
         private int Stopien { get; set; }
-        
+
 
         public List<double> AP = new List<double>();
         public List<int> Przejsc = new List<int>();
@@ -40,6 +40,8 @@ namespace AlgorytmDobieraniaZasobowProdukcyjnych.Data
         public List<double> HM = new List<double>();
         public List<double> PC = new List<double>();
         public List<double> PE = new List<double>();
+        public List<double> Ra = new List<double>();
+        public List<double> Rt = new List<double>();
 
         //public double AP { get; set; } //glebokosc skrawania [mm]
         //public double F { get; set; } //posuw [mm/obr]
@@ -54,12 +56,14 @@ namespace AlgorytmDobieraniaZasobowProdukcyjnych.Data
         //public double PC { get; private set; } //moc skrawania netto [kW]
         //public double PE { get; private set; } //dostepna moc [kW]
 
+        
+
         internal void SetParameter(DaneWalka walek, Lathe lathe, QTurningTool tool, string cmc)
         {
             Walek = walek;
             Lathe = lathe;
             Tool = tool;
-            Obrobka = "RG";
+            Obrobka = "";
             CmcMaterial = cmc;
         }
 
@@ -68,7 +72,7 @@ namespace AlgorytmDobieraniaZasobowProdukcyjnych.Data
             Walek = walek;
             Lathe = lathe;
             Tool = tool;
-            Obrobka = "RG";
+            Obrobka = "";
             CmcMaterial = cmc;
             Stopien = 0;
 
@@ -87,6 +91,32 @@ namespace AlgorytmDobieraniaZasobowProdukcyjnych.Data
                 PotrzebnaMoc();
                 CzasMaszynowy();
                 Stopien++;
+            }
+        }
+
+        private void NormalizeFandVC()
+        {
+            if(Obrobka == "PM")
+            {
+                var f = F.Max();
+                var index = F.IndexOf(f);
+                var vc = VC[index];
+                for (int i = 0; i < F.Count; i++)
+                {
+                    F[i] = f;
+                    VC[i] = vc;
+                }
+            }
+            if (Obrobka == "PF")
+            {
+                var f = F.Min();
+                var index = F.IndexOf(f);
+                var vc = VC[index];
+                for (int i = 0; i < F.Count; i++)
+                {
+                    F[i] = f;
+                    VC[i] = vc;
+                }
             }
         }
 
@@ -187,7 +217,19 @@ namespace AlgorytmDobieraniaZasobowProdukcyjnych.Data
 
         public void Posuw()
         {
-            F.Add(Convert.ToDouble(Tool.FnZ));
+            var f = 0.0;
+            Ra.Add(Walek.ChropowatoscRa[Stopien]);
+            Rt.Add(Walek.ChropowatoscRt[Stopien]);
+            if (Obrobka == "PM" && Walek.IZ[Stopien] == 2)
+            {
+                f = Math.Sqrt((8 * Convert.ToDouble(Tool.Re) * Walek.ChropowatoscRt[Stopien]) / 1000);
+            }
+            else if (Obrobka == "PF")
+            {
+                f = Math.Sqrt((8 * Convert.ToDouble(Tool.Re) * Walek.ChropowatoscRt[Stopien]) / 1000);
+            }
+            else f = Convert.ToDouble(Tool.FnZ);
+            F.Add(f);
         }
 
         public void PredkoscSkrawania()

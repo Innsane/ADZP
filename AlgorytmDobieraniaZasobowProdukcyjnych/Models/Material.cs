@@ -7,6 +7,12 @@ namespace AlgorytmDobieraniaZasobowProdukcyjnych.Models
 {
     public partial class Material
     {
+        public Material()
+        {
+            Parts = new HashSet<Part>();
+        }
+
+        public string Idmat { get; set; }
         public string MatEn { get; set; }
         public string Rodzaj { get; set; }
         public string Stan { get; set; }
@@ -23,5 +29,7 @@ namespace AlgorytmDobieraniaZasobowProdukcyjnych.Models
         public short? Kc11 { get; set; }
         public double? Mc { get; set; }
         public byte[] SsmaTimeStamp { get; set; }
+
+        public virtual ICollection<Part> Parts { get; set; }
     }
 }

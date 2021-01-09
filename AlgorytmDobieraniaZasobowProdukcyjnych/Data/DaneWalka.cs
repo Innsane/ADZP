@@ -12,7 +12,8 @@ namespace AlgorytmDobieraniaZasobowProdukcyjnych.Data
         public string Image { get; set; }
         public double Dlugosc { get; set; }
         public double Srednica { get; set; }
-        public string Material { get; set; }
+        public string MaterialId { get; set; }
+        public string MaterialPn { get; set; }
         public double GestoscMaterialu = 7.85;
 
         public int Stopnie { get; set; }
@@ -20,6 +21,8 @@ namespace AlgorytmDobieraniaZasobowProdukcyjnych.Data
         public List<double> DlugoscStopnia { get; set; }
         public List<double> SrednicaStopnia { get; set; }
         public List<int> KlasaTolerancji { get; set; }
+        public List<double> ChropowatoscRa { get; set; }
+        public List<double> ChropowatoscRt { get; set; }
         public List<QTurningTool> ToolsRG { get; set; }
         public List<QTurningTool> ToolsMT { get; set; }
         public List<QTurningTool> ToolsFN { get; set; }

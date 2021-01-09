@@ -25,7 +25,7 @@ namespace AlgorytmDobieraniaZasobowProdukcyjnych.Data
                 SRC,
                 Dlugosc,
                 DLC,
-                Material,
+                MaterialPn,
                 GestoscMaterialu,
                 Stopnie,
                 S,
@@ -150,7 +150,7 @@ namespace AlgorytmDobieraniaZasobowProdukcyjnych.Data
             Image = dane.Image;
             Srednica = dane.Srednica;
             Dlugosc = dane.Dlugosc;
-            Material = dane.Material;
+            MaterialId = dane.MaterialId;
             Stopnie = dane.Stopnie;
             DlugoscStopnia = dane.DlugoscStopnia;
             SrednicaStopnia = dane.SrednicaStopnia;
@@ -171,11 +171,14 @@ namespace AlgorytmDobieraniaZasobowProdukcyjnych.Data
                 Image = this.Image,
                 Srednica = this.Srednica,
                 Dlugosc = this.Dlugosc,
-                Material = this.Material,
+                MaterialId = this.MaterialId,
+                MaterialPn = this.MaterialPn,
                 Stopnie = this.Stopnie,
                 DlugoscStopnia = this.DlugoscStopnia,
                 SrednicaStopnia = this.SrednicaStopnia,
                 KlasaTolerancji = this.KlasaTolerancji,
+                ChropowatoscRa = this.ChropowatoscRa,
+                ChropowatoscRt = this.ChropowatoscRt,
                 TPO = this.TPO,
                 KO = this.KO,
                 IZ = this.IZ,
@@ -192,32 +195,53 @@ namespace AlgorytmDobieraniaZasobowProdukcyjnych.Data
 
         public void GetWalekByName(string name)
         {
-            var query = from l in db.Walkis
-                        where l.Nazwa == name
-                        orderby l.N ascending
+            var query = from l in db.QPocls
+                        where l.Idpart == name
+                        orderby l.FtrNo ascending
                         select l;
 
             var list = query.ToList();
+            SetImageMeterial(name);
             SetWalek(list);
         }
 
-        public void SetWalek(List<Walki> dane)
+        public void SetImageMeterial(string name)
         {
-            Image = dane.First().Nazwa;
-            Material = dane.First().Material;
+            var query = from p in db.Parts
+                        where p.Idpart == name
+                        select p;
+            var part = query.ToList().First();
+
+            var query1 = from m in db.Materials
+                         where m.Idmat == part.Idmat
+                         select m.MatPn;
+            
+            Image = part.Picture;
+            MaterialId = part.Idmat;
+            MaterialPn = query1.ToList().First();
+        }
+
+        public void SetWalek(List<QPocl> dane)
+        {
+            //Image = dane.First().Nazwa;
+            //Material = dane.First().Material;
             DlugoscStopnia = new List<double>();
             SrednicaStopnia = new List<double>();
             KlasaTolerancji = new List<int>();
+            ChropowatoscRa = new List<double>();
+            ChropowatoscRt = new List<double>();
             foreach (var stopien in dane)
             {
-                if (stopien.Di > Srednica)
+                if (stopien.Diameter > Srednica)
                 {
-                    Srednica = stopien.Di;
+                    Srednica = stopien.Diameter;
                 }
-                Dlugosc += stopien.Li;
-                DlugoscStopnia.Add(stopien.Li);
-                SrednicaStopnia.Add(stopien.Di);
-                KlasaTolerancji.Add(stopien.Ti);
+                Dlugosc += stopien.Length;
+                DlugoscStopnia.Add(stopien.Length);
+                SrednicaStopnia.Add(stopien.Diameter);
+                KlasaTolerancji.Add(stopien.It);
+                ChropowatoscRa.Add(stopien.Ra);
+                ChropowatoscRt.Add(CalculateRt(stopien.Ra));
             }
             Stopnie = dane.Count;
             TPO = new List<double>();
@@ -229,11 +253,43 @@ namespace AlgorytmDobieraniaZasobowProdukcyjnych.Data
             APMAX = new List<double>();
         }
 
+        private double CalculateRt(double ra)
+        {
+            var table = new RaRtTable();
+            if (table.Ra.Contains(ra)) return table.Rt[table.Ra.IndexOf(ra)];
+            else
+            {
+                
+                var ra1 = 0.0; //jako x1
+                var rt1 = 0.0; //jako y1
+                var ra2 = 0.0; //jako x2
+                var rt2 = 0.0; //jako y2
+                for (int i = 0; i < table.Ra.Count; i++)
+                {
+                    if (table.Ra[i] < ra)
+                    {
+                        ra1 = table.Ra[i];
+                        rt1 = table.Rt[i];
+                    }
+                    if (ra2 == 0.0 && rt2 == 0.0 && table.Ra[i] > ra)
+                    {
+                        ra2 = table.Ra[i];
+                        rt2 = table.Rt[i];
+                    }
+                }
+
+                var a = (rt1 - rt2) / (ra1 - ra2);
+                var y = a * (ra - ra1) + rt1;
+                return Math.Round(y);
+            }
+        }
+
         public List<string> GetWalkiName()
         {
-            var query = from l in db.Walkis
-                        select l.Nazwa;
+            var query = from l in db.Parts
+                        select l.Idpart;
             var list = query.Distinct().ToList();
+            list.Sort();
             return list;
         }
 

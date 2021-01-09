@@ -18,7 +18,7 @@ namespace AlgorytmDobieraniaZasobowProdukcyjnych.Data
         public string GetCmcMaterial(DaneWalka walek)
         {
             var cmcMaterial = from m in db.Materials
-                              where m.MatPn == walek.Material
+                              where m.Idmat == walek.MaterialId
                               select m.Cmc;
             return cmcMaterial.ToList().First();
         }
@@ -76,7 +76,7 @@ namespace AlgorytmDobieraniaZasobowProdukcyjnych.Data
             var TurnRG = from l in db.QTurningTools
                          where l.B == dlugosc && l.H == szerokosc && l.MaxAp > walek.APRGREAL.Max() &&
                                l.Kr < 90 &&
-                               l.Re == (decimal)1.6 &&
+                               l.Re <= (decimal)2.4 &&
                                l.Ht == "L" &&
                                l.OpA == "LT" &&
                                l.Geometry.Contains("PR")
@@ -86,7 +86,7 @@ namespace AlgorytmDobieraniaZasobowProdukcyjnych.Data
             var TurnMT = from l in db.QTurningTools
                          where l.B == dlugosc && l.H == szerokosc && l.MaxAp > walek.QMT &&
                                l.Kr > 90 &&
-                               l.Re == (decimal)1.2 &&
+                               l.Re <= (decimal)1.2 &&
                                l.Ht == "L" &&
                                l.OpA == "LT" &&
                                l.Geometry.Contains("PM")
@@ -96,7 +96,7 @@ namespace AlgorytmDobieraniaZasobowProdukcyjnych.Data
             var TurnFN = from l in db.QTurningTools
                          where l.B == dlugosc && l.H == szerokosc && l.MaxAp > walek.QFN &&
                                l.Kr > 90 &&
-                               l.Re == (decimal)0.8 &&
+                               l.Re <= (decimal)0.8 &&
                                l.Ht == "L" &&
                                l.OpA == "LT" &&
                                l.Geometry.Contains("PF")

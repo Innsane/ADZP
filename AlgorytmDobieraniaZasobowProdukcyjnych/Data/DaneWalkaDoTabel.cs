@@ -30,13 +30,19 @@ namespace AlgorytmDobieraniaZasobowProdukcyjnych.Data
         //narzedzia do obrobki wykanczajacej
         public List<List<List<object>>> ParametersFN = new List<List<List<object>>>();
         public List<string> ParametersNamesFN = new List<string>();
+        //parametry wybranych narzedzi
+        public List<List<List<object>>> Tools = new List<List<List<object>>>();
+        public List<string> ToolsNames = new List<string>();
+        //parametry tokarki
+        public List<object> Lathe = new List<object>();
+        public List<string> LatheName = new List<string>();
 
         public string ImageLathe { get; set; }
         public string ImageToolRG { get; set; }
         public string ImageToolMT { get; set; }
         public string ImageToolFN { get; set; }
         public string ImageWalek { get; set; }
-        
+
 
         public DaneWalkaDoTabel()
         {
@@ -64,11 +70,14 @@ namespace AlgorytmDobieraniaZasobowProdukcyjnych.Data
             {
                 ListaStopni.Add(i + 1);
             }
-
+            SetTools(listOfParameters);
+            SetLathe(listOfParameters);
             SetParametrListRG(listOfParameters[0], ListaStopni);
             SetParametrListMT(listOfParameters[1], ListaStopni);
             SetParametrListFN(listOfParameters[2], ListaStopni);
         }
+
+        
 
         private void SetParametrListRG(List<Parameter> listOfParameters, List<int> listaStopni)
         {
@@ -138,6 +147,7 @@ namespace AlgorytmDobieraniaZasobowProdukcyjnych.Data
                         parameter.Tool.Geometry,
                         parameter.Tool.Holder,
                         parameter.Tool.Material,
+                        parameter.Ra[i],
                         parameter.AP[i],
                         parameter.F[i],
                         parameter.VC[i],
@@ -161,6 +171,7 @@ namespace AlgorytmDobieraniaZasobowProdukcyjnych.Data
                         "Płytka",
                         "Oprawka",
                         "Materiał",
+                        "Ra",
                         "ap [mm]",
                         "f [mm]/obr]",
                         "vc [m/min]",
@@ -191,6 +202,7 @@ namespace AlgorytmDobieraniaZasobowProdukcyjnych.Data
                         parameter.Tool.Geometry,
                         parameter.Tool.Holder,
                         parameter.Tool.Material,
+                        parameter.Ra[i],
                         parameter.AP[i],
                         parameter.F[i],
                         parameter.VC[i],
@@ -214,6 +226,7 @@ namespace AlgorytmDobieraniaZasobowProdukcyjnych.Data
                         "Płytka",
                         "Oprawka",
                         "Materiał",
+                        "Chropowatość",
                         "ap [mm]",
                         "f [mm]/obr]",
                         "vc [m/min]",
@@ -232,8 +245,6 @@ namespace AlgorytmDobieraniaZasobowProdukcyjnych.Data
             ParametersFN = tablesParameters;
         }
 
-
-
         internal void SetImages(Lathe lathe, List<List<Parameter>> lists, DaneWalka walek)
         {
             ImageLathe = "/images/" + lathe.Obraz;
@@ -242,57 +253,117 @@ namespace AlgorytmDobieraniaZasobowProdukcyjnych.Data
             ImageToolMT = "/images/" + lists[1][0].Tool.Obraz;
             ImageToolFN = "/images/" + lists[2][0].Tool.Obraz;
         }
+        internal void SetTools(List<List<Parameter>> data)
+        {
+            var tablesParameters = new List<List<List<object>>>();
+            foreach (var list in data)
+            {
+                var singleTable = new List<List<object>>();
+                foreach (var parameter in list)
+                {
+                    singleTable.Add(new List<object>
+                    {
+                        parameter.Tool.Geometry,
+                        parameter.Tool.Holder,
+                        parameter.Tool.Material,
+                        parameter.Tool.Kr,
+                        parameter.Tool.Re,
+                        parameter.Tool.FnMax,
+                        parameter.Tool.VcMax,
+                        parameter.Tool.MaxAp,
+                    });
+                }
+                tablesParameters.Add(singleTable);
+            }
 
-        //    internal void SetParameterToTable(List<Parameter> listOfParameters)
-        //    {
-        //        ParameterList = listOfParameters;
+            var nameList = new List<string>
+                    {
+                        "Płytka",
+                        "Oprawka",
+                        "Materiał",
+                        "Kr",
+                        "Re",
+                        "MaxF",
+                        "MaxVc",
+                        "MaxAp",
+                    };
+            Tools = tablesParameters;
+            ToolsNames = nameList;
+        }
+        private void SetLathe(List<List<Parameter>> listOfParameters)
+        {
+            var list = new List<object>
+            {
+                listOfParameters[0][0].Lathe.Kod,
+                listOfParameters[0][0].Lathe.B,
+                listOfParameters[0][0].Lathe.H,
+                listOfParameters[0][0].Lathe.NMax,
+                listOfParameters[0][0].Lathe.NMin,
+                listOfParameters[0][0].Lathe.P,
+            };
 
-        //        ParameterListInfo = listOfParameters.First().GetType().GetProperties().ToList();
-
-        //        var list = new List<List<object>>();
-        //        foreach (var parameter in listOfParameters)
-        //        {
-        //            list.Add(new List<object>());
-        //            list.Last().Add(parameter.Tool.Geometry);
-        //            list.Last().Add(parameter.Tool.Holder);
-        //            list.Last().Add(parameter.Tool.Material);
-        //            list.Last().Add(parameter.AP);
-        //            list.Last().Add(parameter.F);
-        //            list.Last().Add(parameter.VC);
-        //            list.Last().Add(parameter.N);
-        //            list.Last().Add(parameter.Q);
-        //            list.Last().Add(parameter.TG);
-        //            list.Last().Add(parameter.T);
-        //            list.Last().Add(parameter.FC);
-        //            list.Last().Add(parameter.KC);
-        //            list.Last().Add(parameter.HM);
-        //            list.Last().Add(parameter.PC);
-        //            list.Last().Add(parameter.PE);
-        //        }
-
-        //        var nameList = new List<string>
-        //        {
-        //            "Geometry",
-        //            "Holder",
-        //            "Material",
-        //            "AP",
-        //            "F",
-        //            "VC",
-        //            "N",
-        //            "Q",
-        //            "TG",
-        //            "T",
-        //            "FC",
-        //            "KC",
-        //            "HM",
-        //            "PC",
-        //            "PE"
-        //        };
-
-        //        ParametersNames = nameList;
-        //        Parameters = list;
-        //    }
-
-        //}
+            var listNames = new List<string>
+            {
+                "Kod",
+                "b",
+                "h",
+                "n max [obr/min]",
+                "n min [obr/min]",
+                "Pe [kW]"
+            };
+            Lathe = list;
+            LatheName = listNames;
+        }
     }
+    //    internal void SetParameterToTable(List<Parameter> listOfParameters)
+    //    {
+    //        ParameterList = listOfParameters;
+
+    //        ParameterListInfo = listOfParameters.First().GetType().GetProperties().ToList();
+
+    //        var list = new List<List<object>>();
+    //        foreach (var parameter in listOfParameters)
+    //        {
+    //            list.Add(new List<object>());
+    //            list.Last().Add(parameter.Tool.Geometry);
+    //            list.Last().Add(parameter.Tool.Holder);
+    //            list.Last().Add(parameter.Tool.Material);
+    //            list.Last().Add(parameter.AP);
+    //            list.Last().Add(parameter.F);
+    //            list.Last().Add(parameter.VC);
+    //            list.Last().Add(parameter.N);
+    //            list.Last().Add(parameter.Q);
+    //            list.Last().Add(parameter.TG);
+    //            list.Last().Add(parameter.T);
+    //            list.Last().Add(parameter.FC);
+    //            list.Last().Add(parameter.KC);
+    //            list.Last().Add(parameter.HM);
+    //            list.Last().Add(parameter.PC);
+    //            list.Last().Add(parameter.PE);
+    //        }
+
+    //        var nameList = new List<string>
+    //        {
+    //            "Geometry",
+    //            "Holder",
+    //            "Material",
+    //            "AP",
+    //            "F",
+    //            "VC",
+    //            "N",
+    //            "Q",
+    //            "TG",
+    //            "T",
+    //            "FC",
+    //            "KC",
+    //            "HM",
+    //            "PC",
+    //            "PE"
+    //        };
+
+    //        ParametersNames = nameList;
+    //        Parameters = list;
+    //    }
+
+    //}
 }

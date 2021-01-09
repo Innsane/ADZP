@@ -1,6 +1,7 @@
 ﻿using AlgorytmDobieraniaZasobowProdukcyjnych.Models;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -14,9 +15,9 @@ namespace AlgorytmDobieraniaZasobowProdukcyjnych.Data
         {
             this.db = db;
         }
-        public List<Parameter> ParametersCalculated = new List<Parameter>();
-        public List<Parameter> ParametersMT = new List<Parameter>();
-        public List<Parameter> ParametersFN = new List<Parameter>();
+        //public List<Parameter> ParametersCalculated = new List<Parameter>();
+        //public List<Parameter> ParametersMT = new List<Parameter>();
+        //public List<Parameter> ParametersFN = new List<Parameter>();
         public List<List<Parameter>> ParameterList = new List<List<Parameter>>();
         public List<List<QTurningTool>> Turnings = new List<List<QTurningTool>>();
 
@@ -37,54 +38,31 @@ namespace AlgorytmDobieraniaZasobowProdukcyjnych.Data
                 }
                 ParameterList.Add(parametersCalculated);
             }
-            
+
             //while (!(IsTool()))
             //{
             //    if (IsTool()) SortOfPower();
             //    else Recalculate();
             //}
-            SortOfPower();
+            //SortOfPower();
         }
 
-        private bool IsTool()
+        public List<List<Parameter>> GetParametersList()
         {
-            var goodTools = new List<Parameter>();
-            foreach (var para in ParametersCalculated)
+            for (int i = 0; i < ParameterList.Count; i++)
             {
-                int count = 0;
-                for (int i = 0; i < Walek.Stopnie; i++)
-                {
-                    if (para.PE[i] > para.PC[i])
-                    {
-                        count++;
-                    }
-                }
-                if (count == Walek.Stopnie) goodTools.Add(para);
+                ParameterList[i].Sort(CompareByQ);
+                ParameterList[i].Reverse();
+                ParameterList[i] = ParameterList[i].Take(10).ToList();
             }
-
-            if(goodTools.Count > 0)
-            {
-                return true;
-            }
-            else
-            {
-                return false;
-            }
+            return ParameterList;
         }
 
-        private void Recalculate()
+        private static int CompareByQ(Parameter x, Parameter y)
         {
-            foreach (var para in ParametersCalculated)
-            {
-                for (int i = 0; i < Walek.Stopnie; i++)
-                {
-                    if (para.PE[i] < para.PC[i])
-                    {
-                        para.VC[i] -= para.VC[i] * 0.1;
-                    }
-                }
-                para.Calculate();
-            }
+            if (x.Q.Max() > y.Q.Max()) return 1;
+            else if (x.Q.Max() == y.Q.Max()) return 0;
+            else return -1;
         }
 
         public void SetParameterList(DaneWalka walek, Lathe lathe, string cmc, List<List<QTurningTool>> turnings)
@@ -95,44 +73,89 @@ namespace AlgorytmDobieraniaZasobowProdukcyjnych.Data
             Turnings = turnings;
         }
 
-        internal void SortOfPower()
-        {
-            for (int i = 0; i < ParameterList[0].Count; i++)
-            {
-                for (int j = 0; j < Walek.Stopnie; j++)
-                {
-                    if (ParameterList[0][i].PE[j] < ParameterList[0][i].PC[j])
-                    {
-                        ParameterList[0].RemoveAt(i);
-                        i--;
-                        break;
-                    }
-                }
-            }
-        }
+        //internal void SortOfPower()
+        //{
+        //    for (int i = 0; i < ParameterList[0].Count; i++)
+        //    {
+        //        for (int j = 0; j < Walek.Stopnie; j++)
+        //        {
+        //            if (ParameterList[0][i].PE[j] < ParameterList[0][i].PC[j])
+        //            {
+        //                ParameterList[0].RemoveAt(i);
+        //                i--;
+        //                break;
+        //            }
+        //        }
+        //    }
+        //}
 
-        public List<List<Parameter>> GetParametersList()
-        {
-            var bestParameter = new Parameter();
-            var bestIndex = 0;
-            var bestQ = 0.0;
-            foreach (var list in ParameterList)
-            {
-                for (int i = 0; i < list.Count; i++)
-                {
-                    list[i].Q.Max();
-                    if (list[i].Q.Max() > bestQ)
-                    {
-                        bestQ = list[i].Q.Max();
-                        bestIndex = i;
-                    }
-                    bestParameter = list[bestIndex];
-                }
-                list.Clear();
-                list.Add(bestParameter);
-            }
-            
-            return ParameterList;
-        }
+        //private bool IsTool()
+        //{
+        //    var goodTools = new List<Parameter>();
+        //    foreach (var para in ParametersCalculated)
+        //    {
+        //        int count = 0;
+        //        for (int i = 0; i < Walek.Stopnie; i++)
+        //        {
+        //            if (para.PE[i] > para.PC[i])
+        //            {
+        //                count++;
+        //            }
+        //        }
+        //        if (count == Walek.Stopnie) goodTools.Add(para);
+        //    }
+
+        //    if (goodTools.Count > 0)
+        //    {
+        //        return true;
+        //    }
+        //    else
+        //    {
+        //        return false;
+        //    }
+        //}
+
+        //private void Recalculate()
+        //{
+        //    foreach (var para in ParametersCalculated)
+        //    {
+        //        for (int i = 0; i < Walek.Stopnie; i++)
+        //        {
+        //            if (para.PE[i] < para.PC[i])
+        //            {
+        //                para.VC[i] -= para.VC[i] * 0.1;
+        //            }
+        //        }
+        //        para.Calculate();
+        //    }
+        //}
+
+
+
+        //public List<List<Parameter>> GetParametersList()
+        //{
+        //    var bestParameter = new Parameter();
+        //    var bestIndex = 0;
+        //    var bestQ = 0.0;
+        //    foreach (var list in ParameterList)
+        //    {
+        //        for (int i = 0; i < list.Count; i++)
+        //        {
+        //            list[i].Q.Max();
+        //            if (list[i].Q.Max() > bestQ)
+        //            {
+        //                bestQ = list[i].Q.Max();
+        //                bestIndex = i;
+        //            }
+        //            bestParameter = list[bestIndex];
+        //        }
+        //        list.Clear();
+        //        list.Add(bestParameter);
+        //    }
+
+        //    return ParameterList;
+        //}
+
+
     }
 }
