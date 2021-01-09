@@ -162,3 +162,7 @@ C:\Users\Kuba\source\CSharp\AlgorytmDobieraniaZasobowProdukcyjnych\AlgorytmDobie
 C:\Users\Kuba\source\CSharp\AlgorytmDobieraniaZasobowProdukcyjnych\AlgorytmDobieraniaZasobowProdukcyjnych\obj\Debug\netcoreapp3.1\AlgorytmDobieraniaZasobowProdukcyjnych.MvcApplicationPartsAssemblyInfo.cache
 C:\Users\Kuba\source\CSharp\AlgorytmDobieraniaZasobowProdukcyjnych\AlgorytmDobieraniaZasobowProdukcyjnych\obj\Debug\netcoreapp3.1\Razor\Pages\Algorithm.cshtml.g.cs
 C:\Users\Kuba\source\CSharp\AlgorytmDobieraniaZasobowProdukcyjnych\AlgorytmDobieraniaZasobowProdukcyjnych\obj\Debug\netcoreapp3.1\Razor\Pages\Tabela.cshtml.g.cs
+C:\Users\Kuba\source\CSharp\AlgorytmDobieraniaZasobowProdukcyjnych\AlgorytmDobieraniaZasobowProdukcyjnych\obj\Debug\netcoreapp3.1\Razor\Pages\Shared\_ParameterTables.cshtml.g.cs
+C:\Users\Kuba\source\CSharp\AlgorytmDobieraniaZasobowProdukcyjnych\AlgorytmDobieraniaZasobowProdukcyjnych\obj\Debug\netcoreapp3.1\Razor\Pages\Shared\_PartialView.cshtml.g.cs
+C:\Users\Kuba\source\CSharp\AlgorytmDobieraniaZasobowProdukcyjnych\AlgorytmDobieraniaZasobowProdukcyjnych\obj\Debug\netcoreapp3.1\Razor\Pages\Shared\_WalekTables.cshtml.g.cs
+C:\Users\Kuba\source\CSharp\AlgorytmDobieraniaZasobowProdukcyjnych\AlgorytmDobieraniaZasobowProdukcyjnych\obj\Debug\netcoreapp3.1\Razor\Pages\Shared\_Exception.cshtml.g.cs

@@ -1,0 +1,319 @@
+﻿@model AlgorytmDobieraniaZasobowProdukcyjnych.Data.DaneWalkaDoTabel
+
+@*<h2>Dane dla zasobu produkcyjnego klasy wał</h2>
+<table class="table table-bordered table-sm" id="table">
+    <thead>
+        <tr>
+            @foreach (var info in Model.AtributeName)
+            {
+                <td>@info</td>
+            }
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            @foreach (var value in Model.AtributeValue)
+            {
+                <td>@string.Format("{0:0.00}", value)</td>
+            }
+        </tr>
+    </tbody>
+
+</table>
+
+<br />
+<br />
+<br />
+<h2>Naddatki dla wału</h2>
+<table class="table table-bordered table-sm">
+    <thead>
+        <tr>
+            @foreach (var info in Model.NaddatkiNames)
+            {
+                <td>@info</td>
+            }
+
+        </tr>
+    </thead>
+    <tbody>
+        @for (int i = 0; i < Model.NaddatkiValues[0].Count; i++)
+        {
+            <tr>
+                @foreach (var list in Model.NaddatkiValues)
+                {
+                    {
+                        <td>@list[i]</td>
+                    }
+                }
+            </tr>
+        }
+    </tbody>
+</table>
+
+<br />
+<br />
+<br />
+<h2>Dane dla poszczególnych stopni wału</h2>
+<table class="table table-bordered table-sm">
+    <thead>
+        <tr>
+            @foreach (var info in Model.ListName)
+            {
+                <td>@info</td>
+            }
+
+        </tr>
+    </thead>
+    <tbody>
+        @for (int i = 0; i < Model.ListValue[0].Length; i++)
+        {
+            <tr>
+                @for (int ii = 0; ii < Model.ListValue.Count; ii++)
+                {
+                    if (ii == 0 || ii == 3 || ii == 4 || ii == 6)
+                    {
+                        <td>@Model.ListValue[ii][i]</td>
+                    }
+                    else
+                    {
+                        <td>@string.Format("{0:0.0}", Model.ListValue[ii][i])</td>
+                    }
+                }
+            </tr>
+        }
+    </tbody>
+
+</table>*@
+
+<br />
+<br />
+<br />
+<h2>Parametry wybranej obrabiarki:</h2>
+<table class="table table-bordered table-sm">
+    <thead>
+        <tr>
+            @foreach (var info in Model.LatheName)
+            {
+                <td>@info</td>
+            }
+
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            @foreach (var para in Model.Lathe)
+            {
+                <td>@string.Format("{0:0.0}", para)</td>
+            }
+        </tr>
+    </tbody>
+
+</table>
+
+<br />
+<br />
+<br />
+<h2>Parametry narzędzia dla obróbki zgrubnej: </h2>
+<table class="table table-bordered table-sm">
+    <thead>
+        <tr>
+            @foreach (var info in Model.ToolsNames)
+            {
+                <td>@info</td>
+            }
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var zgrubna in Model.Tools[0])
+        {
+            <tr>
+                @for (int i = 0; i < zgrubna.Count; i++)
+                {
+                    if (i == 0 || i == 1 || i == 2 || i == 3 || i == 6)
+                    {
+                        <td>@zgrubna[i]</td>
+                    }
+                    else
+                    {
+                        <td>@string.Format("{0:0.0}", zgrubna[i])</td>
+                    }
+                }
+            </tr>
+        }
+    </tbody>
+</table>
+<br />
+<br />
+<br />
+<h2>Parametry skrawania dla wybranych narzędzi do obróbki zgrubnej: </h2>
+@foreach (var table in Model.ParametersRG)
+{
+    <table class="table table-bordered table-sm">
+        <thead>
+            <tr>
+                @foreach (var info in Model.ParametersNamesRG)
+                {
+                    <td>@info</td>
+                }
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var parameter in table)
+            {
+                <tr>
+                    @for (int i = 0; i < parameter.Count; i++)
+                    {
+                        if (i == 0 || i == 3 || i == 4)
+                        {
+                            <td>@parameter[i]</td>
+                        }
+                        else
+                        {
+                            <td>@string.Format("{0:0.00}", parameter[i])</td>
+                        }
+                    }
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+<br />
+<br />
+<br />
+<h2>Parametry narzędzia dla obróbki kształtującej: </h2>
+<table class="table table-bordered table-sm">
+    <thead>
+        <tr>
+            @foreach (var info in Model.ToolsNames)
+            {
+                <td>@info</td>
+            }
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var ksztaltujaca in Model.Tools[1])
+        {
+            <tr>
+                @for (int i = 0; i < ksztaltujaca.Count; i++)
+                {
+
+                    if (i == 0 || i == 1 || i == 2 || i == 3 || i == 6)
+                    {
+                        <td>@ksztaltujaca[i]</td>
+                    }
+                    else
+                    {
+                        <td>@string.Format("{0:0.0}", ksztaltujaca[i])</td>
+                    }
+
+                }
+            </tr>
+        }
+    </tbody>
+</table>
+<br />
+<br />
+<br />
+<h2>Parametry skrawania dla wybranych narzędzi do obróbki kształtującej: </h2>
+@foreach (var table in Model.ParametersMT)
+{
+    <table class="table table-bordered table-sm">
+        <thead>
+            <tr>
+                @foreach (var info in Model.ParametersNamesMT)
+                {
+                    <td>@info</td>
+                }
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var parameter in table)
+            {
+                if ((double)parameter[5] == 0) continue;
+                <tr>
+                    @for (int i = 0; i < parameter.Count; i++)
+                    {
+                        if (i == 0 || i == 3)
+                        {
+                            <td>@parameter[i]</td>
+                        }
+                        else
+                        {
+                            <td>@string.Format("{0:0.00}", parameter[i])</td>
+                        }
+                    }
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+<br />
+<br />
+<br />
+<h2>Parametry narzędzia dla obróbki wykańczającej: </h2>
+<table class="table table-bordered table-sm">
+    <thead>
+        <tr>
+            @foreach (var info in Model.ToolsNames)
+            {
+                <td>@info</td>
+            }
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var wykanczajaca in Model.Tools[2])
+        {
+            <tr>
+                @for (int i = 0; i < wykanczajaca.Count; i++)
+                {
+
+                    if (i == 0 || i == 1 || i == 2 || i == 3 || i == 6)
+                    {
+                        <td>@wykanczajaca[i]</td>
+                    }
+                    else
+                    {
+                        <td>@string.Format("{0:0.0}", wykanczajaca[i])</td>
+                    }
+
+                }
+            </tr>
+        }
+    </tbody>
+</table>
+<br />
+<br />
+<br />
+<h2>Parametry skrawania dla wybranych narzędzi do obróbki wykańczającej: </h2>
+@foreach (var table in Model.ParametersFN)
+{
+    <table class="table table-bordered table-sm">
+        <thead>
+            <tr>
+                @foreach (var info in Model.ParametersNamesFN)
+                {
+                    <td>@info</td>
+                }
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var parameter in table)
+            {
+                if ((double)parameter[5] == 0) continue;
+                <tr>
+                    @for (int i = 0; i < parameter.Count; i++)
+                    {
+                        if (i == 0 || i == 3)
+                        {
+                            <td>@parameter[i]</td>
+                        }
+                        else
+                        {
+                            <td>@string.Format("{0:0.00}", parameter[i])</td>
+                        }
+                    }
+                </tr>
+            }
+        </tbody>
+    </table>
+}

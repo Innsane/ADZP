@@ -294,6 +294,7 @@ namespace AlgorytmDobieraniaZasobowProdukcyjnych.Data
         {
             var list = new List<object>
             {
+                listOfParameters[0][0].Lathe.Oznaczenie,
                 listOfParameters[0][0].Lathe.Kod,
                 listOfParameters[0][0].Lathe.Gniazdo,
                 listOfParameters[0][0].Lathe.NMax,
@@ -303,6 +304,7 @@ namespace AlgorytmDobieraniaZasobowProdukcyjnych.Data
 
             var listNames = new List<string>
             {
+                "Oznaczenie",
                 "Kod",
                 "Gnizado",
                 "n max [obr/min]",

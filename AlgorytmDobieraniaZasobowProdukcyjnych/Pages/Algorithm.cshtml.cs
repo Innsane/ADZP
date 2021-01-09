@@ -6,6 +6,7 @@ using AlgorytmDobieraniaZasobowProdukcyjnych.Data;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.AspNetCore.Mvc.ViewFeatures;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Primitives;
 
@@ -29,7 +30,7 @@ namespace AlgorytmDobieraniaZasobowProdukcyjnych.Pages
         public IWalek Walek { get; }
         public IParameter Parameter { get; }
         public DaneWalkaDoTabel DataToTable { get; }
-        public DaneWalka DaneWalka { get; }
+        public DaneWalka DaneWalka { get; set; }
         [BindProperty]
         public string Name { get; set; }
         [BindProperty]
@@ -113,22 +114,7 @@ namespace AlgorytmDobieraniaZasobowProdukcyjnych.Pages
 
             parameters.SetParameterList(walek, lathe, cmc, turnings);
             parameters.Calculate();
-            //var listOfParameters = new List<Parameter>();
-            //for (int i = 0; i < turnings.Count; i++)
-            //{
-            //    var calculated = new Parameter();
-            //    calculated.Calculate(walek, lathe, turnings[i], cmc);
-            //    listOfParameters.Add(calculated);
-            //}
-            //foreach (var turn in turnings)
-            //{
-            //    listOfParameters.Add(Parameter.Calculate(walek, lathe, turn, cmc));
-            //}
-            //notes when comeback:
-            //add display of parameters to site
-            //check needed power if it extends power of lathe remove from list
-            //display only tools that can be used to this process
-            //SortListOfParameter(listOfParameters);
+
             DataToTable.SetDataToTable(Walek.GetDataToTable());
             DataToTable.SetParameterToTable(parameters.GetParametersList());
             DataToTable.SetImages(lathe, parameters.GetParametersList(), walek);
@@ -136,15 +122,54 @@ namespace AlgorytmDobieraniaZasobowProdukcyjnych.Pages
             return RedirectToPage("Tabela");
         }
 
-        //private void SortListOfParameter(List<Parameter> listOfParameters)
-        //{
-        //    for (int i = 0; i < listOfParameters.Count; i++)
-        //    {
-        //        if(listOfParameters[i].PE <= listOfParameters[i].PC)
-        //        {
-        //            listOfParameters.RemoveAt(i);
-        //        }
-        //    }
-        //}
+        public PartialViewResult OnGetWalek(string walekName)
+        {
+            Walek.GetWalekByName(walekName);
+            Walek.Calculate();
+            DaneWalka = Walek.GetData();
+            DataToTable.SetDataToTable(Walek.GetDataToTable());
+            return new PartialViewResult
+            {
+                ViewName = "_WalekTables",
+                ViewData = new ViewDataDictionary<DaneWalkaDoTabel>(ViewData, DataToTable)
+            };
+        }
+
+        public PartialViewResult OnGetParameter(string names)
+        {
+            var namess = names.Split(',');
+            Walek.GetWalekByName(namess[0]);
+            Walek.Calculate();
+            try
+            {
+                var walek = Walek.GetData();
+                var lathe = repository.GetObrabiarki(namess[1]).First();
+                var tools = repository.GetTools(lathe, "RG");
+                var cmc = repository.GetCmcMaterial(walek);
+                var grades = repository.GetGrades(cmc);
+                var turnings = repository.GetTurningTools(tools, lathe, walek, grades);
+
+                parameters.SetParameterList(walek, lathe, cmc, turnings);
+                parameters.Calculate();
+
+                DataToTable.SetDataToTable(Walek.GetDataToTable());
+                DataToTable.SetParameterToTable(parameters.GetParametersList());
+                DataToTable.SetImages(lathe, parameters.GetParametersList(), walek);
+            }
+            catch(Exception e)
+            {
+                return new PartialViewResult
+                {
+                    ViewName = "_Exception"
+                };
+            }
+            
+
+            return new PartialViewResult
+            {
+                ViewName = "_ParameterTables",
+                ViewData = new ViewDataDictionary<DaneWalkaDoTabel>(ViewData, DataToTable)
+            };
+        }
     }
 }
