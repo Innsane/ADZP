@@ -57,7 +57,7 @@ namespace AlgorytmDobieraniaZasobowProdukcyjnych.Pages
             MaterialOptions = new List<SelectListItem>();
             foreach (var material in materials)
             {
-                MaterialOptions.Add(new SelectListItem { Value = material, Text = material });
+                MaterialOptions.Add(new SelectListItem { Value = material.MatPn, Text = material.MatPn });
             }
 
             var lathes = repository.GetObrabiarki().ToList();

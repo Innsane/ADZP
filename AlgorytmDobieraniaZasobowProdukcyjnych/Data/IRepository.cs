@@ -15,8 +15,10 @@ namespace AlgorytmDobieraniaZasobowProdukcyjnych.Data
         public string GetCmcMaterial(DaneWalka walek);
         public List<string> GetGrades(string cmc);
         public void Add(QPocl qpocl);
+        public void Add(Feature feature);
+        public void Add(Part part);
         public int Commit();
         int CountParts();
-        void Add(Part part);
+        
     }
 }

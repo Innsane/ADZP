@@ -155,6 +155,11 @@ namespace AlgorytmDobieraniaZasobowProdukcyjnych.Data
             db.Add(qpocl);
         }
 
+        public void Add(Feature feature)
+        {
+            db.Add(feature);
+        }
+
         public void Add(Part part)
         {
             db.Add(part);

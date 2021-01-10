@@ -691,8 +691,8 @@ namespace AlgorytmDobieraniaZasobowProdukcyjnych.Models
 
             modelBuilder.Entity<Part>(entity =>
             {
-                entity.HasKey(e => e.Idpart)
-                    .HasName("Part$PrimaryKey");
+                entity.HasKey(e => e.Idpart);
+                    
 
                 entity.ToTable("Part");
 
@@ -758,7 +758,7 @@ namespace AlgorytmDobieraniaZasobowProdukcyjnych.Models
 
             modelBuilder.Entity<QPocl>(entity =>
             {
-                entity.HasNoKey();
+                entity.HasKey(e => e.Idftr);
 
                 entity.ToView("qPOCL");
 

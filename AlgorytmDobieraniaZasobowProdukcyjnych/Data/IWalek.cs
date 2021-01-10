@@ -16,6 +16,6 @@ namespace AlgorytmDobieraniaZasobowProdukcyjnych.Data
         public DaneWalka GetData();
         public void GetWalekByName(string name);
         public List<string> GetWalkiName();
-        public List<string> GetWalkiMaterial();
+        public List<Material> GetWalkiMaterial();
     }
 }

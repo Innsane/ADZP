@@ -94,8 +94,8 @@
                 <label class="input-group-text" for="materialSelect">Wybierz materiał wałka: </label>
             </div>
             <div>
-                <select id="materialSelect" class="custom-select" name="material" asp-items="Model.MaterialOptions" asp-for="Material">
-                    <option value="">Wybierz materiał</option>
+                <select id="materialSelect" class="custom-select" asp-items="Model.MaterialOptions" asp-for="Material">
+                    <option value="0">Wybierz materiał</option>
                 </select>
             </div>
         </div>

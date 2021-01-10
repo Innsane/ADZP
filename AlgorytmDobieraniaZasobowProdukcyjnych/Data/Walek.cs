@@ -293,10 +293,10 @@ namespace AlgorytmDobieraniaZasobowProdukcyjnych.Data
             return list;
         }
 
-        public List<string> GetWalkiMaterial()
+        public List<Material> GetWalkiMaterial()
         {
             var query = from l in db.Materials
-                        select l.MatPn;
+                        select l;
             var list = query.ToList();
             return list;
         }
