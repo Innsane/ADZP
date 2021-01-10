@@ -8,6 +8,7 @@
 {
     <script type="text/javascript">
         $('#alert').hide();
+        $('#latheSelectContainer').hide();
         function addStopnieFields() {
             var number = document.getElementById("N").value;
             var container = document.getElementById("stopnie");
@@ -44,6 +45,14 @@
                 container.appendChild(document.createElement("br"));
             }
         }
+        var selectedLathe = "";
+        $(document).ready(function () {
+            $("#latheName").change(function () {
+                selectedLathe = $(this).children("option:selected").val();
+                selectedLathe = selectedLathe.split(' ').join('_');
+            });
+        });
+        //pobieranie danych i operacje na stronie dla obliczen walka
         $('#walekButton').on('click', function () {
             var walekName = document.getElementById("walekName").value;
             var container = document.getElementById("latheSelectContainer");
@@ -55,36 +64,32 @@
                 if (status == "success") {
                     $('.hider').show();
                     $('#alert').hide();
-                    container.style.display = "block";
+                    $('#latheSelectContainer').show();
                     $('#parameterTables').hide();
                     $('#latheName').prop('selectedIndex', 0);
                 }
             });
-            
         });
-
+        //pobieranie danych i operacje na stronie dla obliczen walka z parametrami
         $('#latheButton').on('click', function () {
             var latheName = document.getElementById("latheName").value;
             var walekName = document.getElementById("walekName").value;
-            var names = [walekName, latheName]
-            var containerLathe = document.getElementById("walekTables");
-            var containerWalek = document.getElementById("parameterTables");
-            var alert = document.getElementById("alert");
+            var names = [walekName, selectedLathe];
+            console.log("Lathe: " + selectedLathe);
 
             $('.hider').hide();
             $('#alert').show();
             $('#parameterTables').load(`/algorithm/parameter?names=${names}`, function (response, status, xhr) {
                 if (status == "success") {
-                    
+
                     $('#parameterTables').show();
                     $('.hider').show();
                     $('#alert').hide();
 
                 }
+                $('#parameterTables').show();
             });
         });
-        $('div > table > thead > tr').addClass('table-primary');
-        $('tbody > tr').addClass('table-secondary');
     </script>
 }
 
@@ -92,12 +97,42 @@
     Ładowanie danych...
 </div>
 <div class="hider">
+    <div class="row">
+        <div id="walekSelectContainer" class="input-group mb-2 col-6">
+            <div class="input-group-prepend">
+                <label class="input-group-text" for="walekName">Wybierz wałek do obliczeń</label>
+            </div>
+            <select class="custom-select" id="walekName" name="name" asp-items="Model.NamesOptions">
+                <option selected>Wybierz wałek</option>
+            </select>
+            <div class="input-group-append">
+                <button id="walekButton" class="btn btn-outline-secondary">OK</button>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div id="latheSelectContainer" class="input-group mb-3 col-6">
+            <div class="input-group-prepend">
+                <label class="input-group-text" for="latheName">Wybierz obrabiarke</label>
+            </div>
+            <select id="latheName" class="custom-select" name="lathe" asp-items="Model.LathesOptions">
+                <option selected>Wybierz obrabiarke</option>
+            </select>
+            <div class="input-group-append">
+                <button id="latheButton" class="btn btn-outline-secondary">OK</button>
+            </div>
+        </div>
+    </div>
+
+
+
+
     <div>
-        <label>Wybierz wałek do obliczeń z listy: </label>
-        <select id="walekName" name="name" asp-items="Model.NamesOptions">
-            <option value="">Wybierz wałek</option>
-        </select>
-        <button id="walekButton" class="btn btn-primary btn-sm">OK</button>
+        @*<label>Wybierz wałek do obliczeń: </label>
+            <select id="walekName" name="name" asp-items="Model.NamesOptions">
+                <option value="">Wybierz wałek</option>
+            </select>
+            <button id="walekButton" class="btn btn-primary btn-sm">OK</button>*@
 
         <div id="latheSelectContainer" style="display: none;">
             <label>Wybierz obrabiarke: </label>
@@ -107,61 +142,66 @@
             <button id="latheButton" class="btn btn-primary btn-sm">OK</button>
         </div>
     </div>
-    @*<div>
-            <form method="post" asp-page-handler="WalekSql">
-                @Html.AntiForgeryToken()
-                <label>Wybierz wałek do obliczeń z listy: </label>
-                <select name="name" asp-items="Model.NamesOptions">
-                    <option value="">Wybierz wałek</option>
-                </select>
+    <div id="imageTables">
 
-                <label>Wybierz obrabiarke: </label>
-                <select name="lathe" asp-items="Model.LathesOptions">
-                    <option value="">Wybierz obrabiarke</option>
-                </select>
-
-                <input type="submit" value="Zatwierdź" />
-            </form>
-        </div>*@
+    </div>
     <div id="walekTables">
 
     </div>
     <div id="parameterTables">
 
     </div>
-    @*<h3>LUB</h3>
-
-        <div>
-            <form method="post">
-                @Html.AntiForgeryToken()
-                <label>Wybierz obrabiarke: </label>
-                <select name="lathe" asp-items="Model.LathesOptions">
-                    <option value="">Wybierz obrabiarke</option>
-                </select>
-                <label>Wprowadź parametry geometryczne wałka:</label><br />
-                <label for="srC">Średnica całkowita: </label>
-                <input type="text" name="srC" value="" />
-
-                <label for="dlC">Długość całkowita: </label>
-                <input type="text" name="dlC" value="" />
-
-                <label>Wybierz materiał wałka: </label>
-                <select name="material" asp-items="Model.MaterialOptions">
-                    <option value="">Wybierz materiał</option>
-                </select>
-
-                <br />
-                <label for="N">Wprowadź liczbę stopni wału: </label>
-                <input type="text" id="N" name="N" value="" />
-                <a href="#" id="filldetails" onclick="addStopnieFields()">Pokaż stopnie wału</a>
-                <div id="stopnie">
-
-                </div>
-
-                <input type="submit" value="Zatwierdź" />
-            </form>
-        </div>*@
 </div>
+@*<div>
+        <form method="post" asp-page-handler="WalekSql">
+            @Html.AntiForgeryToken()
+            <label>Wybierz wałek do obliczeń z listy: </label>
+            <select name="name" asp-items="Model.NamesOptions">
+                <option value="">Wybierz wałek</option>
+            </select>
+
+            <label>Wybierz obrabiarke: </label>
+            <select name="lathe" asp-items="Model.LathesOptions">
+                <option value="">Wybierz obrabiarke</option>
+            </select>
+
+            <input type="submit" value="Zatwierdź" />
+        </form>
+    </div>*@
+
+@*<h3>LUB</h3>
+
+    <div>
+        <form method="post">
+            @Html.AntiForgeryToken()
+            <label>Wybierz obrabiarke: </label>
+            <select name="lathe" asp-items="Model.LathesOptions">
+                <option value="">Wybierz obrabiarke</option>
+            </select>
+            <label>Wprowadź parametry geometryczne wałka:</label><br />
+            <label for="srC">Średnica całkowita: </label>
+            <input type="text" name="srC" value="" />
+
+            <label for="dlC">Długość całkowita: </label>
+            <input type="text" name="dlC" value="" />
+
+            <label>Wybierz materiał wałka: </label>
+            <select name="material" asp-items="Model.MaterialOptions">
+                <option value="">Wybierz materiał</option>
+            </select>
+
+            <br />
+            <label for="N">Wprowadź liczbę stopni wału: </label>
+            <input type="text" id="N" name="N" value="" />
+            <a href="#" id="filldetails" onclick="addStopnieFields()">Pokaż stopnie wału</a>
+            <div id="stopnie">
+
+            </div>
+
+            <input type="submit" value="Zatwierdź" />
+        </form>
+    </div>*@
+
 
 
 

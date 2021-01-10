@@ -1,5 +1,21 @@
 ﻿@model AlgorytmDobieraniaZasobowProdukcyjnych.Data.DaneWalkaDoTabel
 
+<script>
+    $('thead > tr').addClass('table-primary');
+    $('tbody > tr').addClass('table-secondary');
+</script>
+
+@if (!(Model.ImageWalek is null))
+{
+    <div id="imgContainer" class="container">
+        <div style="text-align:center">
+            <h3>Rysunek techniczny wałka numer @Model.ImageWalek.Substring(13, 2): </h3>
+            <img class="img-fluid" src="@Model.ImageWalek" alt="Alternate Text" />
+        </div>
+    </div>
+}
+
+
 <h2>Dane dla zasobu produkcyjnego klasy wał</h2>
 <table class="table table-bordered table-sm" id="table">
     <thead>

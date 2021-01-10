@@ -77,8 +77,6 @@ namespace AlgorytmDobieraniaZasobowProdukcyjnych.Data
             SetParametrListFN(listOfParameters[2], ListaStopni);
         }
 
-        
-
         private void SetParametrListRG(List<Parameter> listOfParameters, List<int> listaStopni)
         {
             var tablesParameters = new List<List<List<object>>>();
@@ -247,12 +245,25 @@ namespace AlgorytmDobieraniaZasobowProdukcyjnych.Data
 
         internal void SetImages(Lathe lathe, List<List<Parameter>> lists, DaneWalka walek)
         {
+            SetWalekImage(walek);
+            SetLatheImage(lathe);
+            SetParameterImage(lists);
+        }
+        internal void SetWalekImage(DaneWalka walek)
+        {
+            ImageWalek = "/images/" + walek.Image;
+        }
+        internal void SetLatheImage(Lathe lathe)
+        {
             ImageLathe = "/images/" + lathe.Obraz;
-            ImageWalek = "/images/" + walek.Image.Trim() + ".jpg";
+        }
+        internal void SetParameterImage(List<List<Parameter>> lists)
+        {
             ImageToolRG = "/images/" + lists[0][0].Tool.Obraz;
             ImageToolMT = "/images/" + lists[1][0].Tool.Obraz;
             ImageToolFN = "/images/" + lists[2][0].Tool.Obraz;
         }
+
         internal void SetTools(List<List<Parameter>> data)
         {
             var tablesParameters = new List<List<List<object>>>();

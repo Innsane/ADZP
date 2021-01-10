@@ -1,0 +1,36 @@
+﻿@model AlgorytmDobieraniaZasobowProdukcyjnych.Data.DaneWalkaDoTabel
+
+@if (!(Model.ImageLathe is null))
+{
+    <div id="imgContainer" class="container">
+        <div id="upper" class="row">
+            <div class="col-6">
+                <label class="">Obrabiarka: </label>
+                <img class="img-fluid" src="@Model.ImageLathe" alt="Alternate Text" />
+            </div>
+            <div class="col-6">
+                <label>Rysunek techniczny wałka numer @Model.ImageWalek.Substring(13, 2): </label>
+                <img class="img-fluid" src="@Model.ImageWalek" alt="Alternate Text" />
+            </div>
+        </div>
+        <br />
+        @if(!(Model.ImageToolRG is null))
+        {
+        <div id="lower" class="row">
+
+            <div class="col-4">
+                <label>Narzędzie do obróbki zgrubnej: </label>
+                <img class="img-fluid" src="@Model.ImageToolRG" alt="Alternate Text" />
+            </div>
+            <div class="col-4">
+                <label>Narzędzie do obróbki kształtującej: </label>
+                <img class="img-fluid" src="@Model.ImageToolMT" alt="Alternate Text" />
+            </div>
+            <div class="col-4">
+                <label>Narzędzie do obróbki wykańczającej: </label>
+                <img class="img-fluid" src="@Model.ImageToolFN" alt="Alternate Text" />
+            </div>
+        </div>
+        }
+    </div>
+}

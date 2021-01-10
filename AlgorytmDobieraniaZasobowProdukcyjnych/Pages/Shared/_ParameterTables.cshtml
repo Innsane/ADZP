@@ -1,89 +1,115 @@
 ﻿@model AlgorytmDobieraniaZasobowProdukcyjnych.Data.DaneWalkaDoTabel
 
+<script>
+    $('thead > tr').addClass('table-primary');
+    $('tbody > tr').addClass('table-secondary');
+</script>
 @*<h2>Dane dla zasobu produkcyjnego klasy wał</h2>
-<table class="table table-bordered table-sm" id="table">
-    <thead>
-        <tr>
-            @foreach (var info in Model.AtributeName)
-            {
-                <td>@info</td>
-            }
-        </tr>
-    </thead>
-    <tbody>
-        <tr>
-            @foreach (var value in Model.AtributeValue)
-            {
-                <td>@string.Format("{0:0.00}", value)</td>
-            }
-        </tr>
-    </tbody>
-
-</table>
-
-<br />
-<br />
-<br />
-<h2>Naddatki dla wału</h2>
-<table class="table table-bordered table-sm">
-    <thead>
-        <tr>
-            @foreach (var info in Model.NaddatkiNames)
-            {
-                <td>@info</td>
-            }
-
-        </tr>
-    </thead>
-    <tbody>
-        @for (int i = 0; i < Model.NaddatkiValues[0].Count; i++)
-        {
+    <table class="table table-bordered table-sm" id="table">
+        <thead>
             <tr>
-                @foreach (var list in Model.NaddatkiValues)
+                @foreach (var info in Model.AtributeName)
                 {
-                    {
-                        <td>@list[i]</td>
-                    }
+                    <td>@info</td>
                 }
             </tr>
-        }
-    </tbody>
-</table>
-
-<br />
-<br />
-<br />
-<h2>Dane dla poszczególnych stopni wału</h2>
-<table class="table table-bordered table-sm">
-    <thead>
-        <tr>
-            @foreach (var info in Model.ListName)
-            {
-                <td>@info</td>
-            }
-
-        </tr>
-    </thead>
-    <tbody>
-        @for (int i = 0; i < Model.ListValue[0].Length; i++)
-        {
+        </thead>
+        <tbody>
             <tr>
-                @for (int ii = 0; ii < Model.ListValue.Count; ii++)
+                @foreach (var value in Model.AtributeValue)
                 {
-                    if (ii == 0 || ii == 3 || ii == 4 || ii == 6)
-                    {
-                        <td>@Model.ListValue[ii][i]</td>
-                    }
-                    else
-                    {
-                        <td>@string.Format("{0:0.0}", Model.ListValue[ii][i])</td>
-                    }
+                    <td>@string.Format("{0:0.00}", value)</td>
                 }
             </tr>
-        }
-    </tbody>
+        </tbody>
 
-</table>*@
+    </table>
+
+    <br />
+    <br />
+    <br />
+    <h2>Naddatki dla wału</h2>
+    <table class="table table-bordered table-sm">
+        <thead>
+            <tr>
+                @foreach (var info in Model.NaddatkiNames)
+                {
+                    <td>@info</td>
+                }
+
+            </tr>
+        </thead>
+        <tbody>
+            @for (int i = 0; i < Model.NaddatkiValues[0].Count; i++)
+            {
+                <tr>
+                    @foreach (var list in Model.NaddatkiValues)
+                    {
+                        {
+                            <td>@list[i]</td>
+                        }
+                    }
+                </tr>
+            }
+        </tbody>
+    </table>
+
+    <br />
+    <br />
+    <br />
+    <h2>Dane dla poszczególnych stopni wału</h2>
+    <table class="table table-bordered table-sm">
+        <thead>
+            <tr>
+                @foreach (var info in Model.ListName)
+                {
+                    <td>@info</td>
+                }
+
+            </tr>
+        </thead>
+        <tbody>
+            @for (int i = 0; i < Model.ListValue[0].Length; i++)
+            {
+                <tr>
+                    @for (int ii = 0; ii < Model.ListValue.Count; ii++)
+                    {
+                        if (ii == 0 || ii == 3 || ii == 4 || ii == 6)
+                        {
+                            <td>@Model.ListValue[ii][i]</td>
+                        }
+                        else
+                        {
+                            <td>@string.Format("{0:0.0}", Model.ListValue[ii][i])</td>
+                        }
+                    }
+                </tr>
+            }
+        </tbody>
+
+    </table>*@
+
+@if (!(Model.ImageLathe is null))
+{
+<div id="imgContainer" class="row">
+    <div class="col-3" style="text-align:center">
+        <label style="font-weight:bold">Obrabiarka: </label>
+        <img class="img-fluid" src="@Model.ImageLathe" alt="Alternate Text" />
+    </div>
+    <div class="col-3" style="text-align:center">
+        <label style="font-weight:bold">Narzędzie do obróbki zgrubnej: </label>
+        <img class="img-fluid" src="@Model.ImageToolRG" alt="Alternate Text" />
+    </div>
+    <div class="col-3" style="text-align:center">
+        <label style="font-weight:bold">Narzędzie do obróbki kształtującej: </label>
+        <img class="img-fluid" src="@Model.ImageToolMT" alt="Alternate Text" />
+    </div>
+    <div class="col-3" style="text-align:center">
+        <label style="font-weight:bold">Narzędzie do obróbki wykańczającej: </label>
+        <img class="img-fluid" src="@Model.ImageToolFN" alt="Alternate Text" />
+    </div>
+</div>
+}
 
 <br />
 <br />

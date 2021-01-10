@@ -128,6 +128,7 @@ namespace AlgorytmDobieraniaZasobowProdukcyjnych.Pages
             Walek.Calculate();
             DaneWalka = Walek.GetData();
             DataToTable.SetDataToTable(Walek.GetDataToTable());
+            DataToTable.SetWalekImage(DaneWalka);
             return new PartialViewResult
             {
                 ViewName = "_WalekTables",
@@ -138,12 +139,27 @@ namespace AlgorytmDobieraniaZasobowProdukcyjnych.Pages
         public PartialViewResult OnGetParameter(string names)
         {
             var namess = names.Split(',');
-            Walek.GetWalekByName(namess[0]);
-            Walek.Calculate();
+            var walekName = namess[0];
             try
             {
+                Walek.GetWalekByName(walekName);
+                Walek.Calculate();
+            }
+            catch (Exception)
+            {
+                return new PartialViewResult
+                {
+                    ViewName = "_Exception",
+                };
+                throw;
+            }
+
+            try
+            {
+
+                var latheName = string.Join(" ", namess[1].Split('_'));
                 var walek = Walek.GetData();
-                var lathe = repository.GetObrabiarki(namess[1]).First();
+                var lathe = repository.GetObrabiarki(latheName).First();
                 var tools = repository.GetTools(lathe, "RG");
                 var cmc = repository.GetCmcMaterial(walek);
                 var grades = repository.GetGrades(cmc);
@@ -155,21 +171,20 @@ namespace AlgorytmDobieraniaZasobowProdukcyjnych.Pages
                 DataToTable.SetDataToTable(Walek.GetDataToTable());
                 DataToTable.SetParameterToTable(parameters.GetParametersList());
                 DataToTable.SetImages(lathe, parameters.GetParametersList(), walek);
+
+                return new PartialViewResult
+                {
+                    ViewName = "_ParameterTables",
+                    ViewData = new ViewDataDictionary<DaneWalkaDoTabel>(ViewData, DataToTable)
+                };
             }
-            catch(Exception e)
+            catch (Exception)
             {
                 return new PartialViewResult
                 {
-                    ViewName = "_Exception"
+                    ViewName = "_Exception",
                 };
             }
-            
-
-            return new PartialViewResult
-            {
-                ViewName = "_ParameterTables",
-                ViewData = new ViewDataDictionary<DaneWalkaDoTabel>(ViewData, DataToTable)
-            };
         }
     }
 }
