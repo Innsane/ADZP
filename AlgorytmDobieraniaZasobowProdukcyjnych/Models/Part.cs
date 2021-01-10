@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 #nullable disable
 
@@ -11,7 +12,7 @@ namespace AlgorytmDobieraniaZasobowProdukcyjnych.Models
         {
             Blanks = new HashSet<Blank>();
         }
-
+        [Key]
         public string Idpart { get; set; }
         public string PartName { get; set; }
         public string Idmat { get; set; }

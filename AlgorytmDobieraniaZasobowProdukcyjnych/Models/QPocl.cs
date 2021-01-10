@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 #nullable disable
 
@@ -7,6 +8,7 @@ namespace AlgorytmDobieraniaZasobowProdukcyjnych.Models
 {
     public partial class QPocl
     {
+        [Key]
         public string Idftr { get; set; }
         public string Idpart { get; set; }
         public string FtrNo { get; set; }

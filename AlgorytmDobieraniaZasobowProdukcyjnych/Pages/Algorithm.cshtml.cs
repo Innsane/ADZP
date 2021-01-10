@@ -31,6 +31,8 @@ namespace AlgorytmDobieraniaZasobowProdukcyjnych.Pages
         public IParameter Parameter { get; }
         public DaneWalkaDoTabel DataToTable { get; }
         public DaneWalka DaneWalka { get; set; }
+        [TempData]
+        public string Message { get; set; }
         [BindProperty]
         public string Name { get; set; }
         [BindProperty]

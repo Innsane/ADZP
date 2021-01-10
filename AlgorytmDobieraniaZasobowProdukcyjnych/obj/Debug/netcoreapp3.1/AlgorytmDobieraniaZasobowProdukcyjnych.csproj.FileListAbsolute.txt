@@ -167,3 +167,5 @@ C:\Users\Kuba\source\CSharp\AlgorytmDobieraniaZasobowProdukcyjnych\AlgorytmDobie
 C:\Users\Kuba\source\CSharp\AlgorytmDobieraniaZasobowProdukcyjnych\AlgorytmDobieraniaZasobowProdukcyjnych\obj\Debug\netcoreapp3.1\Razor\Pages\Shared\_WalekTables.cshtml.g.cs
 C:\Users\Kuba\source\CSharp\AlgorytmDobieraniaZasobowProdukcyjnych\AlgorytmDobieraniaZasobowProdukcyjnych\obj\Debug\netcoreapp3.1\Razor\Pages\Shared\_Exception.cshtml.g.cs
 C:\Users\Kuba\source\CSharp\AlgorytmDobieraniaZasobowProdukcyjnych\AlgorytmDobieraniaZasobowProdukcyjnych\obj\Debug\netcoreapp3.1\Razor\Pages\Shared\_ImageTables.cshtml.g.cs
+C:\Users\Kuba\source\CSharp\AlgorytmDobieraniaZasobowProdukcyjnych\AlgorytmDobieraniaZasobowProdukcyjnych\obj\Debug\netcoreapp3.1\Razor\Pages\Edit.cshtml.g.cs
+C:\Users\Kuba\source\CSharp\AlgorytmDobieraniaZasobowProdukcyjnych\AlgorytmDobieraniaZasobowProdukcyjnych\obj\Debug\netcoreapp3.1\Razor\Pages\Shared\_AddWalek.cshtml.g.cs

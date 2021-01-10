@@ -150,5 +150,28 @@ namespace AlgorytmDobieraniaZasobowProdukcyjnych.Data
             return newTurnings;
         }
 
+        public void Add(QPocl qpocl)
+        {
+            db.Add(qpocl);
+        }
+
+        public void Add(Part part)
+        {
+            db.Add(part);
+        }
+
+        public int Commit()
+        {
+            return db.SaveChanges();
+        }
+
+        public int CountParts()
+        {
+            var query = from p in db.Parts
+                        select p;
+            return query.ToList().Count;
+        }
+
+        
     }
 }

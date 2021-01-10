@@ -1,0 +1,38 @@
+﻿@model AlgorytmDobieraniaZasobowProdukcyjnych.Pages.EditModel
+
+    <h3>Wprowadź parametry każdego stopnia wałka</h3>
+@for (int i = 0; i < Model.Stopnie; i++)
+{
+    <div>
+        <h4>Stopnień @(i+1)</h4>
+        <div class="row">
+            <div class="form-group col">
+                <label for="l+@i">Długość stopnia [mm]</label>
+                <input class="form-control" id="l+@i" placeholder="0" asp-for="NowyWalek[i].Length" />
+            </div>
+
+            <div class="form-group col">
+                <label for="d+@i">Szerokość stopnia [mm]</label>
+                <input class="form-control" id="d+@i" placeholder="0" asp-for="NowyWalek[i].Diameter" />
+            </div>
+
+            <div class="form-group col">
+                <label for="dop+@i">Dopasowanie stopnia</label>
+                <input class="form-control" id="dop+@i" placeholder="0" asp-for="NowyWalek[i].Fit" />
+                <small class="form-text text-muted">Norma IT</small>
+            </div>
+
+            <div class="form-group col">
+                <label for="tol+@i">Tolerancja stopnia</label>
+                <input class="form-control" id="tol+@i" placeholder="0" asp-for="NowyWalek[i].It" />
+                <small class="form-text text-muted">Norma IT</small>
+            </div>
+
+            <div class="form-group col">
+                <label for="ra+@i">Chropowatość stopnia</label>
+                <input class="form-control" id="ra+@i" type="text" name="name" value="" placeholder="0" asp-for="NowyWalek[i].Ra" />
+                <small class="form-text text-muted">Wartość wg. Ra</small>
+            </div>
+        </div>
+    </div>
+}

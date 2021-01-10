@@ -1,0 +1,109 @@
+﻿@page "{handler?}"
+@model AlgorytmDobieraniaZasobowProdukcyjnych.Pages.EditModel
+@{
+    ViewData["Title"] = "Edit";
+}
+
+@section Scripts
+{
+    <script type="text/javascript">
+        //$('#dodajWalek').hide();
+        $('#hider').hide();
+        function addStopnieFields() {
+            var number = document.getElementById("N").value;
+            var container = document.getElementById("stopnie");
+
+            while (container.hasChildNodes()) {
+                container.removeChild(container.lastChild);
+            }
+
+            for (i = 0; i < number; i++) {
+                container.appendChild(document.createTextNode("Stopień " + (i + 1)));
+                container.appendChild(document.createElement("br"));
+
+                container.appendChild(document.createTextNode("Średnica stopnia: "));
+                var input = document.createElement("input");
+                input.type = "text";
+                input.name = "stopienSr" + i;
+                input.id = "stopienSr" + i;
+                container.appendChild(input);
+
+                container.appendChild(document.createTextNode("Długość stopnia: "));
+                var input = document.createElement("input");
+                input.type = "text";
+                input.name = "stopienDl" + i;
+                input.id = "stopienDl" + i;
+                container.appendChild(input);
+
+                container.appendChild(document.createTextNode("Dopasowanie stopnia: "));
+                var input = document.createElement("input");
+                input.type = "text";
+                input.name = "stopienFit" + i;
+                input.id = "stopienFit" + i;
+                container.appendChild(input);
+
+                container.appendChild(document.createTextNode("Tolerancja stopnia: "));
+                var input = document.createElement("input");
+                input.type = "text";
+                input.name = "stopienT" + i;
+                input.id = "stopienT" + i;
+                container.appendChild(input);
+
+                container.appendChild(document.createTextNode("Chropowatść stopnia: "));
+                var input = document.createElement("input");
+                input.type = "text";
+                input.name = "stopienRa" + i;
+                input.id = "stopienRa" + i;
+                container.appendChild(input);
+
+                container.appendChild(document.createElement("br"));
+            }
+        }
+        $('#stopnieButton').on('click', function () {
+            var iloscStopni = document.getElementById("iloscStopni").value;
+
+            $('#stopnie').load(`/edit/stopnie?iloscstopni=${iloscStopni}`, function (response, status, xhr) {
+                if (status == "success") {
+                    $('#dodajWalek').show();
+                    $('#hider').show();
+                }
+            });
+        });
+    </script>
+}
+<h1>Edycja parametrów wałka powierzchni cylindrycznych</h1>
+
+<div>
+    <div class="form-group">
+        <label for="iloscStopni">Wprowadź liczbę stopni wału: </label>
+        <div class="input-group">
+            <input type="text" class="form-control" id="iloscStopni" value="" placeholder="0" style="max-width:200px" />
+            <div class="input-group-append">
+                <button id="stopnieButton" class="btn btn-outline-secondary">OK</button>
+            </div>
+        </div>
+        <small class="form-text text-muted">Max 20</small>
+    </div>
+</div>
+
+<div id="hider">
+    <form method="post">
+        @Html.AntiForgeryToken()
+        <div class="input-group mb-3">
+            <div class="input-group-prepend">
+                <label class="input-group-text" for="materialSelect">Wybierz materiał wałka: </label>
+            </div>
+            <div>
+                <select id="materialSelect" class="custom-select" name="material" asp-items="Model.MaterialOptions" asp-for="Material">
+                    <option value="">Wybierz materiał</option>
+                </select>
+            </div>
+        </div>
+        
+        <div id="stopnie">
+
+        </div>
+
+        <input class="btn btn-primary" id="dodajWalek" type="submit" value="Dodaj" />
+    </form>
+</div>
