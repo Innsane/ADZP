@@ -71,6 +71,12 @@
         });
     </script>
 }
+@if (Model.Message != null)
+{
+    <div id="addInfo" class="row justify-content-center">
+        <div class="alert alert-info col-md-auto">@Model.Message</div>
+    </div>
+}
 <h1>Edycja parametrów wałka powierzchni cylindrycznych</h1>
 
 <div>
@@ -99,7 +105,7 @@
                 </select>
             </div>
         </div>
-        
+
         <div id="stopnie">
 
         </div>

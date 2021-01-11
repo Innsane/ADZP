@@ -28,6 +28,8 @@ namespace AlgorytmDobieraniaZasobowProdukcyjnych.Pages
         public string Material { get; set; }
         [BindProperty]
         public Feature[] NowyWalek { get; set; }
+        [TempData]
+        public string Message { get; set; }
 
         public int Stopnie { get; set; }
         public List<SelectListItem> MaterialOptions { get; set; }
@@ -61,9 +63,15 @@ namespace AlgorytmDobieraniaZasobowProdukcyjnych.Pages
 
         public IActionResult OnPost()
         {
-            if (!ModelState.IsValid)
+            if(Material == "0")
             {
-                return Page();
+                TempData["Message"] = "Wybierz materiał dla wałka!";
+                return RedirectToAction("OnGet");
+            }
+            else if (!ModelState.IsValid )
+            {
+                TempData["Message"] = "Wystąpił błąd!";
+                return RedirectToAction("OnGet");
             }
             else
             {

@@ -10,11 +10,22 @@
         $('#alert').hide();
         $('#latheSelectContainer').hide();
 
+        
+
         var selectedLathe = "";
         $(document).ready(function () {
             $("#latheName").change(function () {
                 selectedLathe = $(this).children("option:selected").val();
                 selectedLathe = selectedLathe.split(' ').join('_');
+            });
+
+            $(function () {
+                // setTimeout() function will be fired after page is loaded
+                // it will wait for 5 sec. and then will fire
+                // $("#successMessage").hide() function
+                setTimeout(function () {
+                    $("#addInfo").hide()
+                }, 3000);
             });
         });
         //pobieranie danych i operacje na stronie dla obliczen walka
@@ -50,16 +61,17 @@
                     $('#parameterTables').show();
                     $('.hider').show();
                     $('#alert').hide();
-
                 }
                 $('#parameterTables').show();
             });
         });
     </script>
 }
-@if(Model.Message != null)
-       {
-    <div class="alert alert-info col-4" >@Model.Message</div>
+@if (Model.Message != null)
+{
+    <div id="addInfo" class="row justify-content-center">
+        <div class="alert alert-info col-md-auto">@Model.Message</div>
+    </div>
 }
 <div id="alert" class="alert alert-primary" role="alert" style="text-align:center">
     Ładowanie danych...

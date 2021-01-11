@@ -28,7 +28,7 @@ $(document).ready(function () {
         deferRender: true,
     });
 
-    
+
 
     //write name of Image to Input
     $('#dataTable tbody').on('click', 'tr', function () {
@@ -46,7 +46,7 @@ $(document).ready(function () {
 
     //filter table based on node data in TreeView
     $("#treeView").on("changed.jstree", function (e, data) {
-        $("#lb").text(data.node.id);
+        $("#lb").val(data.node.id);
         $("#tableName").val(data.node.data[0]);
         var tableName = document.getElementById("tableName").value;
 
@@ -78,29 +78,51 @@ $(document).ready(function () {
 
     </script>
 }
-<label>Symbol wybranego zasobu: </label>
-<label id="lb"> </label>
+
+<div class="input-group mb-2 col-7">
+    <div class="input-group-prepend">
+        <span class="input-group-text">Symbol wybranego zasobu: </span>
+    </div>
+    <input class="form-control" id="lb" disabled>
+</div>
+<div class="input-group mb-2 col-7">
+    <div class="input-group-prepend">
+        <span class="input-group-text">Nazwa wybranej tabeli: </span>
+    </div>
+    <input class="form-control" type="text" id="tableName" disabled />
+</div>
+<div class="input-group mb-2 col-7">
+    <div class="input-group-prepend">
+        <label class="input-group-text">Nazwa obrazu dla wybranego narzędzia: </label>
+    </div>
+    <input id="cellName" type="text" disabled />
+    <div class="input-group-append">
+        <button id="myModal" type="button" class="btn btn-primary" data-toggle="modal" data-target="#imgModal">
+            Pokaż
+        </button>    
+    </div>
+    
+</div>
 
 <form id="form" method="post">
-    <label>Klasa wybranych zasobów produkcyjnych: </label>
-    <select name="picked" asp-for="Picked">
-        @foreach (var resource in Model.Resources)
-        {
-            <option id="item" value="@resource.KeyId">@resource.Nazwa</option>
-        }
-    </select>
-    <input type="submit" id="submitName" value="Display" />
+    <div class="row">
+        <div class="input-group col-7">
+            <div class="input-group-prepend">
+                <label class="input-group-text" for="picked">Klasa wybranych zasobów produkcyjnych: </label>
+            </div>
+            <select id="picked" class="custom-select" name="picked" asp-for="Picked">
+                @foreach (var resource in Model.Resources)
+                {
+                    <option id="item" value="@resource.KeyId">@resource.Nazwa</option>
+                }
+            </select>
+            <div class="input-group-append">
+                <input class="btn btn-primary" type="submit" id="submitName" value="OK" />
+            </div>
+        </div>
+    </div>
 </form>
 
-<label>Nazwa wybranej tabeli: </label>
-<input type="text" id="tableName" disabled />
-<br />
-<label>Nazwa obrazu dla wybranego narzędzia: </label>
-<input id="cellName" type="text" disabled />
-
-<button id="myModal" type="button" class="btn btn-primary" data-toggle="modal" data-target="#imgModal">
-    Pokaż
-</button>
 
 
 <div class="row">
