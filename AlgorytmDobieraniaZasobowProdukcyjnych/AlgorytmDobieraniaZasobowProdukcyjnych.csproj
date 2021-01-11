@@ -21,6 +21,7 @@
   <ItemGroup>
     <Folder Include="wwwroot\images\Equipment\" />
     <Folder Include="wwwroot\images\Narzedzia\" />
+    <Folder Include="wwwroot\images\Logo\" />
     <Folder Include="wwwroot\images\Obrabiarki\Tokarki\" />
     <Folder Include="wwwroot\lib\jstree\dist\themes\default\" />
   </ItemGroup>

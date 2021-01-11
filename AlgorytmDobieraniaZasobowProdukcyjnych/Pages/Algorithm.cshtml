@@ -10,7 +10,7 @@
         $('#alert').hide();
         $('#latheSelectContainer').hide();
 
-        
+
 
         var selectedLathe = "";
         $(document).ready(function () {
@@ -67,49 +67,54 @@
         });
     </script>
 }
-@if (Model.Message != null)
-{
-    <div id="addInfo" class="row justify-content-center">
-        <div class="alert alert-info col-md-auto">@Model.Message</div>
+
+
+<div class="container-fluid">
+    @if (Model.Message != null)
+    {
+        <div id="addInfo" class="row justify-content-center">
+            <div class="alert alert-info col-md-auto">@Model.Message</div>
+        </div>
+    }
+    <h1>Algorytm dobierania zasobów produkcyjnych</h1>
+    <div id="alert" class="alert alert-primary" role="alert" style="text-align:center">
+        Ładowanie danych...
     </div>
-}
-<div id="alert" class="alert alert-primary" role="alert" style="text-align:center">
-    Ładowanie danych...
-</div>
-<div class="hider">
-    <div class="row">
-        <div id="walekSelectContainer" class="input-group mb-2 col-6">
-            <div class="input-group-prepend">
-                <label class="input-group-text" for="walekName">Wybierz wałek do obliczeń</label>
-            </div>
-            <select class="custom-select" id="walekName" name="name" asp-items="Model.NamesOptions">
-                <option selected>Wybierz wałek</option>
-            </select>
-            <div class="input-group-append">
-                <button id="walekButton" class="btn btn-outline-secondary">OK</button>
+    <div class="hider">
+        <div class="row">
+            <div id="walekSelectContainer" class="input-group mb-2 col-5">
+                <div class="input-group-prepend">
+                    <label class="input-group-text" for="walekName">Wybierz wałek do obliczeń</label>
+                </div>
+                <select class="custom-select" id="walekName" name="name" asp-items="Model.NamesOptions">
+                    <option selected>Wybierz wałek</option>
+                </select>
+                <div class="input-group-append">
+                    <button id="walekButton" class="btn btn-outline-secondary">OK</button>
+                </div>
             </div>
         </div>
-    </div>
-    <div class="row">
-        <div id="latheSelectContainer" class="input-group mb-3 col-6">
-            <div class="input-group-prepend">
-                <label class="input-group-text" for="latheName">Wybierz obrabiarke</label>
-            </div>
-            <select id="latheName" class="custom-select" name="lathe" asp-items="Model.LathesOptions">
-                <option selected>Wybierz obrabiarke</option>
-            </select>
-            <div class="input-group-append">
-                <button id="latheButton" class="btn btn-outline-secondary">OK</button>
+        <div class="row">
+            <div id="latheSelectContainer" class="input-group mb-3 col-5">
+                <div class="input-group-prepend">
+                    <label class="input-group-text" for="latheName">Wybierz obrabiarke</label>
+                </div>
+                <select id="latheName" class="custom-select" name="lathe" asp-items="Model.LathesOptions">
+                    <option selected>Wybierz obrabiarke</option>
+                </select>
+                <div class="input-group-append">
+                    <button id="latheButton" class="btn btn-outline-secondary">OK</button>
+                </div>
             </div>
         </div>
-    </div>
-    <div id="imageTables">
+        <div id="imageTables">
 
-    </div>
-    <div id="walekTables">
+        </div>
+        <div id="walekTables">
 
-    </div>
-    <div id="parameterTables">
+        </div>
+        <div id="parameterTables">
 
+        </div>
     </div>
 </div>

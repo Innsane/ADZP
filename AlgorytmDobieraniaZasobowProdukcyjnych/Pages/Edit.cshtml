@@ -71,45 +71,48 @@
         });
     </script>
 }
-@if (Model.Message != null)
-{
-    <div id="addInfo" class="row justify-content-center">
-        <div class="alert alert-info col-md-auto">@Model.Message</div>
+
+<div class="container-fluid">
+    @if (Model.Message != null)
+    {
+        <div id="addInfo" class="row justify-content-center">
+            <div class="alert alert-info col-md-auto">@Model.Message</div>
+        </div>
+    }
+    <h1>Edycja parametrów wałka powierzchni cylindrycznych</h1>
+
+    <div>
+        <div class="form-group">
+            <label for="iloscStopni">Wprowadź liczbę stopni wału: </label>
+            <div class="input-group">
+                <input type="text" class="form-control" id="iloscStopni" value="" placeholder="0" style="max-width:200px" />
+                <div class="input-group-append">
+                    <button id="stopnieButton" class="btn btn-outline-secondary">OK</button>
+                </div>
+            </div>
+            <small class="form-text text-muted">Max 20</small>
+        </div>
     </div>
-}
-<h1>Edycja parametrów wałka powierzchni cylindrycznych</h1>
 
-<div>
-    <div class="form-group">
-        <label for="iloscStopni">Wprowadź liczbę stopni wału: </label>
-        <div class="input-group">
-            <input type="text" class="form-control" id="iloscStopni" value="" placeholder="0" style="max-width:200px" />
-            <div class="input-group-append">
-                <button id="stopnieButton" class="btn btn-outline-secondary">OK</button>
+    <div id="hider">
+        <form method="post">
+            @Html.AntiForgeryToken()
+            <div class="input-group mb-3">
+                <div class="input-group-prepend">
+                    <label class="input-group-text" for="materialSelect">Wybierz materiał wałka: </label>
+                </div>
+                <div>
+                    <select id="materialSelect" class="custom-select" asp-items="Model.MaterialOptions" asp-for="Material">
+                        <option value="0">Wybierz materiał</option>
+                    </select>
+                </div>
             </div>
-        </div>
-        <small class="form-text text-muted">Max 20</small>
+
+            <div id="stopnie">
+
+            </div>
+
+            <input class="btn btn-primary" id="dodajWalek" type="submit" value="Dodaj" />
+        </form>
     </div>
-</div>
-
-<div id="hider">
-    <form method="post">
-        @Html.AntiForgeryToken()
-        <div class="input-group mb-3">
-            <div class="input-group-prepend">
-                <label class="input-group-text" for="materialSelect">Wybierz materiał wałka: </label>
-            </div>
-            <div>
-                <select id="materialSelect" class="custom-select" asp-items="Model.MaterialOptions" asp-for="Material">
-                    <option value="0">Wybierz materiał</option>
-                </select>
-            </div>
-        </div>
-
-        <div id="stopnie">
-
-        </div>
-
-        <input class="btn btn-primary" id="dodajWalek" type="submit" value="Dodaj" />
-    </form>
 </div>
