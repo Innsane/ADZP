@@ -26,6 +26,9 @@ $(document).ready(function () {
     table = $('#dataTable').DataTable({
         processing: true,
         deferRender: true,
+        "language": {
+            "url": "lib/DataTables/Polish.json"
+        },
     });
 
 
@@ -33,21 +36,22 @@ $(document).ready(function () {
     //write name of Image to Input
     $('#dataTable tbody').on('click', 'tr', function () {
         var celltext = $(this).data('obraz');
-        $("#cellName").val(celltext);
+        $("#cellName").html(celltext);
         //alert('You clicked on ' + $(this).data('obraz') + '\'s row');
     });
 
     //display Modal with Image
     $('#myModal').on('click', function () {
-        var cellname = document.getElementById("cellName").value;
+        var cellname = document.getElementById("cellName").innerHTML;
+        $('#nazwaObrazka').html(cellname);
         $('.modal-body').load(`/treeview/modalimage?path=${cellname}`);
     });
 
 
     //filter table based on node data in TreeView
     $("#treeView").on("changed.jstree", function (e, data) {
-        $("#lb").val(data.node.id);
-        $("#tableName").val(data.node.data[0]);
+        $("#lb").html(data.node.id);
+        $("#tableName").html(data.node.data[0]);
         var tableName = document.getElementById("tableName").value;
 
         if (tableName == "" || tableName == tableNameOld) {
@@ -61,7 +65,7 @@ $(document).ready(function () {
                     //write name of Image to Input
                     $('#dataTable tbody').on('click', 'tr', function () {
                         var celltext = $(this).data('obraz');
-                        $("#cellName").val(celltext);
+                        $("#cellName").html(celltext);
                         //alert('You clicked on ' + $(this).data('obraz') + '\'s row');
                     });
                 }
@@ -79,34 +83,25 @@ $(document).ready(function () {
     </script>
 }
 <div class="container-fluid">
-    <h1>Tabele z parametrami zasobów produkcyjnych</h1>
-    <div class="col col-md-6">
-        
-    </div>
-    <div class="row">
-        <div class="input-group mb-2 col-6">
-            <div class="input-group-prepend">
-                <span class="input-group-text">Symbol wybranego zasobu: </span>
+    <h1 style="text-align:justify">Tabele z parametrami zasobów produkcyjnych</h1>
+    <div class="row justify-content-center justify-content-sm-start pb-2">
+        <div class="card m-2 align-items-center" style="min-width: 220px">
+            <h6 class="card-header">Symbol wybranego zasobu</h6>
+            <div class="card-body align-items-center" style="text-align:center">
+                <label id="lb" class="card-text"></label>
             </div>
-            <input class="form-control" id="lb" disabled>
         </div>
-    </div>
-    <div class="row">
-        <div class="input-group mb-2 col-6">
-            <div class="input-group-prepend">
-                <span class="input-group-text">Nazwa wybranej tabeli: </span>
+        <div class="card m-2" style="min-width: 220px">
+            <h6 class="card-header">Nazwa wybranej tabeli</h6>
+            <div class="card-body align-items-center" style="text-align:center">
+                <label id="tableName" class="card-text"></label>
             </div>
-            <input class="form-control" type="text" id="tableName" disabled />
         </div>
-    </div>
-    <div class="row">
-        <div class="input-group mb-2 col-6">
-            <div class="input-group-prepend">
-                <label class="input-group-text">Nazwa obrazu dla wybranego narzędzia: </label>
-            </div>
-            <input id="cellName" type="text" disabled />
-            <div class="input-group-append">
-                <button id="myModal" type="button" class="btn btn-primary" data-toggle="modal" data-target="#imgModal">
+        <div class="card m-2" style="min-width: 220px">
+            <h6 class="card-header">Nazwa obrazu dla wybranego narzędzia</h6>
+            <div class="card-body" style="text-align:center">
+                <p class="card-text" id="cellName">...</p>
+                <button id="myModal" class="btn btn-primary" data-toggle="modal" data-target="#imgModal">
                     Pokaż
                 </button>
             </div>
@@ -116,9 +111,9 @@ $(document).ready(function () {
         <form id="form" method="post">
             <div class="input-group mb-2 col">
                 <div class="input-group-prepend">
-                    <label class="input-group-text" for="picked">Klasa wybranych zasobów produkcyjnych: </label>
+                    <label class="input-group-text" style="min-width:320px" for="picked">Klasa wybranych zasobów produkcyjnych: </label>
                 </div>
-                <select id="picked" class="custom-select" name="picked" asp-for="Picked">
+                <select id="picked" class="custom-select" style="min-width:220px" name="picked" asp-for="Picked">
                     @foreach (var resource in Model.Resources)
                     {
                         <option id="item" value="@resource.KeyId">@resource.Nazwa</option>
@@ -130,15 +125,46 @@ $(document).ready(function () {
             </div>
         </form>
     </div>
+    @*<div class="row">
+            <div class="input-group mb-2 col-lg-6">
+                <div class="input-group-prepend">
+                    <label class="input-group-text" style="min-width:320px; width:auto">Symbol wybranego zasobu: </label>
+                </div>
+                <input class="form-control" style="min-width:220px" id="lb" disabled>
+            </div>
+        </div>*@
+    @*<div class="row">
+            <div class="input-group mb-2 col-6">
+                <div class="input-group-prepend">
+                    <label class="input-group-text" style="min-width:320px">Nazwa wybranej tabeli: </label>
+                </div>
+                <input class="form-control" style="min-width:220px" type="text" id="tableName" disabled />
+            </div>
+        </div>*@
+    @*<div class="row">
+            <div class="input-group mb-2 col-lg-6">
+                <div class="input-group-prepend">
+                    <label class="input-group-text" style="min-width:320px;">Nazwa obrazu dla wybranego narzędzia: </label>
+                </div>
+                <input id="cellName" style="min-width:220px" type="text" disabled />
+                <div class="input-group-append">
+                    <button id="myModal" class="btn btn-primary" data-toggle="modal" data-target="#imgModal">
+                        Pokaż
+                    </button>
+                </div>
+            </div>
+        </div>*@
+
     <div class="row">
-        <div style="        font-size: 12px;
+        <div style="
+        font-size: 12px;
         white-space: normal !important;
         height: auto;
         padding: 1px 2px;
-        min-width:280px;" id="treeView" class="col-3">
+        min-width:280px;" id="treeView" class="col-lg-3">
         </div>
 
-        <div id="dt" class="col-9">
+        <div id="dt" class="col-lg-9">
             <partial name="_DataTable" model="Model.DataTablePartial" />
         </div>
     </div>
@@ -147,7 +173,7 @@ $(document).ready(function () {
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title">Nazwa narzedzia</h5>
+                    <h5 id="nazwaObrazka" class="modal-title"></h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
