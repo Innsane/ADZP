@@ -77,6 +77,7 @@ namespace AlgorytmDobieraniaZasobowProdukcyjnych.Data
                          where l.B == dlugosc && l.H == szerokosc && l.MaxAp > walek.APRGREAL.Max() &&
                                l.Kr < 90 &&
                                l.Re <= (decimal)2.4 &&
+                               l.Re >= (decimal)1.6 &&
                                l.Ht == "L" &&
                                l.OpA == "LT" &&
                                l.Geometry.Contains("PR")
@@ -96,7 +97,7 @@ namespace AlgorytmDobieraniaZasobowProdukcyjnych.Data
             var TurnFN = from l in db.QTurningTools
                          where l.B == dlugosc && l.H == szerokosc && l.MaxAp > walek.QFN &&
                                l.Kr > 90 &&
-                               l.Re <= (decimal)0.8 &&
+                               l.Re <= (decimal)0.4 &&
                                l.Ht == "L" &&
                                l.OpA == "LT" &&
                                l.Geometry.Contains("PF")

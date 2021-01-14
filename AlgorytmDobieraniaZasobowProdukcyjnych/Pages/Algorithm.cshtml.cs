@@ -43,6 +43,7 @@ namespace AlgorytmDobieraniaZasobowProdukcyjnych.Pages
         public List<SelectListItem> NamesOptions { get; set; }
         public List<SelectListItem> MaterialOptions { get; set; }
         public List<SelectListItem> LathesOptions { get; set; }
+        public List<string> GradesOptions { get; set; }
 
         public void OnGet()
         {
@@ -102,27 +103,27 @@ namespace AlgorytmDobieraniaZasobowProdukcyjnych.Pages
             return dane;
         }
 
-        public IActionResult OnPostWalekSql()
-        {
-            Walek.GetWalekByName(Name);
-            Walek.Calculate();
+        //public IActionResult OnPostWalekSql()
+        //{
+        //    Walek.GetWalekByName(Name);
+        //    Walek.Calculate();
 
-            var walek = Walek.GetData();
-            var lathe = repository.GetObrabiarki(Lathe).First();
-            var tools = repository.GetTools(lathe, "RG");
-            var cmc = repository.GetCmcMaterial(walek);
-            var grades = repository.GetGrades(cmc);
-            var turnings = repository.GetTurningTools(tools, lathe, walek, grades);
+        //    var walek = Walek.GetData();
+        //    var lathe = repository.GetObrabiarki(Lathe).First();
+        //    var tools = repository.GetTools(lathe, "RG");
+        //    var cmc = repository.GetCmcMaterial(walek);
+        //    var grades = repository.GetGrades(cmc);
+        //    var turnings = repository.GetTurningTools(tools, lathe, walek, grades);
 
-            parameters.SetParameterList(walek, lathe, cmc, turnings);
-            parameters.Calculate();
+        //    parameters.SetParameterList(walek, lathe, cmc, turnings);
+        //    parameters.Calculate();
 
-            DataToTable.SetDataToTable(Walek.GetDataToTable());
-            DataToTable.SetParameterToTable(parameters.GetParametersList());
-            DataToTable.SetImages(lathe, parameters.GetParametersList(), walek);
+        //    DataToTable.SetDataToTable(Walek.GetDataToTable());
+        //    DataToTable.SetParameterToTable(parameters.GetParametersList());
+        //    DataToTable.SetImages(lathe, parameters.GetParametersList(), walek);
 
-            return RedirectToPage("Tabela");
-        }
+        //    return RedirectToPage("Tabela");
+        //}
 
         public PartialViewResult OnGetWalek(string walekName)
         {
@@ -142,6 +143,8 @@ namespace AlgorytmDobieraniaZasobowProdukcyjnych.Pages
         {
             var namess = names.Split(',');
             var walekName = namess[0];
+            var ilosc = Convert.ToInt32(namess[2]);
+            var przejsc = Convert.ToInt32(namess[3]);
             try
             {
                 Walek.GetWalekByName(walekName);
@@ -158,7 +161,6 @@ namespace AlgorytmDobieraniaZasobowProdukcyjnych.Pages
 
             try
             {
-
                 var latheName = string.Join(" ", namess[1].Split('_'));
                 var walek = Walek.GetData();
                 var lathe = repository.GetObrabiarki(latheName).First();
@@ -171,8 +173,10 @@ namespace AlgorytmDobieraniaZasobowProdukcyjnych.Pages
                 parameters.Calculate();
 
                 DataToTable.SetDataToTable(Walek.GetDataToTable());
-                DataToTable.SetParameterToTable(parameters.GetParametersList());
-                DataToTable.SetImages(lathe, parameters.GetParametersList(), walek);
+                DataToTable.SetParameterToTable(parameters.GetParametersList(ilosc));
+                DataToTable.SetImages(lathe, parameters.GetParametersList(ilosc), walek);
+
+                GradesOptions = grades;
 
                 return new PartialViewResult
                 {

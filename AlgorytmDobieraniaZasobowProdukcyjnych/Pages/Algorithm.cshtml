@@ -9,6 +9,9 @@
     <script type="text/javascript">
         $('#alert').hide();
         $('#latheSelectContainer').hide();
+        $('#iloscSelectContainer').hide();
+        $('#przejscSelectContainer').hide();
+
 
 
 
@@ -41,6 +44,8 @@
                     $('.hider').show();
                     $('#alert').hide();
                     $('#latheSelectContainer').show();
+                    $('#iloscSelectContainer').show();
+                    $('#przejscSelectContainer').show();
                     $('#parameterTables').hide();
                     $('#latheName').prop('selectedIndex', 0);
                 }
@@ -50,14 +55,33 @@
         $('#latheButton').on('click', function () {
             var latheName = document.getElementById("latheName").value;
             var walekName = document.getElementById("walekName").value;
-            var names = [walekName, selectedLathe];
+            var iloscNumber = document.getElementById("iloscNumber").value;
+            var przejscNumber = document.getElementById("przejscNumber").value;
+            var names = [walekName, selectedLathe, iloscNumber, przejscNumber];
             console.log("Lathe: " + selectedLathe);
 
             $('.hider').hide();
             $('#alert').show();
             $('#parameterTables').load(`/algorithm/parameter?names=${names}`, function (response, status, xhr) {
                 if (status == "success") {
+                    $('#parameterTables').show();
+                    $('.hider').show();
+                    $('#alert').hide();
+                }
+                $('#parameterTables').show();
+            });
+        });
+        $('#iloscButton').on('click', function () {
+            var latheName = document.getElementById("latheName").value;
+            var walekName = document.getElementById("walekName").value;
+            var iloscNumber = document.getElementById("iloscNumber").value;
+            var names = [walekName, selectedLathe, iloscNumber];
+            console.log("Lathe: " + selectedLathe);
 
+            $('.hider').hide();
+            $('#alert').show();
+            $('#parameterTables').load(`/algorithm/parameter?names=${names}`, function (response, status, xhr) {
+                if (status == "success") {
                     $('#parameterTables').show();
                     $('.hider').show();
                     $('#alert').hide();
@@ -82,9 +106,9 @@
     </div>
     <div class="hider">
         <div class="row">
-            <div id="walekSelectContainer" class="input-group mb-2 col-sm col-md-8 col-lg-6 col-xl-5" >
+            <div id="walekSelectContainer" class="input-group mb-2 col-sm col-md-8 col-lg-6 col-xl-5">
                 <div class="input-group-prepend">
-                    <label class="input-group-text" style="min-width:190px" for="walekName">Wybierz wałek do obliczeń</label>
+                    <label class="input-group-text" style="min-width:220px" for="walekName">Wybierz wałek do obliczeń</label>
                 </div>
                 <select class="custom-select" style="min-width:165px" id="walekName" name="name" asp-items="Model.NamesOptions">
                     <option selected>Wybierz wałek</option>
@@ -95,15 +119,37 @@
             </div>
         </div>
         <div class="row">
-            <div id="latheSelectContainer" class="input-group mb-3 col-sm col-md-8 col-lg-6 col-xl-5">
+            <div id="latheSelectContainer" class="input-group mb-2 col-sm col-md-8 col-lg-6 col-xl-5">
                 <div class="input-group-prepend">
-                    <label class="input-group-text" style="min-width:190px" for="latheName">Wybierz obrabiarke</label>
+                    <label class="input-group-text" style="min-width:220px" for="latheName">Wybierz obrabiarke</label>
                 </div>
                 <select id="latheName" style="min-width:165px" class="custom-select" name="lathe" asp-items="Model.LathesOptions">
                     <option selected>Wybierz obrabiarke</option>
                 </select>
                 <div class="input-group-append">
                     <button id="latheButton" type="button" class="btn btn-outline-secondary">OK</button>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div id="iloscSelectContainer" class="input-group mb-2 col-sm col-md-8 col-lg-6 col-xl-5">
+                <div class="input-group-prepend">
+                    <label class="input-group-text" style="min-width:220px" for="iloscNumber">Ile narzędzi wyświetlić</label>
+                </div>
+                <input id="iloscNumber" class="form-control" type="number" style="min-width:165px" value="1" placeholder="Wpisz liczbę od 1 do 10" />
+                <div class="input-group-append">
+                    <button id="iloscButton" type="button" class="btn btn-outline-secondary">OK</button>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div id="przejscSelectContainer" class="input-group mb-5 col-sm col-md-8 col-lg-6 col-xl-5">
+                <div class="input-group-prepend">
+                    <label class="input-group-text" style="min-width:220px" for="iloscNumber">Ilość przejść </label>
+                </div>
+                <input id="przejscNumber" class="form-control" type="number" style="min-width:165px" value="1" placeholder="Wpisz liczbę od 1 do 10" />
+                <div class="input-group-append">
+                    <button id="przejscButton" type="button" class="btn btn-outline-secondary">OK</button>
                 </div>
             </div>
         </div>

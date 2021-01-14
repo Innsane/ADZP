@@ -10,6 +10,6 @@ namespace AlgorytmDobieraniaZasobowProdukcyjnych.Data
     {
         public void SetParameterList(DaneWalka walek, Lathe lathe, string cmc, List<List<QTurningTool>> turnings);
         public void Calculate();
-        List<List<Parameter>> GetParametersList();
+        List<List<Parameter>> GetParametersList(int ilosc);
     }
 }

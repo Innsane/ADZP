@@ -91,24 +91,24 @@
 
 @if (!(Model.ImageLathe is null))
 {
-<div id="imgContainer" class="row">
-    <div class="col-3" style="text-align:center">
-        <label style="font-weight:bold">Obrabiarka: </label>
-        <img class="img-fluid" src="@Model.ImageLathe" alt="Alternate Text" />
+    <div id="imgContainer" class="row">
+        <div class="col-3" style="text-align:center">
+            <label style="font-weight:bold">Obrabiarka: </label>
+            <img class="img-fluid" src="@Model.ImageLathe" alt="Alternate Text" />
+        </div>
+        <div class="col-3" style="text-align:center">
+            <label style="font-weight:bold">Narzędzie do obróbki zgrubnej: </label>
+            <img class="img-fluid" src="@Model.ImageToolRG" alt="Alternate Text" />
+        </div>
+        <div class="col-3" style="text-align:center">
+            <label style="font-weight:bold">Narzędzie do obróbki kształtującej: </label>
+            <img class="img-fluid" src="@Model.ImageToolMT" alt="Alternate Text" />
+        </div>
+        <div class="col-3" style="text-align:center">
+            <label style="font-weight:bold">Narzędzie do obróbki wykańczającej: </label>
+            <img class="img-fluid" src="@Model.ImageToolFN" alt="Alternate Text" />
+        </div>
     </div>
-    <div class="col-3" style="text-align:center">
-        <label style="font-weight:bold">Narzędzie do obróbki zgrubnej: </label>
-        <img class="img-fluid" src="@Model.ImageToolRG" alt="Alternate Text" />
-    </div>
-    <div class="col-3" style="text-align:center">
-        <label style="font-weight:bold">Narzędzie do obróbki kształtującej: </label>
-        <img class="img-fluid" src="@Model.ImageToolMT" alt="Alternate Text" />
-    </div>
-    <div class="col-3" style="text-align:center">
-        <label style="font-weight:bold">Narzędzie do obróbki wykańczającej: </label>
-        <img class="img-fluid" src="@Model.ImageToolFN" alt="Alternate Text" />
-    </div>
-</div>
 }
 
 <br />
@@ -153,7 +153,7 @@
             <tr>
                 @for (int i = 0; i < zgrubna.Count; i++)
                 {
-                    if (i == 0 || i == 1 || i == 2 || i == 3 || i == 6)
+                    if (i == 0 || i == 1 || i == 2 || i == 3 || i == 4 || i == 7)
                     {
                         <td>@zgrubna[i]</td>
                     }
@@ -187,7 +187,7 @@
                 <tr>
                     @for (int i = 0; i < parameter.Count; i++)
                     {
-                        if (i == 0 || i == 3 || i == 4)
+                        if (i == 0 || i == 1 || i == 4 || i == 5)
                         {
                             <td>@parameter[i]</td>
                         }
@@ -221,7 +221,7 @@
                 @for (int i = 0; i < ksztaltujaca.Count; i++)
                 {
 
-                    if (i == 0 || i == 1 || i == 2 || i == 3 || i == 6)
+                    if (i == 0 || i == 1 || i == 2 || i == 3 || i == 4 || i == 7)
                     {
                         <td>@ksztaltujaca[i]</td>
                     }
@@ -253,11 +253,11 @@
         <tbody>
             @foreach (var parameter in table)
             {
-                if ((double)parameter[5] == 0) continue;
+                if ((double)parameter[6] == 0) continue;
                 <tr>
                     @for (int i = 0; i < parameter.Count; i++)
                     {
-                        if (i == 0 || i == 3)
+                        if (i == 0 || i == 1 || i == 4)
                         {
                             <td>@parameter[i]</td>
                         }
@@ -291,7 +291,7 @@
                 @for (int i = 0; i < wykanczajaca.Count; i++)
                 {
 
-                    if (i == 0 || i == 1 || i == 2 || i == 3 || i == 6)
+                    if (i == 0 || i == 1 || i == 2 || i == 3 || i == 4 || i == 7)
                     {
                         <td>@wykanczajaca[i]</td>
                     }
@@ -323,11 +323,11 @@
         <tbody>
             @foreach (var parameter in table)
             {
-                if ((double)parameter[5] == 0) continue;
+                if ((double)parameter[6] == 0) continue;
                 <tr>
                     @for (int i = 0; i < parameter.Count; i++)
                     {
-                        if (i == 0 || i == 3)
+                        if (i == 0 || i == 1 || i == 4)
                         {
                             <td>@parameter[i]</td>
                         }

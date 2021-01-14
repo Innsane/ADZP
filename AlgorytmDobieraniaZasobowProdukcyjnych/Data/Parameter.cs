@@ -218,11 +218,37 @@ namespace AlgorytmDobieraniaZasobowProdukcyjnych.Data
         public void Posuw()
         {
             var f = 0.0;
+            var ktoryStopien = 0;
             Ra.Add(Walek.ChropowatoscRa[Stopien]);
             Rt.Add(Walek.ChropowatoscRt[Stopien]);
-            if (Obrobka == "PM" && Walek.IZ[Stopien] == 2)
+            if (Obrobka == "PM")
             {
-                f = Math.Sqrt((8 * Convert.ToDouble(Tool.Re) * Walek.ChropowatoscRt[Stopien]) / 1000);
+                if(Walek.ChropowatoscRa.Exists(elem=>elem >= 2.5 && elem <=5))
+                {
+                    for (int i = 0; i < Walek.ChropowatoscRa.Count; i++)
+                    {
+                        var min = 100.0;
+                        if (Walek.IZ[i] == 2)
+                        {
+                            if (min > Walek.ChropowatoscRa[i])
+                            {
+                                min = Walek.ChropowatoscRa[i];
+                                ktoryStopien = i;
+                            }
+                        }
+                    }
+                    var fObliczony = Math.Sqrt((8 * Convert.ToDouble(Tool.Re) * Walek.ChropowatoscRt[ktoryStopien]) / 1000);
+                    if (fObliczony < Convert.ToDouble(Tool.FnZ))
+                    {
+                        f = fObliczony;
+                    }
+                    else f = Convert.ToDouble(Tool.FnZ);
+                }
+                else
+                {
+                    f = Convert.ToDouble(Tool.FnZ);
+                } 
+                    
             }
             else if (Obrobka == "PF")
             {

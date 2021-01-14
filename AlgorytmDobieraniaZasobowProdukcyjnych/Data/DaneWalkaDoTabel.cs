@@ -79,16 +79,19 @@ namespace AlgorytmDobieraniaZasobowProdukcyjnych.Data
 
         private void SetParametrListRG(List<Parameter> listOfParameters, List<int> listaStopni)
         {
+            var numer = 0;
             var tablesParameters = new List<List<List<object>>>();
             foreach (var parameter in listOfParameters)
             {
                 var singleTable = new List<List<object>>();
+                numer += 1;
                 for (int i = 0; i < listOfParameters.First().Walek.Stopnie; i++)
                 {
                     singleTable.Add(new List<object> {
+                        numer,
                         listaStopni[i],
-                        parameter.Tool.Geometry,
                         parameter.Tool.Holder,
+                        parameter.Tool.Geometry,
                         parameter.Tool.Material,
                         parameter.Przejsc[i],
                         parameter.AP[i],
@@ -97,7 +100,6 @@ namespace AlgorytmDobieraniaZasobowProdukcyjnych.Data
                         parameter.N[i],
                         parameter.Q[i],
                         parameter.TG[i],
-                        0,//parameter.T[i],
                         parameter.FC[i],
                         parameter.KC[i],
                         parameter.HM[i],
@@ -110,9 +112,10 @@ namespace AlgorytmDobieraniaZasobowProdukcyjnych.Data
 
             var nameList = new List<string>
                     {
+                        "Nr",        
                         "Stopień",
-                        "Płytka",
                         "Oprawka",
+                        "Płytka",
                         "Materiał",
                         "Przejść",
                         "ap [mm]",
@@ -121,7 +124,6 @@ namespace AlgorytmDobieraniaZasobowProdukcyjnych.Data
                         "n [obr/min]",
                         "Q [cm3/min]",
                         "tg [min]",
-                        "T [min]",
                         "Fc [N]",
                         "kc [N/mm2]",
                         "hm [mm]",
@@ -135,15 +137,18 @@ namespace AlgorytmDobieraniaZasobowProdukcyjnych.Data
         private void SetParametrListMT(List<Parameter> listOfParameters, List<int> listaStopni)
         {
             var tablesParameters = new List<List<List<object>>>();
+            var numer = 0;
             foreach (var parameter in listOfParameters)
             {
                 var singleTable = new List<List<object>>();
+                numer += 1;
                 for (int i = 0; i < listOfParameters.First().Walek.Stopnie; i++)
                 {
                     singleTable.Add(new List<object> {
+                        numer,
                         listaStopni[i],
-                        parameter.Tool.Geometry,
                         parameter.Tool.Holder,
+                        parameter.Tool.Geometry,
                         parameter.Tool.Material,
                         parameter.Ra[i],
                         parameter.AP[i],
@@ -152,7 +157,6 @@ namespace AlgorytmDobieraniaZasobowProdukcyjnych.Data
                         parameter.N[i],
                         parameter.Q[i],
                         parameter.TG[i],
-                        0,//parameter.T[i],
                         parameter.FC[i],
                         parameter.KC[i],
                         parameter.HM[i],
@@ -165,9 +169,10 @@ namespace AlgorytmDobieraniaZasobowProdukcyjnych.Data
 
             var nameList = new List<string>
                     {
+                        "Nr",
                         "Stopień",
-                        "Płytka",
                         "Oprawka",
+                        "Płytka",
                         "Materiał",
                         "Ra",
                         "ap [mm]",
@@ -176,7 +181,6 @@ namespace AlgorytmDobieraniaZasobowProdukcyjnych.Data
                         "n [obr/min]",
                         "Q [cm3/min]",
                         "tg [min]",
-                        "T [min]",
                         "Fc [N]",
                         "kc [N/mm2]",
                         "hm [mm]",
@@ -190,15 +194,18 @@ namespace AlgorytmDobieraniaZasobowProdukcyjnych.Data
         private void SetParametrListFN(List<Parameter> listOfParameters, List<int> listaStopni)
         {
             var tablesParameters = new List<List<List<object>>>();
+            var numer = 0;
             foreach (var parameter in listOfParameters)
             {
+                numer += 1;
                 var singleTable = new List<List<object>>();
                 for (int i = 0; i < listOfParameters.First().Walek.Stopnie; i++)
                 {
                     singleTable.Add(new List<object> {
+                        numer,
                         listaStopni[i],
-                        parameter.Tool.Geometry,
                         parameter.Tool.Holder,
+                        parameter.Tool.Geometry,
                         parameter.Tool.Material,
                         parameter.Ra[i],
                         parameter.AP[i],
@@ -207,7 +214,6 @@ namespace AlgorytmDobieraniaZasobowProdukcyjnych.Data
                         parameter.N[i],
                         parameter.Q[i],
                         parameter.TG[i],
-                        0,//parameter.T[i],
                         parameter.FC[i],
                         parameter.KC[i],
                         parameter.HM[i],
@@ -220,9 +226,10 @@ namespace AlgorytmDobieraniaZasobowProdukcyjnych.Data
 
             var nameList = new List<string>
                     {
+                        "Nr",
                         "Stopień",
-                        "Płytka",
                         "Oprawka",
+                        "Płytka",
                         "Materiał",
                         "Chropowatość",
                         "ap [mm]",
@@ -231,7 +238,6 @@ namespace AlgorytmDobieraniaZasobowProdukcyjnych.Data
                         "n [obr/min]",
                         "Q [cm3/min]",
                         "tg [min]",
-                        "T [min]",
                         "Fc [N]",
                         "kc [N/mm2]",
                         "hm [mm]",
@@ -266,16 +272,20 @@ namespace AlgorytmDobieraniaZasobowProdukcyjnych.Data
 
         internal void SetTools(List<List<Parameter>> data)
         {
+            var index = 0;
             var tablesParameters = new List<List<List<object>>>();
             foreach (var list in data)
             {
+                index = 0;
                 var singleTable = new List<List<object>>();
                 foreach (var parameter in list)
                 {
+                    index += 1;
                     singleTable.Add(new List<object>
                     {
-                        parameter.Tool.Geometry,
+                        index,
                         parameter.Tool.Holder,
+                        parameter.Tool.Geometry,
                         parameter.Tool.Material,
                         parameter.Tool.Kr,
                         parameter.Tool.Re,
@@ -289,8 +299,9 @@ namespace AlgorytmDobieraniaZasobowProdukcyjnych.Data
 
             var nameList = new List<string>
                     {
-                        "Płytka",
+                        "Nr",
                         "Oprawka",
+                        "Płytka",
                         "Materiał",
                         "Kr",
                         "Re",

@@ -47,13 +47,23 @@ namespace AlgorytmDobieraniaZasobowProdukcyjnych.Data
             //SortOfPower();
         }
 
-        public List<List<Parameter>> GetParametersList()
+        public List<List<Parameter>> GetParametersList(int ilosc)
         {
             for (int i = 0; i < ParameterList.Count; i++)
             {
                 ParameterList[i].Sort(CompareByQ);
                 ParameterList[i].Reverse();
-                ParameterList[i] = ParameterList[i].Take(10).ToList();
+                var list = ParameterList[i].GroupBy(elem => elem.Tool.Material).Select(group => group.Take(ilosc).ToList()).ToList();
+                ParameterList[i].Clear();
+                foreach (var listOfParametrs in list)
+                {
+                    for (int ii = 0; ii < listOfParametrs.Count; ii++)
+                    {
+                        ParameterList[i].Add(listOfParametrs[ii]);
+                    }
+                }
+                //ParameterList[i] = ParameterList[i].GroupBy(elem=>elem.Tool.Material).Select(group=>group.First()).ToList();
+                //ParameterList[i] = ParameterList[i].ToList();
             }
             return ParameterList;
         }

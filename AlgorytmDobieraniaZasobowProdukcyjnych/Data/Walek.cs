@@ -617,7 +617,6 @@ namespace AlgorytmDobieraniaZasobowProdukcyjnych.Data
                 aps.Add((dmt[i] - dmt[i + 1])/2);
             }
             while(aps.Max() > 10.29)
-
             {
                 for (int i = 0; i < aps.Count; i++)
                 {
