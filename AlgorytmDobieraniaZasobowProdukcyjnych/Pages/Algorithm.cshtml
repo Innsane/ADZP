@@ -82,11 +82,11 @@
     </div>
     <div class="hider">
         <div class="row">
-            <div id="walekSelectContainer" class="input-group mb-2 col-5">
+            <div id="walekSelectContainer" class="input-group mb-2 col-sm col-md-8 col-lg-6 col-xl-5" >
                 <div class="input-group-prepend">
-                    <label class="input-group-text" for="walekName">Wybierz wałek do obliczeń</label>
+                    <label class="input-group-text" style="min-width:190px" for="walekName">Wybierz wałek do obliczeń</label>
                 </div>
-                <select class="custom-select" id="walekName" name="name" asp-items="Model.NamesOptions">
+                <select class="custom-select" style="min-width:165px" id="walekName" name="name" asp-items="Model.NamesOptions">
                     <option selected>Wybierz wałek</option>
                 </select>
                 <div class="input-group-append">
@@ -95,15 +95,15 @@
             </div>
         </div>
         <div class="row">
-            <div id="latheSelectContainer" class="input-group mb-3 col-5">
+            <div id="latheSelectContainer" class="input-group mb-3 col-sm col-md-8 col-lg-6 col-xl-5">
                 <div class="input-group-prepend">
-                    <label class="input-group-text" for="latheName">Wybierz obrabiarke</label>
+                    <label class="input-group-text" style="min-width:190px" for="latheName">Wybierz obrabiarke</label>
                 </div>
-                <select id="latheName" class="custom-select" name="lathe" asp-items="Model.LathesOptions">
+                <select id="latheName" style="min-width:165px" class="custom-select" name="lathe" asp-items="Model.LathesOptions">
                     <option selected>Wybierz obrabiarke</option>
                 </select>
                 <div class="input-group-append">
-                    <button id="latheButton" class="btn btn-outline-secondary">OK</button>
+                    <button id="latheButton" type="button" class="btn btn-outline-secondary">OK</button>
                 </div>
             </div>
         </div>
