@@ -24,6 +24,7 @@ namespace AlgorytmDobieraniaZasobowProdukcyjnych.Data
         public Lathe Lathe { get; set; }
         public string Cmc { get; private set; }
         public DaneWalka Walek { get; set; }
+        public int IloscPrzejsc { get; set; }
 
         public void Calculate()
         {

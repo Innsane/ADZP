@@ -69,16 +69,16 @@ namespace AlgorytmDobieraniaZasobowProdukcyjnych.Pages
             }
         }
 
-        public IActionResult OnPost()
-        {
-            DaneWalka dane = DataFromRequest();
+        //public IActionResult OnPost()
+        //{
+        //    DaneWalka dane = DataFromRequest();
 
-            Walek.SetWalek(dane);
-            Walek.Calculate();
-            DataToTable.SetDataToTable(Walek.GetDataToTable());
+        //    Walek.SetWalek(dane);
+        //    Walek.Calculate();
+        //    DataToTable.SetDataToTable(Walek.GetDataToTable());
 
-            return RedirectToPage("Tabela");
-        }
+        //    return RedirectToPage("Tabela");
+        //}
 
         private DaneWalka DataFromRequest()
         {
@@ -127,8 +127,8 @@ namespace AlgorytmDobieraniaZasobowProdukcyjnych.Pages
 
         public PartialViewResult OnGetWalek(string walekName)
         {
-            Walek.GetWalekByName(walekName);
-            Walek.Calculate();
+            Walek.GetWalekByName(walekName,1);
+            Walek.Calculate(1);
             DaneWalka = Walek.GetData();
             DataToTable.SetDataToTable(Walek.GetDataToTable());
             DataToTable.SetWalekImage(DaneWalka);
@@ -143,12 +143,12 @@ namespace AlgorytmDobieraniaZasobowProdukcyjnych.Pages
         {
             var namess = names.Split(',');
             var walekName = namess[0];
-            var ilosc = Convert.ToInt32(namess[2]);
-            var przejsc = Convert.ToInt32(namess[3]);
+            var iloscNarzedzi = Convert.ToInt32(namess[2]);
+            var iloscPrzejsc = Convert.ToInt32(namess[3]);
             try
             {
-                Walek.GetWalekByName(walekName);
-                Walek.Calculate();
+                Walek.GetWalekByName(walekName,1);
+                Walek.Calculate(iloscPrzejsc);
             }
             catch (Exception)
             {
@@ -173,8 +173,8 @@ namespace AlgorytmDobieraniaZasobowProdukcyjnych.Pages
                 parameters.Calculate();
 
                 DataToTable.SetDataToTable(Walek.GetDataToTable());
-                DataToTable.SetParameterToTable(parameters.GetParametersList(ilosc));
-                DataToTable.SetImages(lathe, parameters.GetParametersList(ilosc), walek);
+                DataToTable.SetParameterToTable(parameters.GetParametersList(iloscNarzedzi));
+                DataToTable.SetImages(lathe, parameters.GetParametersList(iloscNarzedzi), walek);
 
                 GradesOptions = grades;
 

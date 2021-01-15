@@ -52,7 +52,7 @@ $(document).ready(function () {
     $("#treeView").on("changed.jstree", function (e, data) {
         $("#lb").html(data.node.id);
         $("#tableName").html(data.node.data[0]);
-        var tableName = document.getElementById("tableName").value;
+        var tableName = document.getElementById("tableName").innerHTML;
 
         if (tableName == "" || tableName == tableNameOld) {
             $('#dataTable').DataTable().column('#kod').search(data.node.id).draw();
@@ -61,7 +61,10 @@ $(document).ready(function () {
         else {
             $('#dt').load(`/treeview/datatable?tablename=${tableName}`, function (response, status, xhr) {
                 if (status == "success") {
-                    $('#dataTable').DataTable().column('#kod').search(data.node.id).draw();
+                    $('#dataTable').DataTable({
+                        "language": {
+                            "url": "lib/DataTables/Polish.json"
+                        },}).column('#kod').search(data.node.id).draw();
                     //write name of Image to Input
                     $('#dataTable tbody').on('click', 'tr', function () {
                         var celltext = $(this).data('obraz');

@@ -15,6 +15,7 @@ namespace AlgorytmDobieraniaZasobowProdukcyjnych.Data
         public string MaterialId { get; set; }
         public string MaterialPn { get; set; }
         public double GestoscMaterialu = 7.85;
+        public int IloscPrzejsc { get; set; }
 
         public int Stopnie { get; set; }
 

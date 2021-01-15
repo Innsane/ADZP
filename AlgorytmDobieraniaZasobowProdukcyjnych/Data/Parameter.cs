@@ -56,8 +56,6 @@ namespace AlgorytmDobieraniaZasobowProdukcyjnych.Data
         //public double PC { get; private set; } //moc skrawania netto [kW]
         //public double PE { get; private set; } //dostepna moc [kW]
 
-        
-
         internal void SetParameter(DaneWalka walek, Lathe lathe, QTurningTool tool, string cmc)
         {
             Walek = walek;
@@ -158,7 +156,7 @@ namespace AlgorytmDobieraniaZasobowProdukcyjnych.Data
         public void GlebokoscSkrawania()
         {
             var toolAp = Convert.ToDouble(Tool.MaxAp);
-            var walekAp = Walek.APMAX[Stopien];
+            //var walekAp = Walek.APMAX[Stopien];
             var index = 1;
 
             if (Obrobka == "PF")
@@ -175,10 +173,10 @@ namespace AlgorytmDobieraniaZasobowProdukcyjnych.Data
             {
                 if (Walek.DMT[Stopien] == Walek.DMT.Max())
                 {
-                    if ((Walek.SRC - Walek.DMT[Stopien]) / 2 < Tool.MaxAp)
+                    if ((Walek.SRC - Walek.DMT[Stopien]) / 2 /Walek.IloscPrzejsc < Tool.MaxAp)
                     {
-                        AP.Add((Walek.SRC - Walek.DMT[Stopien]) / 2);
-                        Przejsc.Add(index);
+                        AP.Add((Walek.SRC - Walek.DMT[Stopien]) / 2/Walek.IloscPrzejsc);
+                        Przejsc.Add(Walek.IloscPrzejsc);
                     }
                     else
                     {
@@ -186,18 +184,18 @@ namespace AlgorytmDobieraniaZasobowProdukcyjnych.Data
                         do
                         {
                             index++;
-                        } while ((Walek.SRC - Walek.DMT[Stopien]) / 2 / index < Tool.MaxAp);
-                        AP.Add((Walek.SRC - Walek.DMT[Stopien]) / 2 / index);
+                        } while (((Walek.SRC - Walek.DMT[Stopien]) / 2) / index > Tool.MaxAp);
+                        AP.Add(((Walek.SRC - Walek.DMT[Stopien]) / 2) / index);
                         Przejsc.Add(index);
                     }
                 }
                 else
                 {
                     var srP = Walek.DMT.FindAll(t => t > Walek.DMT[Stopien]).Min();
-                    if ((srP - Walek.DMT[Stopien]) / 2 < Tool.MaxAp)
+                    if ((srP - Walek.DMT[Stopien]) / 2 / Walek.IloscPrzejsc < Tool.MaxAp)
                     {
-                        AP.Add((srP - Walek.DMT[Stopien]) / 2);
-                        Przejsc.Add(index);
+                        AP.Add((srP - Walek.DMT[Stopien]) / 2/Walek.IloscPrzejsc);
+                        Przejsc.Add(Walek.IloscPrzejsc);
                     }
                     else
                     {
@@ -205,12 +203,11 @@ namespace AlgorytmDobieraniaZasobowProdukcyjnych.Data
                         do
                         {
                             index++;
-                        } while (((srP - Walek.DMT[Stopien]) / 2) / index < Tool.MaxAp);
+                        } while (((srP - Walek.DMT[Stopien]) / 2) / index > Tool.MaxAp);
                         AP.Add(((srP - Walek.DMT[Stopien]) / 2) / index);
                         Przejsc.Add(index);
                     }
                 }
-
             }
             else AP.Add(0);
         }

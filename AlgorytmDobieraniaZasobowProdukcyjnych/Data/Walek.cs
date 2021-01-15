@@ -155,6 +155,7 @@ namespace AlgorytmDobieraniaZasobowProdukcyjnych.Data
             DlugoscStopnia = dane.DlugoscStopnia;
             SrednicaStopnia = dane.SrednicaStopnia;
             KlasaTolerancji = dane.KlasaTolerancji;
+            IloscPrzejsc = dane.IloscPrzejsc;
             TPO = new List<double>();
             KO = new List<double>();
             IZ = new List<int>();
@@ -189,11 +190,12 @@ namespace AlgorytmDobieraniaZasobowProdukcyjnych.Data
                 APRGREAL = this.APRGREAL,
                 QLMT = this.QLMT,
                 SRPF = this.SRPF,
-                SRC = this.SRC
+                SRC = this.SRC,
+                IloscPrzejsc = this.IloscPrzejsc
             };
         }
 
-        public void GetWalekByName(string name)
+        public void GetWalekByName(string name, int iloscPrzejsc)
         {
             var query = from l in db.QPocls
                         where l.Idpart == name
@@ -202,7 +204,7 @@ namespace AlgorytmDobieraniaZasobowProdukcyjnych.Data
 
             var list = query.ToList();
             SetImageMeterial(name);
-            SetWalek(list);
+            SetWalek(list, iloscPrzejsc);
         }
 
         public void SetImageMeterial(string name)
@@ -215,16 +217,17 @@ namespace AlgorytmDobieraniaZasobowProdukcyjnych.Data
             var query1 = from m in db.Materials
                          where m.Idmat == part.Idmat
                          select m.MatPn;
-            
+
             Image = part.Picture;
             MaterialId = part.Idmat;
             MaterialPn = query1.ToList().First();
         }
 
-        public void SetWalek(List<QPocl> dane)
+        public void SetWalek(List<QPocl> dane, int iloscPrzejsc)
         {
             //Image = dane.First().Nazwa;
             //Material = dane.First().Material;
+            IloscPrzejsc = iloscPrzejsc;
             DlugoscStopnia = new List<double>();
             SrednicaStopnia = new List<double>();
             KlasaTolerancji = new List<int>();
@@ -259,7 +262,7 @@ namespace AlgorytmDobieraniaZasobowProdukcyjnych.Data
             if (table.Ra.Contains(ra)) return table.Rt[table.Ra.IndexOf(ra)];
             else
             {
-                
+
                 var ra1 = 0.0; //jako x1
                 var rt1 = 0.0; //jako y1
                 var ra2 = 0.0; //jako x2
@@ -301,8 +304,9 @@ namespace AlgorytmDobieraniaZasobowProdukcyjnych.Data
             return list;
         }
 
-        public void Calculate()
+        public void Calculate(int iloscPrzejsc)
         {
+            this.IloscPrzejsc = iloscPrzejsc;
             Smuklosc();
             ObjetoscWalu();
             ObjetoscPolfabrykatu();
@@ -481,23 +485,23 @@ namespace AlgorytmDobieraniaZasobowProdukcyjnych.Data
                      select l.Qnom;
 
             var oldDlugosc = Dlugosc;
-            if(!FN.Any() || !MT.Any() || !RG.Any()) Dlugosc /= 2;
+            if (!FN.Any() || !MT.Any() || !RG.Any()) Dlugosc /= 2;
             if (!FN.Any() || !MT.Any() || !RG.Any())
             {
                 var RGN = from l in db.TurnAllowCentrRgs
-                     where l.Lmax > Dlugosc && l.Lmin <= Dlugosc &&
-                           l.Dmax > DSR && l.Dmin <= DSR
-                     select l.Qnom;
+                          where l.Lmax > Dlugosc && l.Lmin <= Dlugosc &&
+                                l.Dmax > DSR && l.Dmin <= DSR
+                          select l.Qnom;
 
                 var MTN = from l in db.TurnAllowCentrMts
-                     where l.Lmax > Dlugosc && l.Lmin <= Dlugosc &&
-                           l.Dmax > DSR && l.Dmin <= DSR
-                     select l.Qnom;
+                          where l.Lmax > Dlugosc && l.Lmin <= Dlugosc &&
+                                l.Dmax > DSR && l.Dmin <= DSR
+                          select l.Qnom;
 
                 var FNN = from l in db.TurnAllowCentrFns
-                     where l.Lmax > Dlugosc && l.Lmin <= Dlugosc &&
-                           l.Dmax > DSR && l.Dmin <= DSR
-                     select l.Qnom;
+                          where l.Lmax > Dlugosc && l.Lmin <= Dlugosc &&
+                                l.Dmax > DSR && l.Dmin <= DSR
+                          select l.Qnom;
                 RG = RGN;
                 MT = MTN;
                 FNN = FN;
@@ -612,11 +616,11 @@ namespace AlgorytmDobieraniaZasobowProdukcyjnych.Data
             var aps = new List<double>();
             var dmt = new List<double>(DMT);
             dmt = dmt.OrderByDescending(d => d).ToList();
-            for (int i = 0; i < dmt.Count-1; i++)
+            for (int i = 0; i < dmt.Count - 1; i++)
             {
-                aps.Add((dmt[i] - dmt[i + 1])/2);
+                aps.Add((dmt[i] - dmt[i + 1]) / 2 / IloscPrzejsc);
             }
-            while(aps.Max() > 10.29)
+            while (aps.Max() > 10.29)
             {
                 for (int i = 0; i < aps.Count; i++)
                 {
