@@ -18,6 +18,7 @@ namespace AlgorytmDobieraniaZasobowProdukcyjnych.Data
         public List<List<object>> NaddatkiValues { get; internal set; }
         public List<string> NaddatkiNames { get; internal set; }
 
+        public int StopienDoPokazania { get; set; }
 
         //public List<Parameter> ParameterList = new List<Parameter>();
         //public List<PropertyInfo> ParameterListInfo = new List<PropertyInfo>();

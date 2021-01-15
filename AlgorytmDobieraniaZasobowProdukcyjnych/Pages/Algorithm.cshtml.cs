@@ -145,6 +145,7 @@ namespace AlgorytmDobieraniaZasobowProdukcyjnych.Pages
             var walekName = namess[0];
             var iloscNarzedzi = Convert.ToInt32(namess[2]);
             var iloscPrzejsc = Convert.ToInt32(namess[3]);
+            var stopien = Convert.ToInt32(namess[4]);
             try
             {
                 Walek.GetWalekByName(walekName,1);
@@ -175,6 +176,7 @@ namespace AlgorytmDobieraniaZasobowProdukcyjnych.Pages
                 DataToTable.SetDataToTable(Walek.GetDataToTable());
                 DataToTable.SetParameterToTable(parameters.GetParametersList(iloscNarzedzi));
                 DataToTable.SetImages(lathe, parameters.GetParametersList(iloscNarzedzi), walek);
+                DataToTable.StopienDoPokazania = stopien;
 
                 GradesOptions = grades;
 

@@ -189,6 +189,10 @@ namespace AlgorytmDobieraniaZasobowProdukcyjnych.Data
                 APMAX = this.APMAX,
                 APRGREAL = this.APRGREAL,
                 QLMT = this.QLMT,
+                QLRG = this.QLRG,
+                QFN = this.QFN,
+                QMT = this.QMT,
+                QRG = this.QRG,
                 SRPF = this.SRPF,
                 SRC = this.SRC,
                 IloscPrzejsc = this.IloscPrzejsc

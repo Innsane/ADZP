@@ -74,7 +74,7 @@ namespace AlgorytmDobieraniaZasobowProdukcyjnych.Data
             var turnings = new List<List<QTurningTool>>();
 
             var TurnRG = from l in db.QTurningTools
-                         where l.B == dlugosc && l.H == szerokosc && l.MaxAp > walek.APRGREAL.Max() &&
+                         where l.B == dlugosc && l.H == szerokosc && l.MaxAp >= walek.APRGREAL.Max() &&
                                l.Kr < 90 &&
                                l.Re <= (decimal)2.4 &&
                                l.Re >= (decimal)1.6 &&
@@ -106,25 +106,27 @@ namespace AlgorytmDobieraniaZasobowProdukcyjnych.Data
 
 
             turnings = SortByGrade(grades, turnings);
-            SortByMaxAp(turnings);
+            turnings = SortByMaxAp(turnings);
             return turnings;
         }
 
-        private static void SortByMaxAp(List<List<QTurningTool>> turnings)
+        private static List<List<QTurningTool>> SortByMaxAp(List<List<QTurningTool>> turnings)
         {
-            decimal apmax = 1000;
+            var newTurnings = new List<List<QTurningTool>>();
+            double apmax = 1000;
             foreach (var list in turnings)
             {
                 foreach (var turning in list)
                 {
-                    if (turning.ApMax < apmax)
+                    if (turning.MaxAp < apmax)
                     {
-                        apmax = (decimal)turning.ApMax;
+                        apmax = (double)turning.MaxAp;
                     }
                 }
-                list.RemoveAll(t => t.ApMax != apmax);
+                list.RemoveAll(t => t.MaxAp != apmax);
+                newTurnings = turnings;
             }
-
+            return newTurnings;
         }
 
         private static List<List<QTurningTool>> SortByGrade(List<string> grades, List<List<QTurningTool>> turnings)

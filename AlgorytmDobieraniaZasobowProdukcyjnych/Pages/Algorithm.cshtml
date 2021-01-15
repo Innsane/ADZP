@@ -52,12 +52,13 @@
             });
         });
         //pobieranie danych i operacje na stronie dla obliczen walka z parametrami
-        $('#latheButton').on('click', function () {
+        $('#latheButton').on('click', function clickOK () {
             var latheName = document.getElementById("latheName").value;
             var walekName = document.getElementById("walekName").value;
             var iloscNumber = document.getElementById("iloscNumber").value;
             var przejscNumber = document.getElementById("przejscNumber").value;
-            var names = [walekName, selectedLathe, iloscNumber, przejscNumber];
+            var stopienNumber = document.getElementById("stopienNumber").value;
+            var names = [walekName, selectedLathe, iloscNumber, przejscNumber, stopienNumber];
             console.log("Lathe: " + selectedLathe);
 
             $('.hider').hide();
@@ -71,25 +72,9 @@
                 $('#parameterTables').show();
             });
         });
-        $('#iloscButton').on('click', function () {
-            var latheName = document.getElementById("latheName").value;
-            var walekName = document.getElementById("walekName").value;
-            var iloscNumber = document.getElementById("iloscNumber").value;
-            var przejscNumber = document.getElementById("przejscNumber").value;
-            var names = [walekName, selectedLathe, iloscNumber, przejscNumber];
-            console.log("Lathe: " + selectedLathe);
-
-            $('.hider').hide();
-            $('#alert').show();
-            $('#parameterTables').load(`/algorithm/parameter?names=${names}`, function (response, status, xhr) {
-                if (status == "success") {
-                    $('#parameterTables').show();
-                    $('.hider').show();
-                    $('#alert').hide();
-                }
-                $('#parameterTables').show();
-            });
-        });
+        $('#iloscButton').on('click', clickOK());
+        $('#przejscButton').on('click', clickOK());
+        $('#stopienButton').on('click', clickOK());
     </script>
 }
 
@@ -151,6 +136,17 @@
                 <input id="przejscNumber" class="form-control" type="number" style="min-width:165px" value="1" placeholder="Wpisz liczbę od 1 do 10" />
                 <div class="input-group-append">
                     <button id="przejscButton" type="button" class="btn btn-outline-secondary">OK</button>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div id="stopienSelectContainer" class="input-group mb-5 col-sm col-md-8 col-lg-6 col-xl-5">
+                <div class="input-group-prepend">
+                    <label class="input-group-text" style="min-width:220px" for="iloscNumber">Wybierz numer stopnia </label>
+                </div>
+                <input id="stopienNumber" class="form-control" type="number" style="min-width:165px" value="0" placeholder="Wpisz liczbę od 1 do 10" />
+                <div class="input-group-append">
+                    <button id="stopienButton" type="button" class="btn btn-outline-secondary">OK</button>
                 </div>
             </div>
         </div>
