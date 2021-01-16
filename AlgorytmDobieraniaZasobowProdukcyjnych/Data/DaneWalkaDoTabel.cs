@@ -42,6 +42,9 @@ namespace AlgorytmDobieraniaZasobowProdukcyjnych.Data
         public string ImageToolRG { get; set; }
         public string ImageToolMT { get; set; }
         public string ImageToolFN { get; set; }
+        public string NameImageToolRG { get; private set; }
+        public string NameImageToolMT { get; private set; }
+        public string NameImageToolFN { get; private set; }
         public string ImageWalek { get; set; }
 
 
@@ -269,6 +272,10 @@ namespace AlgorytmDobieraniaZasobowProdukcyjnych.Data
             ImageToolRG = "/images/" + lists[0][0].Tool.Obraz;
             ImageToolMT = "/images/" + lists[1][0].Tool.Obraz;
             ImageToolFN = "/images/" + lists[2][0].Tool.Obraz;
+
+            NameImageToolRG = "Oprawka " + lists[0][0].Tool.Holder + " z płytką " + lists[0][0].Tool.Geometry;
+            NameImageToolMT = "Oprawka " + lists[1][0].Tool.Holder + " z płytką " + lists[1][0].Tool.Geometry;
+            NameImageToolFN = "Oprawka " + lists[2][0].Tool.Holder + " z płytką " + lists[2][0].Tool.Geometry;
         }
 
         internal void SetTools(List<List<Parameter>> data)
