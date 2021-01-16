@@ -195,7 +195,7 @@ namespace AlgorytmDobieraniaZasobowProdukcyjnych.Data
                 QRG = this.QRG,
                 SRPF = this.SRPF,
                 SRC = this.SRC,
-                IloscPrzejsc = this.IloscPrzejsc
+                IloscPrzejsc = this.IloscPrzejsc,
             };
         }
 
@@ -619,11 +619,14 @@ namespace AlgorytmDobieraniaZasobowProdukcyjnych.Data
         {
             var aps = new List<double>();
             var dmt = new List<double>(DMT);
+            dmt.Add(SRC);
             dmt = dmt.OrderByDescending(d => d).ToList();
+
             for (int i = 0; i < dmt.Count - 1; i++)
             {
                 aps.Add((dmt[i] - dmt[i + 1]) / 2 / IloscPrzejsc);
             }
+
             while (aps.Max() > 10.29)
             {
                 for (int i = 0; i < aps.Count; i++)

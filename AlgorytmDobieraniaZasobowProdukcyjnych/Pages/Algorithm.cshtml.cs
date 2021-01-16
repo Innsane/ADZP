@@ -168,7 +168,7 @@ namespace AlgorytmDobieraniaZasobowProdukcyjnych.Pages
                 var tools = repository.GetTools(lathe, "RG");
                 var cmc = repository.GetCmcMaterial(walek);
                 var grades = repository.GetGrades(cmc);
-                var turnings = repository.GetTurningTools(tools, lathe, walek, grades);
+                var turnings = repository.GetTurningTools(tools, lathe, walek, grades, iloscPrzejsc, stopien);
 
                 parameters.SetParameterList(walek, lathe, cmc, turnings);
                 parameters.Calculate();

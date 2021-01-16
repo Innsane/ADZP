@@ -66,23 +66,44 @@ namespace AlgorytmDobieraniaZasobowProdukcyjnych.Data
         //FC = facing
         //PR = profiling
         //CH = 
-        public List<List<QTurningTool>> GetTurningTools(IEnumerable<TurnToolTab> tools, Lathe lathe, DaneWalka walek, List<string> grades)
+        public List<List<QTurningTool>> GetTurningTools(IEnumerable<TurnToolTab> tools, Lathe lathe, DaneWalka walek, List<string> grades,int iloscPrzejsc, int stopien)
         {
             var dlugosc = Convert.ToDouble(lathe.Gniazdo.Substring(0, 2));
             var szerokosc = Convert.ToDouble(lathe.Gniazdo.Substring(3, 2));
             var ap = Convert.ToDecimal(walek.APMAX.Max());
             var turnings = new List<List<QTurningTool>>();
 
-            var TurnRG = from l in db.QTurningTools
-                         where l.B == dlugosc && l.H == szerokosc && l.MaxAp >= walek.APRGREAL.Max() &&
-                               l.Kr < 90 &&
-                               l.Re <= (decimal)2.4 &&
-                               l.Re >= (decimal)1.6 &&
-                               l.Ht == "L" &&
-                               l.OpA == "LT" &&
-                               l.Geometry.Contains("PR")
-                         select l;
-            turnings.Add(TurnRG.ToList());
+            if (stopien == 0)
+            {
+                var TurnRG = from l in db.QTurningTools
+                             where l.B == dlugosc && l.H == szerokosc && l.MaxAp >= walek.APRGREAL.Max() &&
+                                   l.Kr < 90 &&
+                                   l.Re <= (decimal)2.4 &&
+                                   l.Re >= (decimal)1.6 &&
+                                   l.Ht == "L" &&
+                                   l.OpA == "LT" &&
+                                   l.Geometry.Contains("PR")
+                             select l;
+                turnings.Add(TurnRG.ToList());
+            }
+            else
+            {
+                var list = walek.DMT.FindAll(elem => elem > walek.DMT[stopien - 1]);
+                list.Add(walek.SRC);
+                list.Sort();
+                var apStopnia = (list.First() - walek.DMT[stopien - 1]) / 2 / iloscPrzejsc;
+
+                var TurnRG = from l in db.QTurningTools
+                             where l.B == dlugosc && l.H == szerokosc && l.MaxAp >= apStopnia &&
+                                   l.Kr < 90 &&
+                                   l.Re <= (decimal)2.4 &&
+                                   l.Re >= (decimal)1.6 &&
+                                   l.Ht == "L" &&
+                                   l.OpA == "LT" &&
+                                   l.Geometry.Contains("PR")
+                             select l;
+                turnings.Add(TurnRG.ToList());
+            }
 
             var TurnMT = from l in db.QTurningTools
                          where l.B == dlugosc && l.H == szerokosc && l.MaxAp > walek.QMT &&
@@ -107,7 +128,7 @@ namespace AlgorytmDobieraniaZasobowProdukcyjnych.Data
 
             turnings = SortByGrade(grades, turnings);
             turnings = SortByMaxAp(turnings);
-            if(turnings[0].Count == 0)
+            if (turnings[0].Count == 0)
             {
                 throw new ArgumentException("Nie odnaleziono narzędzi do obróbki zrubnej.");
             }
@@ -136,7 +157,7 @@ namespace AlgorytmDobieraniaZasobowProdukcyjnych.Data
         private static List<List<QTurningTool>> SortByGrade(List<string> grades, List<List<QTurningTool>> turnings)
         {
             var newTurnings = new List<List<QTurningTool>>();
-            
+
 
             foreach (var list in turnings)
             {
@@ -184,6 +205,6 @@ namespace AlgorytmDobieraniaZasobowProdukcyjnych.Data
             return query.ToList().Count;
         }
 
-        
+
     }
 }
