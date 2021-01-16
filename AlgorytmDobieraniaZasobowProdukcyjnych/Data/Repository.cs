@@ -107,6 +107,10 @@ namespace AlgorytmDobieraniaZasobowProdukcyjnych.Data
 
             turnings = SortByGrade(grades, turnings);
             turnings = SortByMaxAp(turnings);
+            if(turnings[0].Count == 0)
+            {
+                throw new ArgumentException("Nie odnaleziono narzędzi do obróbki zrubnej.");
+            }
             return turnings;
         }
 

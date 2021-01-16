@@ -1,4 +1,18 @@
-﻿<div id="alert" class="alert alert-danger" role="alert" style="text-align:center">
-    Wystąpił błąd. Wybierz inną obrabiarkę.
-</div>
+﻿@model string
+@if (Model.Length == 0)
+{
+    <div id="alert" class="alert alert-danger" role="alert" style="text-align:center">
+        Wystąpił błąd. Wybierz inną obrabiarkę.
+    </div>
+}
+else
+{
+    <div id="alert" class="alert alert-danger" role="alert" style="text-align:center">
+        @Model Zmień parametry lub wybierz inną obrabiarke.
+    </div>
+}
+
+
+
+
 

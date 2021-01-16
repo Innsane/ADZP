@@ -186,11 +186,13 @@ namespace AlgorytmDobieraniaZasobowProdukcyjnych.Pages
                     ViewData = new ViewDataDictionary<DaneWalkaDoTabel>(ViewData, DataToTable)
                 };
             }
-            catch (Exception)
+            catch (Exception e)
             {
+                var message = e.Message;
                 return new PartialViewResult
                 {
                     ViewName = "_Exception",
+                    ViewData = new ViewDataDictionary<string>(ViewData, message)
                 };
             }
         }

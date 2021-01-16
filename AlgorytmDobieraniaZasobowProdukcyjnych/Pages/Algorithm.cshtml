@@ -11,6 +11,7 @@
         $('#latheSelectContainer').hide();
         $('#iloscSelectContainer').hide();
         $('#przejscSelectContainer').hide();
+        $('#stopienSelectContainer').hide();
 
 
 
@@ -46,13 +47,14 @@
                     $('#latheSelectContainer').show();
                     $('#iloscSelectContainer').show();
                     $('#przejscSelectContainer').show();
+                    $('#stopienSelectContainer').show();
                     $('#parameterTables').hide();
                     $('#latheName').prop('selectedIndex', 0);
                 }
             });
         });
         //pobieranie danych i operacje na stronie dla obliczen walka z parametrami
-        $('#latheButton').on('click', function clickOK () {
+        $('#latheButton').on('click', function () {
             var latheName = document.getElementById("latheName").value;
             var walekName = document.getElementById("walekName").value;
             var iloscNumber = document.getElementById("iloscNumber").value;
@@ -75,6 +77,7 @@
         $('#iloscButton').on('click', clickOK());
         $('#przejscButton').on('click', clickOK());
         $('#stopienButton').on('click', clickOK());
+        $('#przejscButton').on('click', clickOK());
     </script>
 }
 
@@ -129,7 +132,7 @@
             </div>
         </div>
         <div class="row">
-            <div id="przejscSelectContainer" class="input-group mb-5 col-sm col-md-8 col-lg-6 col-xl-5">
+            <div id="przejscSelectContainer" class="input-group mb-2 col-sm col-md-8 col-lg-6 col-xl-5">
                 <div class="input-group-prepend">
                     <label class="input-group-text" style="min-width:220px" for="iloscNumber">Ilość przejść </label>
                 </div>

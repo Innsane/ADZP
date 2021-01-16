@@ -412,7 +412,7 @@ namespace AlgorytmDobieraniaZasobowProdukcyjnych.Data
         private void TolerancjaPolfabrykatu()
         {
             var tolerance = from l in db.RolledBarsTols
-                            where l.Dmax > Srednica && l.Dmin <= Srednica
+                            where l.Dmax >= Srednica && l.Dmin <= Srednica
                             select l.TolA1;
             var x = tolerance.ToList();
 
