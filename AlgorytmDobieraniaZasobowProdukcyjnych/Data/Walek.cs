@@ -46,27 +46,27 @@ namespace AlgorytmDobieraniaZasobowProdukcyjnych.Data
 
             var atname = new List<string>
             {
-                "Średnica",
-                "Średnica PF",
-                "Długość",
-                "Długość PF",
+                "Średnica [mm]",
+                "Średnica PF [mm]",
+                "Długość [mm]",
+                "Długość PF [mm]",
                 "Materiał",
-                "Gęstość materiału",
+                "Gęstość materiału [kg/m3]",
                 nameof(Stopnie),
-                nameof(S),
-                nameof(O),
-                "mPO",
-                "mPF",
-                "mW",
-                "TPF",
-                "dśr",
-                nameof(SRPF),
-                nameof(DLPF),
-                "Qzgr",
-                "Qkszt",
-                "Qwyk",
-                "QPLzgr",
-                "QPKksz"
+                "S ",
+                "O [%]",
+                "mPO [kg]",
+                "mPF [kg]",
+                "mW [kg]",
+                "TPF [μm]",
+                "dśr [mm]",
+                "SRPF [mm]",
+                "DLPF [mm]",
+                "Qzgr [mm]",
+                "Qkszt [mm]",
+                "Qwyk [mm]",
+                "QPLzgr [mm]",
+                "QPKksz [mm]"
             };
 
             var stopienWalu = new List<int>();
@@ -95,7 +95,7 @@ namespace AlgorytmDobieraniaZasobowProdukcyjnych.Data
                 "Długość stopnia [mm]",
                 "Średnica stopnia [mm]",
                 "Klasa Tolerancji",
-                "TPO",
+                "TPO [μm]",
                 "Ko",
                 nameof(IZ),
                 "Di Wyk [mm]",
@@ -129,8 +129,8 @@ namespace AlgorytmDobieraniaZasobowProdukcyjnych.Data
             var naddatkiNames = new List<string>
             {
                 "Rodzaj naddatku",
-                "Naddatki dobrane",
-                "Naddatki do obliczeń"
+                "Naddatki dobrane [mm]",
+                "Naddatki do obliczeń [mm]"
             };
 
             return new DaneWalkaDoTabel
@@ -510,9 +510,9 @@ namespace AlgorytmDobieraniaZasobowProdukcyjnych.Data
                 MT = MTN;
                 FNN = FN;
             }
-            QFN = Math.Round((double)FN.ToList().First(), 1);
-            QMT = Math.Round((double)MT.ToList().First(), 1);
-            QRG = Math.Round((double)RG.ToList().First(), 1);
+            QFN = Math.Round((double)FN.ToList().First(), 1, MidpointRounding.AwayFromZero);
+            QMT = Math.Round((double)MT.ToList().First(), 1, MidpointRounding.AwayFromZero);
+            QRG = Math.Round((double)RG.ToList().First(), 1, MidpointRounding.AwayFromZero);
 
             QFND = (double)FN.ToList().First();
             QMTD = (double)MT.ToList().First();

@@ -257,10 +257,32 @@ namespace AlgorytmDobieraniaZasobowProdukcyjnych.Data
 
         public void PredkoscSkrawania()
         {
-            var f1 = Tool.FnMin;
-            var vc1 = Tool.VcMin;
-            var f2 = Tool.FnMax;
-            var vc2 = Tool.VcMax;
+            var list = new List<ParVcVal>();
+            var query = from d in db.ParVcVals
+                        where d.Grade == Tool.Material &&
+                        d.Cmc == CmcMaterial &&
+                        d.F1 < F[Stopien] &&
+                        d.F2 >= F[Stopien]
+                        select d;
+            list = query.ToList();
+            if(!list.Any())
+            {
+                var query1 = from d in db.ParVcVals
+                        where d.Grade == Tool.Material &&
+                        d.Cmc == CmcMaterial
+                        select d;
+                list = query1.ToList().OrderByDescending(d => d.Vc1).ToList();
+            }
+            var tool = list.ToList().First();
+
+            var f1 = tool.F1;
+            var vc1 = tool.Vc1;
+            var f2 = tool.F2;
+            var vc2 = tool.Vc2;
+            //var f1 = Tool.FnMin;
+            //var vc1 = Tool.VcMin;
+            //var f2 = Tool.FnMax;
+            //var vc2 = Tool.VcMax;
 
             var a = (vc2 - vc1) / (f2 - f1);
             var b = vc1 - ((vc2 - vc1) * f1) / (f2 - f1);

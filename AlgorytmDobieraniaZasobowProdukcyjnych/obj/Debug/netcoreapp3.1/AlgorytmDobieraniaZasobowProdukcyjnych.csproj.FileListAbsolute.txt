@@ -9,7 +9,6 @@ C:\Users\Kuba\source\CSharp\AlgorytmDobieraniaZasobowProdukcyjnych\AlgorytmDobie
 C:\Users\Kuba\source\CSharp\AlgorytmDobieraniaZasobowProdukcyjnych\AlgorytmDobieraniaZasobowProdukcyjnych\bin\Debug\netcoreapp3.1\AlgorytmDobieraniaZasobowProdukcyjnych.pdb
 C:\Users\Kuba\source\CSharp\AlgorytmDobieraniaZasobowProdukcyjnych\AlgorytmDobieraniaZasobowProdukcyjnych\bin\Debug\netcoreapp3.1\AlgorytmDobieraniaZasobowProdukcyjnych.Views.dll
 C:\Users\Kuba\source\CSharp\AlgorytmDobieraniaZasobowProdukcyjnych\AlgorytmDobieraniaZasobowProdukcyjnych\bin\Debug\netcoreapp3.1\AlgorytmDobieraniaZasobowProdukcyjnych.Views.pdb
-C:\Users\Kuba\source\CSharp\AlgorytmDobieraniaZasobowProdukcyjnych\AlgorytmDobieraniaZasobowProdukcyjnych\obj\Debug\netcoreapp3.1\AlgorytmDobieraniaZasobowProdukcyjnych.csprojAssemblyReference.cache
 C:\Users\Kuba\source\CSharp\AlgorytmDobieraniaZasobowProdukcyjnych\AlgorytmDobieraniaZasobowProdukcyjnych\obj\Debug\netcoreapp3.1\AlgorytmDobieraniaZasobowProdukcyjnych.AssemblyInfoInputs.cache
 C:\Users\Kuba\source\CSharp\AlgorytmDobieraniaZasobowProdukcyjnych\AlgorytmDobieraniaZasobowProdukcyjnych\obj\Debug\netcoreapp3.1\AlgorytmDobieraniaZasobowProdukcyjnych.AssemblyInfo.cs
 C:\Users\Kuba\source\CSharp\AlgorytmDobieraniaZasobowProdukcyjnych\AlgorytmDobieraniaZasobowProdukcyjnych\obj\Debug\netcoreapp3.1\AlgorytmDobieraniaZasobowProdukcyjnych.RazorAssemblyInfo.cache
@@ -169,3 +168,4 @@ C:\Users\Kuba\source\CSharp\AlgorytmDobieraniaZasobowProdukcyjnych\AlgorytmDobie
 C:\Users\Kuba\source\CSharp\AlgorytmDobieraniaZasobowProdukcyjnych\AlgorytmDobieraniaZasobowProdukcyjnych\obj\Debug\netcoreapp3.1\Razor\Pages\Shared\_ImageTables.cshtml.g.cs
 C:\Users\Kuba\source\CSharp\AlgorytmDobieraniaZasobowProdukcyjnych\AlgorytmDobieraniaZasobowProdukcyjnych\obj\Debug\netcoreapp3.1\Razor\Pages\Edit.cshtml.g.cs
 C:\Users\Kuba\source\CSharp\AlgorytmDobieraniaZasobowProdukcyjnych\AlgorytmDobieraniaZasobowProdukcyjnych\obj\Debug\netcoreapp3.1\Razor\Pages\Shared\_AddWalek.cshtml.g.cs
+C:\Users\Kuba\source\CSharp\AlgorytmDobieraniaZasobowProdukcyjnych\AlgorytmDobieraniaZasobowProdukcyjnych\obj\Debug\netcoreapp3.1\AlgorytmDobieraniaZasobowProdukcyjnych.csprojAssemblyReference.cache

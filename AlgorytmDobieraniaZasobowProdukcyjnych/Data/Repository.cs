@@ -77,7 +77,7 @@ namespace AlgorytmDobieraniaZasobowProdukcyjnych.Data
             {
                 var TurnRG = from l in db.QTurningTools
                              where l.B == dlugosc && l.H == szerokosc && l.MaxAp >= walek.APRGREAL.Max() &&
-                                   l.Kr < 90 &&
+                                   l.Kr <= 90 &&
                                    l.Re <= (decimal)2.4 &&
                                    l.Re >= (decimal)1.6 &&
                                    l.Ht == "L" &&
@@ -107,7 +107,7 @@ namespace AlgorytmDobieraniaZasobowProdukcyjnych.Data
 
             var TurnMT = from l in db.QTurningTools
                          where l.B == dlugosc && l.H == szerokosc && l.MaxAp > walek.QMT &&
-                               l.Kr > 90 &&
+                               l.Kr >= 90 &&
                                l.Re <= (decimal)1.2 &&
                                l.Ht == "L" &&
                                l.OpA == "LT" &&
