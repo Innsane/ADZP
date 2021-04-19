@@ -30,6 +30,7 @@
           "Microsoft.VisualStudio.Web.CodeGeneration.Design": "3.1.4",
           "System.Data.SqlClient": "4.8.2",
           "bootstrap": "4.6.0",
+          "jQuery": "3.6.0",
           "jquery.datatables": "1.10.15",
           "jsTree": "3.1.1.2",
           "Microsoft.AspNetCore.Antiforgery": "3.1.0.0",
@@ -312,7 +313,7 @@
       },
       "bootstrap/4.6.0": {
         "dependencies": {
-          "jQuery": "3.0.0",
+          "jQuery": "3.6.0",
           "popper.js": "1.16.1"
         }
       },
@@ -324,15 +325,15 @@
           }
         }
       },
-      "jQuery/3.0.0": {},
+      "jQuery/3.6.0": {},
       "jquery.datatables/1.10.15": {
         "dependencies": {
-          "jQuery": "3.0.0"
+          "jQuery": "3.6.0"
         }
       },
       "jsTree/3.1.1.2": {
         "dependencies": {
-          "jQuery": "3.0.0"
+          "jQuery": "3.6.0"
         }
       },
       "Microsoft.AspNetCore.Html.Abstractions/2.2.0": {
@@ -3920,12 +3921,12 @@
       "path": "humanizer.core/2.8.26",
       "hashPath": "humanizer.core.2.8.26.nupkg.sha512"
     },
-    "jQuery/3.0.0": {
+    "jQuery/3.6.0": {
       "type": "package",
       "serviceable": true,
-      "sha512": "sha512-xFfntV19HzCtKdJWOp/XT9PUY3SslokTDDLFJZdBug36j1XVhw1+vPQ/n7Gd5y+jdpesn5B1m1yn1qIUq57jlA==",
-      "path": "jquery/3.0.0",
-      "hashPath": "jquery.3.0.0.nupkg.sha512"
+      "sha512": "sha512-sSzCTDWn15waSMjDrP21jjgG1j1pwISLaKiVCClwU4XGAmuZt+FScLkdyRvh9ppoIxAW/tJtJBYei+3CAwFQ7g==",
+      "path": "jquery/3.6.0",
+      "hashPath": "jquery.3.6.0.nupkg.sha512"
     },
     "jquery.datatables/1.10.15": {
       "type": "package",
