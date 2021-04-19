@@ -152,7 +152,6 @@ namespace AlgorytmDobieraniaZasobowProdukcyjnych.Data
         {
             Obrobka = Tool.Geometry.Substring(Tool.Geometry.Length - 2, 2);
         }
-
         public void GlebokoscSkrawania()
         {
             var toolAp = Convert.ToDouble(Tool.MaxAp);
@@ -211,7 +210,6 @@ namespace AlgorytmDobieraniaZasobowProdukcyjnych.Data
             }
             else AP.Add(0);
         }
-
         public void Posuw()
         {
             var f = 0.0;
@@ -254,7 +252,6 @@ namespace AlgorytmDobieraniaZasobowProdukcyjnych.Data
             else f = Convert.ToDouble(Tool.FnZ);
             F.Add(f);
         }
-
         public void PredkoscSkrawania()
         {
             var list = new List<ParVcVal>();
@@ -288,7 +285,6 @@ namespace AlgorytmDobieraniaZasobowProdukcyjnych.Data
             var b = vc1 - ((vc2 - vc1) * f1) / (f2 - f1);
             VC.Add(Convert.ToDouble(a) * Convert.ToDouble(F[Stopien]) + Convert.ToDouble(b));
         }
-
         public void PredkoscObrotowa()
         {
             N.Add((1000 * VC[Stopien]) / (3.14 * Walek.SrednicaStopnia[Stopien]));
@@ -298,19 +294,16 @@ namespace AlgorytmDobieraniaZasobowProdukcyjnych.Data
                 N.Add(Convert.ToDouble(Lathe.NMax));
             }
         }
-
         public void WydajnoscObjetosciowa()
         {
             Q.Add(VC[Stopien] * AP[Stopien] * F[Stopien]);
         }
-
         public void GruboscWiora()
         {
             var kr = Convert.ToDouble(Tool.Kr);
             var sin = (kr * 3.14) / 180;
             HM.Add(F[Stopien] * (Math.Sin(sin)));
         }
-
         public void OporWlasciwy()
         {
             var query = from m in db.Materials
@@ -328,22 +321,18 @@ namespace AlgorytmDobieraniaZasobowProdukcyjnych.Data
             var minusmc = 0 - mc;
             KC.Add(kc1 * (Math.Pow(HM[Stopien], minusmc)) * (1 - (gamma / 100)));
         }
-
         public void GlownaSilaSkrawania()
         {
             FC.Add(KC[Stopien] * AP[Stopien] * F[Stopien]);
         }
-
         public void DostepnaMoc()
         {
             PE.Add(Convert.ToDouble(Lathe.P) * 1);
         }
-
         public void PotrzebnaMoc()
         {
             PC.Add(FC[Stopien] * VC[Stopien] / 60000);
         }
-
         public void CzasMaszynowy()
         {
             var l = Walek.DlugoscStopnia[Stopien];

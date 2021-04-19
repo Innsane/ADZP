@@ -54,7 +54,7 @@
             });
         });
         //pobieranie danych i operacje na stronie dla obliczen walka z parametrami
-        $('#latheButton').on('click', function () {
+        $('#latheButton').on('click', function clickOK() {
             var latheName = document.getElementById("latheName").value;
             var walekName = document.getElementById("walekName").value;
             var iloscNumber = document.getElementById("iloscNumber").value;
@@ -74,10 +74,66 @@
                 $('#parameterTables').show();
             });
         });
-        $('#iloscButton').on('click', clickOK());
-        $('#przejscButton').on('click', clickOK());
-        $('#stopienButton').on('click', clickOK());
-        $('#przejscButton').on('click', clickOK());
+        $('#iloscButton').on('click', function clickOK() {
+            var latheName = document.getElementById("latheName").value;
+            var walekName = document.getElementById("walekName").value;
+            var iloscNumber = document.getElementById("iloscNumber").value;
+            var przejscNumber = document.getElementById("przejscNumber").value;
+            var stopienNumber = document.getElementById("stopienNumber").value;
+            var names = [walekName, selectedLathe, iloscNumber, przejscNumber, stopienNumber];
+            console.log("Lathe: " + selectedLathe);
+
+            $('.hider').hide();
+            $('#alert').show();
+            $('#parameterTables').load(`/algorithm/parameter?names=${names}`, function (response, status, xhr) {
+                if (status == "success") {
+                    $('#parameterTables').show();
+                    $('.hider').show();
+                    $('#alert').hide();
+                }
+                $('#parameterTables').show();
+            });
+        });
+        $('#przejscButton').on('click', function clickOK() {
+            var latheName = document.getElementById("latheName").value;
+            var walekName = document.getElementById("walekName").value;
+            var iloscNumber = document.getElementById("iloscNumber").value;
+            var przejscNumber = document.getElementById("przejscNumber").value;
+            var stopienNumber = document.getElementById("stopienNumber").value;
+            var names = [walekName, selectedLathe, iloscNumber, przejscNumber, stopienNumber];
+            console.log("Lathe: " + selectedLathe);
+
+            $('.hider').hide();
+            $('#alert').show();
+            $('#parameterTables').load(`/algorithm/parameter?names=${names}`, function (response, status, xhr) {
+                if (status == "success") {
+                    $('#parameterTables').show();
+                    $('.hider').show();
+                    $('#alert').hide();
+                }
+                $('#parameterTables').show();
+            });
+        });
+        $('#stopienButton').on('click', function clickOK() {
+            var latheName = document.getElementById("latheName").value;
+            var walekName = document.getElementById("walekName").value;
+            var iloscNumber = document.getElementById("iloscNumber").value;
+            var przejscNumber = document.getElementById("przejscNumber").value;
+            var stopienNumber = document.getElementById("stopienNumber").value;
+            var names = [walekName, selectedLathe, iloscNumber, przejscNumber, stopienNumber];
+            console.log("Lathe: " + selectedLathe);
+
+            $('.hider').hide();
+            $('#alert').show();
+            $('#parameterTables').load(`/algorithm/parameter?names=${names}`, function (response, status, xhr) {
+                if (status == "success") {
+                    $('#parameterTables').show();
+                    $('.hider').show();
+                    $('#alert').hide();
+                }
+                $('#parameterTables').show();
+            });
+        });
     </script>
 }
 
