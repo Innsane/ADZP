@@ -7,6 +7,7 @@ The goal of application work is creation of an application that helps in selecti
 Program allows to search for tools in database using web browser.
 
 Used tools:
+- Visual Studio
 - ASP.NET
 - Microsoft SQL Server
 - Entity Framework Core
