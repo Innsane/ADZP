@@ -8,7 +8,7 @@ Program allows to search for tools in database using web browser.
 
 Used tools:
 - Visual Studio
-- ASP.NET
+- ASP.NET Core
 - Microsoft SQL Server
 - Entity Framework Core
 - jQuery
